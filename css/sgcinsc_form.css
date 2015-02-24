@@ -1,0 +1,242 @@
+
+#sgcinsc_form {
+	background-color:#f0f0f0;
+	padding:12px;	
+}
+
+#sgcinsc_form .content {
+	position:relative;
+}
+
+#sgcinsc_form h2.stepmark,
+#sgcinsc_form .audible
+ {
+	display:none;
+}
+
+#sgcinsc_form fieldset {
+	overflow:hidden;
+	padding:12px;
+}
+
+#sgcinsc_form .steps ul,
+#sgcinsc_form .actions ul
+ {
+	padding:0;
+	margin:0 0 24px 0;
+	overflow:hidden;
+}
+
+#sgcinsc_form .steps ul li,
+#sgcinsc_form .actions ul li
+ {
+	list-style:none;
+	margin-bottom:0;
+	margin-left:0;
+}
+
+#sgcinsc_form .steps ul li:before,
+#sgcinsc_form .actions ul li:before {
+	content:'';
+}
+
+#sgcinsc_form .steps ul {
+	/*background-color:#ccc;*/
+}
+
+#sgcinsc_form .actions {	
+}
+
+#sgcinsc_form .actions ul li a {
+	float:left;				
+	margin-left:10px;
+}
+
+#sgcinsc_form .steps ul li a
+ {
+	float:left;
+	display:inline-block;
+	padding:6px;
+	background-color:#ccc;
+	margin-right:35px;	
+	color:#333;
+	text-decoration:none;
+	position: relative;
+	width:191px;
+}
+
+#sgcinsc_form .steps ul li a {
+	position:relative;
+    display:block;
+    width:auto;    
+    margin-right: 18px;
+    padding:6px;
+    float: left;    
+    color:#333;
+    background: #ccc;
+    border-radius:6px;        
+}
+
+#sgcinsc_form .steps ul li.current a {
+	background-color:#196BB9;
+	color:white;
+}
+
+
+
+#sgcinsc_form .controls label.error {
+	font-size:11px;
+	color:#b90000;
+}
+
+#sgcinsc_form .acleitemcurso {
+	float:left;
+	width:188px;
+	padding:6px;
+	margin:0 0 3px 0;
+	background-color:#B0CF89;
+	min-height:70px;
+	border-radius:6px;
+}
+
+#sgcinsc_form .acleitemcurso.selected {
+	background-color:#84BA41;
+}
+
+#sgcinsc_form .acleitemcurso.selected:hover {
+	background-color:#72A038;
+}
+
+#sgcinsc_form .acleitemcurso .control-label {
+	width: 150px;
+	text-align:left;
+}
+
+#sgcinsc_form .acleitemcurso .controls {
+	margin-left:160px;
+	text-align:center;	
+}
+
+#sgcinsc_form .acleitemcurso:hover {
+	background-color:#D8E7C5;
+}
+
+#sgcinsc_form .masinfocurso {
+	display:block;
+	font-size:12px;
+}
+
+#sgcinsc_form .aclecupos {
+	font-size:14px;
+	display:block;		
+}
+
+#sgcinsc_form .aclecursostabla {
+	border:1px solid #ccc;
+	background-color:white;
+	font-size:13px;
+}
+
+#sgcinsc_form .aclecursostabla thead th {
+	font-size:18px;
+	background-color:#ABC9D9;
+	padding:6px 0;
+	color:#005980;
+}
+
+#sgcinsc_form .aclecursostabla td {
+	border:1px solid #ccc;
+	padding:3px;
+	vertical-align:top;
+}
+
+#sgcinsc_form .aclecursostabla td.horario {
+	width:100px;
+	vertical-align:middle;
+	font-weight:bold;
+	font-size:18px;
+	text-align:center;
+}
+
+#sgcinsc_form .aclecursostabla td.curso {
+	width:200px;
+	vertical-align:top;
+}
+
+#sgcinsc_form .aclecursostabla span.aclename {
+	font-weight:bold;
+	font-size:18px;
+	line-height:1.2em;
+	color:#334B14;
+}
+
+#sgcinsc_form .aclecursostabla span.prof {
+	display:block;
+	font-size:12px;	
+	line-height:14px;
+	text-align:left;
+	color:#333;
+}
+
+#sgcinsc_form .aclecupos-0, #sgcinsc_form .aclecupos-0:hover,
+#sgcinsc_form .aclecupos--1, #sgcinsc_form .aclecupos--1:hover
+ {
+	background-color:#ccc;
+}
+
+#sgcinsc_form .aclecupos--1 strong.full,
+#sgcinsc_form .aclecupos-0 strong.full {
+	display:block;
+	clear:both;
+	text-transform:uppercase;
+}
+
+#sgcinsc_form label.error, #sgcinsc_form label.valid {
+	font-size:12px;
+	display:block;
+	padding:3px;
+	border-radius:4px;
+}
+
+#sgcinsc_form .controls {
+	position:relative;
+}
+
+#sgcinsc_form #ajaxErrorPlace .error {
+	position:static;
+	font-size:18px;
+	margin:12px 0;
+	padding:12px;
+	display:inline-block;
+}
+
+#sgcinsc_form label.error {
+	background-color:#FFBBBB;
+	position:absolute;
+	top:0;
+	left:300px;
+}
+
+#sgcinsc_form label.error.valid {
+	background-color:#D8E7C5;
+	color:#567E22;
+}
+
+#sgcinsc_form .help-block {
+	font-size:12px;
+	margin-top:5px;
+}
+
+/* Media Queries */
+
+@media screen and (max-width:970px) {
+	#sgcinsc_form label.error {
+		position: relative;
+		left: 0;
+		margin-top:6px;
+	}
+
+	#sgcinsc_form .steps ul li a {
+		margin-top:10px;
+	}
+}

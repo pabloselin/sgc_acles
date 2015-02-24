@@ -1,0 +1,25 @@
+Cosas que mejorar
+
+- Añadir columna para año de inscripción, así se pueden mantener todos los datos anteriores
+	- Muestra por defecto el último año, con pestaña para el año anterior
+	- El CSV exporta inscripciones por año
+	- El formulario registra el año de inscripción
+	- Los cursos obligatorios cambian a cada año?
+	- La suma de los cupos se realiza por año
+- Mejorar estilo para móviles en inscripción, consolidar bootstrap 3 en todo el sitio
+	-- Mejorar vista de tabla de cursos en móvil
+	-- Mejorar ancho general de tabla para computadores y móvil
+- Localizar variable de cursos obligatorios
++- Añadir modo debug para que no envíe mails todo el rato
+- Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
+	+- Añadir taxonomía de áreas para A.C.L.E.
+	- Añadir vista pública de A.C.L.E.s (definir criterios)
++- Sacar nombre de profesores de vista
+
+- Utilizar los datos del año pasado para pre-rellenar los campos?
+- Dar formato automático al RUT
++- Mejorar vista de errores en móvil
++- Crear versión cabecera reducida para SGC inscripción / Vía overrides de css
+- Añadir tareas en Grunt para automatizar tema
+- Mejorar calidad de certificado
+- Añadir un botón para volver al sitio en la nueva cabecera mini
