@@ -237,14 +237,18 @@ function sgcinsc_aclesporcurso($curso) {
 	return $cursos;	
 }
 
-function sgcinsc_displaydiacursos($dia) {
+function sgcinsc_displaydiacursos($dia, $ndia) {
 	if($dia) {
+			$output = '<div class="curso">';
+			$output .= '<div class="mdia">' . $ndia . '</div>';
 		foreach($dia as $curdia) {
-			sgcinsc_acleitem($curdia->ID);
+			$output .= sgcinsc_acleitem($curdia->ID);
 		}
+			$output .= '</div>';
 	} else {
-			echo '<em>Sin cursos para este tramo horario</em>';
+			$output = '<div class="curso"><em class="sincursos">Sin cursos para este tramo horario</em></div>';
 		}
+	return $output;
 }
 
 function sgcinsc_displaycursos() {
@@ -298,56 +302,39 @@ function sgcinsc_displaycursos() {
 	endforeach;
 
 	//Genero la tabla de horarios
-	echo '<table class="aclecursostabla" valign="top" cellpadding="0" cellspacing="0">';
+	echo '<div class="aclecursostabla">';
 	//dias de la semana
-	echo '<thead><tr><th>Horario</th><th class="curso">Lunes</th><th class="curso">Martes</th><th class="curso">Miércoles</th><th class="curso">Jueves</th><th class="curso">Viernes</th></tr></thead>';
+	echo '<div class="acleheading">
+			
+			<div class="fcol">Horario</div><div class="curso">Lunes</div><div class="curso">Martes</div><div class="curso">Miércoles</div><div class="curso">Jueves</div><div class="curso">Viernes</div>
+			</div>';
 	//Del primer horario		
-	echo '<tr>';
-	echo '<td class="horario">15:20 a 16:50</td>';
-	echo '<td class="curso">';
-		sgcinsc_displaydiacursos($lunes1);
-	echo '</td>';
+	echo '<div class="bloque1">';
+	echo '<div class="horario fcol">15:20 a 16:50</div>';
+		echo sgcinsc_displaydiacursos($lunes1, 'Lunes');
 	//martes
-	echo '<td class="curso">';
-		sgcinsc_displaydiacursos($martes1);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($martes1, 'Martes');
 	//miercoles
-	echo '<td class="curso">';
-		sgcinsc_displaydiacursos($miercoles1);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles');
 	//jueves
-	echo '<td class="curso">';
-		sgcinsc_displaydiacursos($jueves1);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($jueves1, 'Jueves');
 	//viernes
-	echo '<td class="curso">';
-		sgcinsc_displaydiacursos($viernes1);
-	echo '</td>';
-	echo '</tr>';
+		echo sgcinsc_displaydiacursos($viernes1, 'Viernes');
+	echo '</div>';
 	//Del segundo horario		
-	echo '<tr>';
-	echo '<td class="horario">17:00 a 18:30</td>';
-	echo '<td class="curso">';
-	sgcinsc_displaydiacursos($lunes2);
-	echo '</td>';
+	echo '<div class="bloque2">';
+	echo '<div class="horario fcol">17:00 a 18:30</div>';
+		echo sgcinsc_displaydiacursos($lunes2, 'Lunes');
 	//martes
-	echo '<td class="curso">';
-	sgcinsc_displaydiacursos($martes2);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($martes2, 'Martes');
 	//miercoles
-	echo '<td class="curso">';
-	sgcinsc_displaydiacursos($miercoles2);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles');
 	//jueves
-	echo '<td class="curso">';
-	sgcinsc_displaydiacursos($jueves2);
-	echo '</td>';
+		echo sgcinsc_displaydiacursos($jueves2, 'Jueves');
 	//viernes
-	echo '<td class="curso">';
-	sgcinsc_displaydiacursos($viernes2);
-	echo '</td>';
-	echo '</tr>';
-	echo '</table>';
+		echo sgcinsc_displaydiacursos($viernes2, 'Viernes');
+	echo '</div>';
+	echo '</div>';
 	exit();
 }
 
@@ -360,22 +347,23 @@ function sgcinsc_acleitem($acleid) {
 	$cupos = sgcinsc_cupos($acleid);
 	$prof = get_post_meta($acleid, 'sgcinsc_profacle', true);
 
-	echo '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '">';
-		echo '<label class="control-label" for="aclecurso-'.$acleid.'"><span class="aclename">'.get_the_title($acleid) . '</span>';	
+	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '">';
+		$output .= '<label class="control-label" for="aclecurso-'.$acleid.'"><span class="aclename">'.get_the_title($acleid) . '</span>';	
 		// if($prof):			
 		// 	echo '<span class="prof">Profesor(a):<br/>' . $prof . '</span>';
 		// endif;
 		if($cupos < 0):					
-		echo '<span class="aclecupos">Cerrado</span>';
+		$output .= '<span class="aclecupos">Cerrado</span>';
 		endif;
-		echo '</label>';
+		$output .= '</label>';
 		//echo '<a class="masinfocurso" href="'.get_permalink($acleitem->ID).'"><i class="icon-link"></i> Ver más </a>';
 				if($cupos > 0):
-					echo '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
+					$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 				else:
-					echo '<strong class="full">Curso completo</strong>';
+					$output .= '<strong class="full">Curso completo</strong>';
 				endif;		
-		echo '</div>';
+		$output .= '</div>';
+		return $output;
 }
 
 function sgcinsc_getacles() {

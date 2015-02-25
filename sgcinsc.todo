@@ -3,7 +3,7 @@ Cosas que mejorar
 - Añadir columna para año de inscripción, así se pueden mantener todos los datos anteriores
 	- Muestra por defecto el último año, con pestaña para el año anterior
 	- El CSV exporta inscripciones por año
-	- El formulario registra el año de inscripción
+	+- El formulario registra el año de inscripción
 	- Los cursos obligatorios cambian a cada año?
 	- La suma de los cupos se realiza por año
 - Mejorar estilo para móviles en inscripción, consolidar bootstrap 3 en todo el sitio
@@ -21,5 +21,5 @@ Cosas que mejorar
 +- Mejorar vista de errores en móvil
 +- Crear versión cabecera reducida para SGC inscripción / Vía overrides de css
 - Añadir tareas en Grunt para automatizar tema
-- Mejorar calidad de certificado
+- Mejorar calidad visual de certificado
 - Añadir un botón para volver al sitio en la nueva cabecera mini

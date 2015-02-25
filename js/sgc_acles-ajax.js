@@ -431,7 +431,7 @@ $('#sgcinsc_form').validate(
 
        //Revisa los chequeados en un mismo td
        if($(this).prop('checked') == true){
-          var thistd = $(this).closest('td.curso');
+          var thistd = $(this).closest('div.curso');
           var notchecked = thistd.find('input.aclecheckbox:checked').not(this);
           $('div#curso-' + $(notchecked).attr('value')).removeClass('selected');
           notchecked.prop('checked', false);          
