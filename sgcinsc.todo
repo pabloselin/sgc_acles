@@ -1,5 +1,7 @@
 Cosas que mejorar
 
++--- BUG: No muestra los ACLES seleccionados en el paso final de confirmación.
+
 - Añadir columna para año de inscripción, así se pueden mantener todos los datos anteriores
 	- Muestra por defecto el último año, con pestaña para el año anterior
 	- El CSV exporta inscripciones por año
@@ -7,8 +9,10 @@ Cosas que mejorar
 	- Los cursos obligatorios cambian a cada año?
 	- La suma de los cupos se realiza por año
 - Mejorar estilo para móviles en inscripción, consolidar bootstrap 3 en todo el sitio
-	-- Mejorar vista de tabla de cursos en móvil
-	-- Mejorar ancho general de tabla para computadores y móvil
+	+-- Mejorar vista de tabla de cursos en móvil
+	+-- Mejorar ancho general de tabla para computadores y móvil
+	+- Revisar validación conteo de cursos y checkboxes
+	- Mejorar elementos tipográficos en tabla
 - Localizar variable de cursos obligatorios
 +- Añadir modo debug para que no envíe mails todo el rato
 - Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)

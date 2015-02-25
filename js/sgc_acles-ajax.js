@@ -173,10 +173,7 @@ function sgcinsc_renderFinalInfo(data) {
                     '<li><span class="fieldcont">Nombre: </span>' + data[0].value + '</li>' +
                     '<li><span class="fieldcont">RUT: </span>' + data[1].value + '</li>' +
                     '<li><span class="fieldcont">Curso: </span>' + sgcinsc_niceCurso(data[2].value) + ' ' + data[3].value + '</li>';
-                    if(data[4].value.length > 1){
-                      appendstuffalumno += '<li><span class="fieldcont">Email: </span>' + data[4].value + '</li>';
-                    }                                        
-                    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(data[6].value) + '</li>';                  
+    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(data[6].value) + '</li>';                  
   var appendstuffapoderado = '<h3>Datos del apoderado(a)</h3> <ul>' + 
                     '<li><span class="fieldcont">Nombre: </span>' + data[7].value + '</li>' +
                     '<li><span class="fieldcont">RUT: </span>' + data[8].value + '</li>' +
@@ -185,15 +182,14 @@ function sgcinsc_renderFinalInfo(data) {
                     '<li><span class="fieldcont">Celular: </span>' + data[11].value + '</li>';                  
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
-  if(typeof data[15] != 'undefined') {
-    var value1 = data[14].value;
-    var value2 = data[15].value;
+  if(typeof data[14] != 'undefined') {
+    var value1 = data[13].value;
+    var value2 = data[14].value;
     var acles = [value1, value2];
   } else {
-    var value1 = data[14].value;
+    var value1 = data[13].value;
     acles = [value1];
   }
-  
   sgcinsc_renderAcleInfo(acles, datosacles);
 }
 
