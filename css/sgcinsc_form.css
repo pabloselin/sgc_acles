@@ -101,9 +101,10 @@
 }
 
 #sgcinsc_form .acleitemcurso .control-label {
-	width:auto;
-	padding:5px;
+	width:100%;
 	text-align:left;
+	height:60px;
+	margin-bottom:0;
 }
 
 #sgcinsc_form .acleitemcurso .controls {
@@ -165,6 +166,18 @@
 	font-size:16px;
 }
 
+#sgcinsc_form .acleheading {
+	padding:6px;
+	background-color: #f0f0f0;
+	margin-bottom:6px;
+	overflow: hidden;
+}
+
+#sgcinsc_form .acleheading div.curso {
+	font-size:16px;
+	font-weight:bold;
+}
+
 #sgcinsc_form .bloque2 {
 	clear:both;
 } 
@@ -176,6 +189,8 @@
 	font-size:18px;
 	line-height:1.2em;
 	color:#334B14;
+	display:inline-block;
+	padding:3px 6px;
 }
 
 
@@ -201,6 +216,11 @@
 
 #sgcinsc_form .controls {
 	position:relative;
+}
+
+#sgcinsc_form .sincursos {
+	display: block;
+	text-align: center;
 }
 
 #sgcinsc_form #ajaxErrorPlace .error {

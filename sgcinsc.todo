@@ -8,11 +8,13 @@ Cosas que mejorar
 	+- El formulario registra el año de inscripción
 	- Los cursos obligatorios cambian a cada año?
 	- La suma de los cupos se realiza por año
-- Mejorar estilo para móviles en inscripción, consolidar bootstrap 3 en todo el sitio
+- Mejorar estilo para móviles en inscripción
 	+-- Mejorar vista de tabla de cursos en móvil
 	+-- Mejorar ancho general de tabla para computadores y móvil
 	+- Revisar validación conteo de cursos y checkboxes
-	- Mejorar elementos tipográficos en tabla
+	+- Mejorar elementos tipográficos en tabla
+	-- Mejorar zona de clic para cada curso
+	- Hacer que no salga el bloque horario si es que no hay cursos en éste.
 - Localizar variable de cursos obligatorios
 +- Añadir modo debug para que no envíe mails todo el rato
 - Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
