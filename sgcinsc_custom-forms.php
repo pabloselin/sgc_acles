@@ -37,6 +37,12 @@ function sgcinsc_shortcode($atts) {
 
 add_shortcode( 'sgcinsc_form', 'sgcinsc_shortcode' );
 
+function sgcinsc_viewaclesshortcode($atts) {
+	sgcinsc_todoacles();
+}
+
+add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
+
 function sgcinsc_getsessiondata() {
 
 }

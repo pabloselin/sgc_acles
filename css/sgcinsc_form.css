@@ -186,7 +186,7 @@
 
 #sgcinsc_form .aclecursostabla span.aclename {
 	font-weight:bold;
-	font-size:18px;
+	font-size:16px;
 	line-height:1.2em;
 	color:#334B14;
 	display:inline-block;
@@ -292,3 +292,42 @@
 	 	margin:12px 0;
 	 }
 }
+
+/* Tabla de vista pública */
+
+.filteracles {
+	background-color:#f0f0f0;
+	border-radius:5px;
+}
+
+.filteracles select {
+	margin:24px;
+}
+
+.filteracles p {
+	margin:24px 24px 0;
+}
+
+.publicacles .acleitem {
+	padding:6px;
+	background-color:#B0CF89;
+	color:#334B14;
+	margin:0 0 12px 0;
+	border-radius:5px;
+}
+
+.publicacles .acleitem h4 {
+	margin-top:0;
+	margin-bottom:6px;
+	color:#334B14;
+}
+
+.publicacles .acleitem dl, 
+.publicacles .acleitem dd
+ {
+	padding:0;
+	margin:0;
+	font-size:14px;
+}
+
+

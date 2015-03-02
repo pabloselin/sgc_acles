@@ -13,13 +13,20 @@ Cosas que mejorar
 	+-- Mejorar ancho general de tabla para computadores y móvil
 	+- Revisar validación conteo de cursos y checkboxes
 	+- Mejorar elementos tipográficos en tabla
-	-- Mejorar zona de clic para cada curso
+	+-- Mejorar zona de clic para cada curso
 	- Hacer que no salga el bloque horario si es que no hay cursos en éste.
 - Localizar variable de cursos obligatorios
 +- Añadir modo debug para que no envíe mails todo el rato
 - Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
+	+--- Añadir filtros múltiples
+	+-- Mejorar presentación de cursos en vista pública
+	-- Chequear display de cursos completos
+	-- Añadir contador cursos e indicador sin cursos para tramos vacíos
 	+- Añadir taxonomía de áreas para A.C.L.E.
-	- Añadir vista pública de A.C.L.E.s (definir criterios)
+	+- Añadir vista pública de A.C.L.E.s (definir criterios)
+		- Añadir filtro por taxonomía
+		- Reutilizar la clase de muestra.
+		- Crear shortcode para generar la vista
 +- Sacar nombre de profesores de vista
 
 - Utilizar los datos del año pasado para pre-rellenar los campos?

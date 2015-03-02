@@ -193,6 +193,17 @@ function sgcinsc_renderFinalInfo(data) {
   sgcinsc_renderAcleInfo(acles, datosacles);
 }
 
+function countemptyacles(container, message) {
+  $('div.message').remove();
+  $(container).each(function(element) {
+      var countacle = $('div.acleitem:visible', this).length;
+      console.log('count:' + countacle);
+      if(countacle == 0) {
+        $(this).append('<div class="message">' + message + '</div>');
+      }
+  });
+}
+
 /* La siguiente instrucción extiende las capacidades de jquery.validate() para que
   admita el método RUT, por ejemplo:
 
@@ -465,5 +476,50 @@ $('#sgcinsc_form').validate(
     $(w.document.body).html(html);
 
   });
+
+  //Limpiar filtro cacheado
+
+  $('.filteracles select').prop('selectedIndex', 0);
+  //Chequear días vacíos
+  countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
+  countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
+
+  //Filtrar
+  $('.filteracles select').on('change', function(event) {
+      var filters = $('.filteracles select');
+      var filteraction = $(this).data('filter');
+      var acleitems = 'div.acleitem';
+      var selectedvalue = $('option:selected', this).attr('value');
+      
+      var selectedcurso = $('.filteracles select[name="filtercurso"] option:selected').attr('value');
+      var selectedarea = $('.filteracles select[name="aclesareas"] option:selected').attr('value');
+      var selectedhorario = $('.filteracles select[name="acleshorario"] option:selected').attr('value');
+
+      var filterstring = '[data-'+ filteraction + '~="' + selectedvalue + '"]';
+      $(acleitems).show();
+      //esconder todos los que no son
+      //$(acleitems).not(filterstring).hide();
+      //chequear si hay elementos filtrados previamente
+      if(selectedcurso != 0) {
+        $(acleitems).not('[data-curso~="'+selectedcurso+'"]').hide();
+      }
+      if(selectedarea != 0) {
+        $(acleitems).not('[data-area~="'+selectedarea+'"]').hide();
+      }
+      if(selectedhorario != 0) {
+        $(acleitems).not('[data-horario~="'+selectedhorario+'"]').hide();
+      }
+
+      countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
+      countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
+
+  });
+
+  $('.filteracles .btn.clear').on('click', function(event) {
+    $('.filteracles select').prop('selectedIndex', 0);
+    $('div.acleitem').removeClass('filtered').show();
+    countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
+    countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
+  })
 
     });
