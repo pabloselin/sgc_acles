@@ -447,9 +447,9 @@ function sgcinsc_inscbotonshortcode($atts) {
 	$output = '<div class="btncontainer">';
 	$output .= '<p style="text-align:center;">';
 	if($off == true) {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
 	} else {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
 	}
 	
 	$output .= '</p>';

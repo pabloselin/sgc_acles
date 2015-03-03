@@ -19,8 +19,9 @@ function sgcinsc_aclesinsc() {
 	$year = date('Y');
 	echo '<table class="widefat wp-list-table aclelist">';
 	echo '<thead>';
-	echo '<th>Curso</th>';
-	echo '<th>Profesor(a)</th>';
+	echo '<th>A.C.L.E.</th>';
+	echo '<th>Cursos</th>';
+	echo '<th>Día</th>';
 	echo '<th>Horario</th>';
 	echo '<th>Cupos totales</th>';
 	echo '<th>Cupos disponibles</th>';
@@ -34,9 +35,16 @@ function sgcinsc_aclesinsc() {
 		else:
 			echo '<tr>';
 		endif;
+		$nicecursos = array();
+		$cursos = get_post_meta($acle->ID, 'sgcinsc_cursos', false);
+		foreach($cursos as $curso) {
+			$nicecursos[] = sgcinsc_nicecurso($curso);
+		}
+		$nicecursos = implode(', ', $nicecursos);
 		$tableurl = add_query_arg('acle', $acle->ID, admin_url('options-general.php?page=sgc_aclesadmin'));
 		echo '<td>'.$acle->post_title.'</td>';
-		echo '<td>'.get_post_meta($acle->ID, 'sgcinsc_profacle', true). '</td>';
+		echo '<td>'.$nicecursos. '</td>';
+		echo '<td>'.sgcinsc_nicedia(get_post_meta($acle->ID, 'sgcinsc_diaacle', true)).'</td>';
 		echo '<td>'.sgcinsc_renderhorario(get_post_meta($acle->ID, 'sgcinsc_horaacle', true)). '</td>';
 		echo '<td>'.get_post_meta($acle->ID, 'sgcinsc_cuposacle', true). '</td>';
 		echo '<td>'.sgcinsc_cupos($acle->ID). '</td>';
