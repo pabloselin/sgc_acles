@@ -101,7 +101,7 @@ function sgcinsc_todoacles() {
 
 	$filtermessage = 'En esta página están todos los A.C.L.E. disponibles. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>  Además, los cursos cuyas inscripciones están completas aparecerán en color gris. Recuerda que debes inscribir los A.C.L.E. en este formulario.';
 
-	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn primary clear">Quitar filtros</button></div></div></div>';
+	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. 2015</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn primary clear">Quitar filtros</button></div></div></div>';
 	$output .= '<div class="publicacles container"><div class="row">';
 
 		foreach($dias as $key=>$dia) {
