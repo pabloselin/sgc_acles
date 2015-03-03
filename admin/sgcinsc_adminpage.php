@@ -82,7 +82,7 @@ function sgcinsc_putcsv($acleid) {
 		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
 		
 
-
+		if($infoinsc) {
 		// output headers so that the file is downloaded rather than displayed
 		header('Content-Type: text/csv; charset=utf-8');
 		header('Content-Disposition: attachment; filename=data.csv');
@@ -122,6 +122,7 @@ function sgcinsc_putcsv($acleid) {
 
 		$csvfile = SGCINSC_CSVURL . $filename;
 		return $csvfile;
+		}
 }
 
 function sgcinsc_aclestable($acleid) {

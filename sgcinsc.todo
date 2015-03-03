@@ -7,7 +7,8 @@ Cosas que mejorar
 	- El CSV exporta inscripciones por año
 	+- El formulario registra el año de inscripción
 	- Los cursos obligatorios cambian a cada año?
-	- La suma de los cupos se realiza por año
+	- La suma de los cupos se realiza por las inscripciones del año
+	- El sistema ya tiene fecha por lo que no tiene sentido añadir una nueva columna
 - Mejorar estilo para móviles en inscripción
 	+-- Mejorar vista de tabla de cursos en móvil
 	+-- Mejorar ancho general de tabla para computadores y móvil
@@ -22,6 +23,7 @@ Cosas que mejorar
 	+-- Mejorar presentación de cursos en vista pública
 	-- Chequear display de cursos completos
 	-- Añadir contador cursos e indicador sin cursos para tramos vacíos
+		-- Desactivar filtro cuando se vuelve a opción por defecto
 	+- Añadir taxonomía de áreas para A.C.L.E.
 	+- Añadir vista pública de A.C.L.E.s (definir criterios)
 		- Añadir filtro por taxonomía
@@ -36,3 +38,7 @@ Cosas que mejorar
 - Añadir tareas en Grunt para automatizar tema
 - Mejorar calidad visual de certificado
 - Añadir un botón para volver al sitio en la nueva cabecera mini
+
+--Final
+	- Retirar modo debug para envío de correos
+	- Revisar inscripciones probando contenidos reales

@@ -316,6 +316,15 @@
 	border-radius:5px;
 }
 
+.publicacles .acleitem.open-1 {
+	background-color:#f0f0f0;
+	color:#ccc;
+}
+
+.publicacles .acleitem.open-1 h4 {
+	color:#555;
+}
+
 .publicacles .acleitem h4 {
 	margin-top:0;
 	margin-bottom:6px;

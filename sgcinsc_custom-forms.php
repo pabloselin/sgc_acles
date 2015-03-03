@@ -236,7 +236,6 @@ function sgcinsc_storeformdata($data) {
 	// }
 
 	$acles = sgcinsc_serializeacles($data);
-	$year = date('Y');
 	$aclestring = serialize($acles[0]);
 	$rut_apoderado = sgcinsc_processrut($data['rut_apoderado']);
 	$rut_alumno = sgcinsc_processrut($data['rut_alumno']);
@@ -257,8 +256,7 @@ function sgcinsc_storeformdata($data) {
 						'redfija_apoderado' => $data['fono_apoderado'],
 						'celu_apoderado' => $data['celu_apoderado'],
 						'seguro_escolar' => $data['seguro_alumno'],
-						'acles_inscritos' => $aclestring,
-						'insc_year' => $year
+						'acles_inscritos' => $aclestring
 						)
 					);	
 	$lastid = $wpdb->insert_id;	
