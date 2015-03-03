@@ -182,12 +182,12 @@ function sgcinsc_renderFinalInfo(data) {
                     '<li><span class="fieldcont">Celular: </span>' + data[11].value + '</li>';                  
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
-  if(typeof data[13] != 'undefined') {
-    var value1 = data[12].value;
-    var value2 = data[13].value;
+  if(typeof data[14] != 'undefined') {
+    var value1 = data[13].value;
+    var value2 = data[14].value;
     var acles = [value1, value2];
   } else {
-    var value1 = data[12].value;
+    var value1 = data[13].value;
     acles = [value1];
   }
   sgcinsc_renderAcleInfo(acles, datosacles);

@@ -138,8 +138,11 @@
 									<label class="control-label" for="celu_apoderado">Teléfono celular apoderado(a):</label>
 								
 									<div class="controls">									
-										<input class="input-xlarge" type="text" name="celu_apoderado"></input>
-										<span class="help-block">Ejemplo: 0999858456</span>
+										<div class="input-prepend">
+											<span class="add-on">+56 9</span>
+											<input class="input-xlarge" type="text" name="celu_apoderado"></input>
+										</div>
+										<span class="help-block">Ejemplo: 99858456</span>
 									</div>
 								</div>
 							</fieldset>							

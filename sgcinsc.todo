@@ -45,3 +45,4 @@ x- Dar formato automático al RUT
 	- Retirar modo debug para envío de correos
 	- Revisar inscripciones probando contenidos reales
 	- Añadir pistas visuales para cambio de filtros
+	- Mejorar oportunismo de mensajes de error 
