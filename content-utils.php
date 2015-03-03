@@ -116,8 +116,7 @@ function sgcinsc_todoacles() {
 			$output .= '</div>';
 		}
 	$output .= '</div></div>';
-	echo $output;
-
+	return $output;
 }
 
 //Devuelve una versión ordenada por día y horario de los posts de ACLES
@@ -155,7 +154,7 @@ function sgcinsc_orderedacles() {
 				$niceareas = array();
 				if($areas):
 					foreach($areas as $area) {
-						$niceareas[] = $area->slug;
+						$niceareas[] = $area->term_id;
 					}
 				endif;
 				$niceareas = implode(' ', $niceareas);
@@ -435,3 +434,27 @@ function sgcinsc_nicedia($dia) {
 function sgcinsc_resetcupos() {
 
 }
+
+function sgcinsc_inscbotonshortcode($atts) {
+	$a = shortcode_atts(array(
+		'texto' => 'Texto Botón',
+		'id' => 0,
+		'off' => false
+		), $atts );
+	$text = $atts['texto'];
+	$link = get_permalink($atts['id']);
+	$off = $atts['off'];
+	$output = '<div class="btncontainer">';
+	$output .= '<p style="text-align:center;">';
+	if($off == true) {
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
+	} else {
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
+	}
+	
+	$output .= '</p>';
+	$output .= '</div>';
+	return $output;
+}
+
+add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');

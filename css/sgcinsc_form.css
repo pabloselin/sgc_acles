@@ -300,7 +300,7 @@
 	border-radius:5px;
 }
 
-.filteracles select {
+.filteracles select, .filteracles .btn {
 	margin:24px;
 }
 
@@ -339,4 +339,9 @@
 	font-size:14px;
 }
 
+div.btncontainer {
+	clear:both;
+	overflow: hidden;
+	margin:24px 0;
+}
 

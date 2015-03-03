@@ -2,23 +2,24 @@ Cosas que mejorar
 
 +--- BUG: No muestra los ACLES seleccionados en el paso final de confirmación.
 
-- Añadir columna para año de inscripción, así se pueden mantener todos los datos anteriores
-	- Muestra por defecto el último año, con pestaña para el año anterior
-	- El CSV exporta inscripciones por año
+x- Añadir columna para año de inscripción, así se pueden mantener todos los datos anteriores
+	x- Muestra por defecto el último año, con pestaña para el año anterior
+	x- El CSV exporta inscripciones por año
 	+- El formulario registra el año de inscripción
-	- Los cursos obligatorios cambian a cada año?
-	- La suma de los cupos se realiza por las inscripciones del año
-	- El sistema ya tiene fecha por lo que no tiene sentido añadir una nueva columna
+	x- Los cursos obligatorios cambian a cada año?
+	x- La suma de los cupos se realiza por las inscripciones del año
+	x- El sistema ya tiene fecha por lo que no tiene sentido añadir una nueva columna
 - Mejorar estilo para móviles en inscripción
 	+-- Mejorar vista de tabla de cursos en móvil
 	+-- Mejorar ancho general de tabla para computadores y móvil
 	+- Revisar validación conteo de cursos y checkboxes
 	+- Mejorar elementos tipográficos en tabla
 	+-- Mejorar zona de clic para cada curso
-	- Hacer que no salga el bloque horario si es que no hay cursos en éste.
+	+- Hacer que no salga el bloque horario si es que no hay cursos en éste.
+	-- Mejorar vista landing page ACLE
 - Localizar variable de cursos obligatorios
 +- Añadir modo debug para que no envíe mails todo el rato
-- Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
++- Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
 	+--- Añadir filtros múltiples
 	+-- Mejorar presentación de cursos en vista pública
 	-- Chequear display de cursos completos
@@ -31,13 +32,14 @@ Cosas que mejorar
 		- Crear shortcode para generar la vista
 +- Sacar nombre de profesores de vista
 
-- Utilizar los datos del año pasado para pre-rellenar los campos?
-- Dar formato automático al RUT
+x- Utilizar los datos del año pasado para pre-rellenar los campos?
+x- Dar formato automático al RUT
 +- Mejorar vista de errores en móvil
 +- Crear versión cabecera reducida para SGC inscripción / Vía overrides de css
 - Añadir tareas en Grunt para automatizar tema
 - Mejorar calidad visual de certificado
 - Añadir un botón para volver al sitio en la nueva cabecera mini
+--- Añadir un botón que borre todas las inscripciones
 
 --Final
 	- Retirar modo debug para envío de correos
