@@ -242,7 +242,7 @@ add_action('manage_sginsc_acles2014_posts_custom_column', 'acles2014_columnscont
 
 function acles2014_columnshead($defaults) {	
     $defaults['cupos'] = __('Cupos totales');
-    $defaults['profesor'] = __('Profesor Responsable');
+    $defaults['cursos'] = __('Cursos');
     $defaults['dia'] = __('Día'); 
     $defaults['horario'] = __('Horario');     
     return $defaults;
@@ -300,5 +300,18 @@ function acles2014_columnscontent($column_name, $post_ID) {
 		} else {
 			echo 'Sin horario definido';
 		}
+	}
+	if($column_name == 'cursos') {
+		$cursos = get_post_meta($post_ID, 'sgcinsc_cursos', false);
+		$nicecursos = array();
+		if($cursos) {
+			foreach($cursos as $curso) {
+				$nicecursos[] = sgcinsc_nicecurso($curso);
+			}
+			echo implode(', ', $nicecursos);
+		} else {
+			echo 'Sin cursos asignados';
+		}
+
 	}
 }
