@@ -22,6 +22,7 @@ TODO
 
 define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
+define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
 
 //Modo debug para no enviar chorradas
 define ('SGCINSC_DEBUG', false);

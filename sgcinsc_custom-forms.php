@@ -118,7 +118,7 @@ function sgcinsc_verifydata($data) {
 			echo '<style>@media print { body { text-align:center; } button { display:none !important;} }</style>';			
 			echo '<table cellpadding="20" cellspacing="0" width="500" style="font-family:sans-serif;text-align:center;background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;">
     		<tr><td>
-    			<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2;font-weight:normal;">Saint Gaspar College</h2><h3 style="text-align:center;">Inscripción en A.C.L.E. 2014</h3></p>
+    			<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2;font-weight:normal;">Saint Gaspar College</h2><h3 style="text-align:center;">Inscripción en A.C.L.E. 2015</h3></p>
 		        <h1>Comprobante de Inscripción</h1>
 		        <p>El apoderado(a) <strong>'.$data['nombre_apoderado'].'</strong> inscribió los siguientes A.C.L.E. para el alumno(a) <strong>'.$data['nombre_alumno'].' del curso ' . sgcinsc_nicecurso($data['curso_alumno']). ' ' . $data['letracurso_alumno'] . '</strong></p>';
 		        echo '</td>';
@@ -163,7 +163,7 @@ function sgcinsc_verifydata($data) {
 
 function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	
 	$message .= '<table cellpadding="20" cellspacing="0" width="600" style="background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;"><tr><td>';
-	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;">Inscripción en A.C.L.E. 2014</h3></p>';
+	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. 2015</h3></p>';
 	$message .= '<p>Estimado(a) <strong>' . $nombre_apoderado . ':</strong></p>';
 	$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
 	$message .= '<p>Su número identificador de inscripción es el <strong>'. $ID_inscripcion . '</strong></p>';
@@ -192,9 +192,9 @@ function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $no
 	$debug = SGCINSC_DEBUG;
 	//Email al alumno
 	if(!$debug) {
-		// if (wp_mail( $email_alumno, $subject, $message, $headers )):
-		// 	echo '.';
-		// endif;
+		if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
+		 	echo '.';
+		 endif;
 
 		//Email al apoderado
 		if (wp_mail( $email_apoderado, $subject, $message, $headers )):
