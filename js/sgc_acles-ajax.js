@@ -490,6 +490,11 @@ $('#sgcinsc_form').validate(
       var filteraction = $(this).data('filter');
       var acleitems = 'div.acleitem';
       var selectedvalue = $('option:selected', this).attr('value');
+
+      var defaultcurso = 'todos los cursos';
+      var defaultarea = 'todas las areas';
+      var defaulthorario = 'todos los horarios';
+      var alertbox = $('div.alertacle');
       
       var selectedcurso = $('.filteracles select[name="filtercurso"] option:selected').attr('value');
       var selectedarea = $('.filteracles select[name="aclesareas"] option:selected').attr('value');
@@ -502,12 +507,21 @@ $('#sgcinsc_form').validate(
       //chequear si hay elementos filtrados previamente
       if(selectedcurso != 0) {
         $(acleitems).not('[data-curso~="'+selectedcurso+'"]').hide();
+        $('.tipcurso', alertbox).html($('.filteracles select[name="filtercurso"] option:selected').text());
+      } else {
+        $('.tipcurso', alertbox).html(defaultcurso);
       }
       if(selectedarea != 0) {
         $(acleitems).not('[data-area~="'+selectedarea+'"]').hide();
+        $('.tiparea', alertbox).html('del área ' + $('.filteracles select[name="aclesareas"] option:selected').text());
+      } else {
+        $('.tiparea', alertbox).html(defaultarea);
       }
       if(selectedhorario != 0) {
         $(acleitems).not('[data-horario~="'+selectedhorario+'"]').hide();
+        $('.tiphorario', alertbox).html('en horario ' + $('.filteracles select[name="acleshorario"] option:selected').text());
+      } else {
+        $('.tiphorario', alertbox).html(defaulthorario);
       }
 
       countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
@@ -520,6 +534,9 @@ $('#sgcinsc_form').validate(
     $('div.acleitem').removeClass('filtered').show();
     countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
     countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
+    $('.tipcurso', alertbox).html(defaultcurso);
+    $('.tiparea', alertbox).html(defaultarea);
+    $('.tiphorario', alertbox).html(defaulthorario);
   })
 
     });

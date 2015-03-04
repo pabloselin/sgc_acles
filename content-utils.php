@@ -91,18 +91,21 @@ function sgcinsc_todoacles() {
  		$opfieldshorario .= '<option value="horario'.$key.'">'.$opthorario.'</option>';
  	}
 
-	$filtercurso = '<select name="filtercurso" data-filter="curso">'.$opfieldscurso.'</select>';
-	$filterarea = '<select name="aclesareas" data-filter="area">'.$opfieldsarea.'</select>';
-	$filterhorario = '<select name="acleshorario" data-filter="horario">'.$opfieldshorario.'</select>';
+	$filtercurso = '<div class="selecthold"><h4>Filtrar por curso</h4><select name="filtercurso" data-filter="curso">'.$opfieldscurso.'</select></div>';
+	$filterarea = '<div class="selecthold"><h4>Filtrar por área</h4><select name="aclesareas" data-filter="area">'.$opfieldsarea.'</select></div>';
+	$filterhorario = '<div class="selecthold"><h4>Filtar por horario</h4><select name="acleshorario" data-filter="horario">'.$opfieldshorario.'</select></div>';
 
 
 	$acles = sgcinsc_orderedacles();
 	
 
-	$filtermessage = 'En esta página están todos los A.C.L.E. disponibles. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>  Además, los cursos cuyas inscripciones están completas aparecerán en color gris. Recuerda que debes inscribir los A.C.L.E. en este formulario.';
+	$filtermessage = 'En esta página están todos los A.C.L.E. disponibles. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>  Además, los cursos cuyas inscripciones están completas aparecerán en color gris. <br>Recuerda que las inscripciones <strong>estarán abiertas a partir del Viernes 6 de marzo en un link en esta misma página.</strong>.';
 
-	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. 2015</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn primary clear">Quitar filtros</button></div></div></div>';
-	$output .= '<div class="publicacles container"><div class="row">';
+	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. 2015</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Quitar filtros</button></div></div></div>';
+	$output .= '<div class="publicacles container"><div class="row"><div class="container">
+		<div class="alert alertacle
+		">Viendo A.C.L.E.s para: <span class="tipcurso">todos los cursos</span>, <span class="tiparea">todas las áreas</span>, <span class="tiphorario">todos los horarios</span> </div>
+	</div>';
 
 		foreach($dias as $key=>$dia) {
 			$output .= '<div class="dia span2">';
@@ -159,7 +162,11 @@ function sgcinsc_orderedacles() {
 				endif;
 				$niceareas = implode(' ', $niceareas);
 
-				$acles[$dia][$horario] .= '<div class="acleitem open-'.$open.'" data-dia="'.$dia.'" data-horario="'.$horario.'" data-id="id-'.$aclespost->ID.'" data-curso="'.implode(' ', $cursos).'" data-area="'.$niceareas.'" data-open="'.$open.'"><h4>'.$aclespost->post_title.'</h4> <dl><dd>'.implode(', ', $nicecursos).'</dd></dl></div>';
+				$acles[$dia][$horario] .= '<div class="acleitem open-'.$open.'" data-dia="'.$dia.'" data-horario="'.$horario.'" data-id="id-'.$aclespost->ID.'" data-curso="'.implode(' ', $cursos).'" data-area="'.$niceareas.'" data-open="'.$open.'"><h4>'.$aclespost->post_title.'</h4>';
+				if($open == 1) {
+					$acles[$dia][$horario] .= '<span class="nocupos">(SIN CUPOS)</span>';
+				}
+				$acles[$dia][$horario] .= ' <dl><dd>'.implode(', ', $nicecursos).'</dd></dl></div>';
 			}
 		}
 	}
@@ -275,7 +282,7 @@ function sgcinsc_acleitem($acleid) {
 				if($cupos > 0):
 					$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 				else:
-					$output .= '<strong class="full">Curso completo</strong>';
+					$output .= '<strong class="full">(Curso completo)</strong>';
 				endif;		
 		$output .= '</div>';
 		return $output;
@@ -343,8 +350,10 @@ function sgcinsc_cupos($curso) {
 	if($cupos):		
 		$cupos_restantes = $cupos - $inscritos;
 		return $cupos_restantes;		
-	else:
-		return 'Sin información de cupos';	
+	elseif($cupos == 0):
+		return 0;	
+	else: 
+		return 'x';
 	endif;
 }
 

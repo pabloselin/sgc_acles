@@ -200,11 +200,14 @@
 	background-color:#ccc;
 }
 
-#sgcinsc_form .aclecupos--1 strong.full,
+#sgcinsc_form .aclecupos-1 strong.full,
 #sgcinsc_form .aclecupos-0 strong.full {
 	display:block;
 	clear:both;
 	text-transform:uppercase;
+	position: absolute;
+	bottom:0;
+	left:6px;
 }
 
 #sgcinsc_form label.error, #sgcinsc_form label.valid {
@@ -298,10 +301,30 @@
 .filteracles {
 	background-color:#f0f0f0;
 	border-radius:5px;
+	overflow:hidden;
 }
 
 .filteracles select, .filteracles .btn {
-	margin:24px;
+	margin:0;
+}
+
+.filteracles div.selecthold {
+	float:left;
+	width:260px;
+	margin:0 24px 24px;
+}
+
+.filteracles .btn {
+	float:left;
+	margin-top:50px;
+}
+
+.filteracles div.selecthold h4 {
+	margin-bottom:6px;
+}
+
+.alertacle span {
+	font-weight:bold;
 }
 
 .filteracles h2 {
@@ -323,6 +346,13 @@
 .publicacles .acleitem.open-1 {
 	background-color:#f0f0f0;
 	color:#ccc;
+}
+
+.publicacles .acleitem.open-1 span.nocupos {
+	text-transform:uppercase;
+	font-size:14px;
+	font-weight:bold;
+	color:#333;
 }
 
 .publicacles .acleitem.open-1 h4 {
@@ -357,3 +387,4 @@ div.btncontainer {
 	background-color:#ef4500;
 	background-image:none;
 	}
+
