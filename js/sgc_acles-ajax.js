@@ -244,7 +244,10 @@ $('#sgcinsc_form').validate(
   errorPlacement: function(error, element) {
         if(element.is('input[name="aclecurso[]"]')) {
             error.appendTo('#ajaxErrorPlace');
-        } else {            
+        } else if(element.is('input[name="celu_apoderado"]')) {
+          error.appendTo(element.closest('.controls'));
+        }
+        else {            
             error.appendTo(element.parent('.controls'));
         }
       },  

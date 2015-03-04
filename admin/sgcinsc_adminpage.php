@@ -70,8 +70,7 @@ function sgcinsc_inscporacle($acleid) {
 					echo '<td>'.$inscrito->id.'</td>';
 					echo '<td>'.$inscrito->time.'</td>';
 					echo '<td>'.sgcinsc_nicecurso($inscrito->curso_alumno).' ' . $inscrito->letracurso_alumno. '</td>';
-					echo '<td>'.$inscrito->nombre_alumno.'</td>';
-					echo '<td>'.$inscrito->email_alumno.'</td>';					
+					echo '<td>'.$inscrito->nombre_alumno.'</td>';					
 					echo '<td>'.$inscrito->rut_alumno. '-' . dv($inscrito->rut_apoderado) .'</td>';
 					echo '<td>'.$inscrito->nombre_apoderado.'</td>';
 					echo '<td>'.$inscrito->celu_apoderado.'</td>';
@@ -102,7 +101,7 @@ function sgcinsc_putcsv($acleid) {
 		$output = fopen(SGCINSC_CSVPATH . $filename, 'w');
 
 		// output the column headings
-		fputcsv($output, array('A.C.L.E.', 'ID Inscripción', 'Fecha Inscripción', 'Curso del Alumno','Nombre Alumno', 'Email del Alumno', 'RUT del Alumno', 'Nombre del Apoderado', 'Celular del Apoderado', 'Teléfono de Red Fija del Apoderado', 'Email del apoderado', 'Seguro Escolar del Apoderado', 'RUT del Apoderado'), "\t");
+		fputcsv($output, array('A.C.L.E.', 'ID Inscripción', 'Fecha Inscripción', 'Curso del Alumno','Nombre Alumno', 'RUT del Alumno', 'Nombre del Apoderado', 'Celular del Apoderado', 'Teléfono de Red Fija del Apoderado', 'Email del apoderado', 'Seguro Escolar del Apoderado', 'RUT del Apoderado'), "\t");
 
 		// fetch the data
 		
@@ -116,7 +115,6 @@ function sgcinsc_putcsv($acleid) {
 				$inscritoarr[] = $inscrito->time;
 				$inscritoarr[] = sgcinsc_nicecurso($inscrito->curso_alumno) . ' ' . $inscrito->letracurso_alumno;
 				$inscritoarr[] = $inscrito->nombre_alumno;
-				$inscritoarr[] = $inscrito->email_alumno;
 				$inscritoarr[] = $inscrito->rut_alumno . '-' . dv($inscrito->rut_apoderado);
 				$inscritoarr[] = $inscrito->nombre_apoderado;
 				$inscritoarr[] = $inscrito->celu_apoderado;
@@ -144,7 +142,6 @@ function sgcinsc_aclestable($acleid) {
 			echo '<th>Fecha de Inscripción</th>';
 			echo '<th>Curso alumno</th>';			
 			echo '<th>Nombre Alumno</th>';
-			echo '<th>E-Mail Alumno</th>';
 			echo '<th>RUT Alumno</th>';
 			echo '<th>Nombre Apoderado</th>';
 			echo '<th>Celular</th>';

@@ -148,6 +148,10 @@
 	display:none;
 }
 
+#sgcinsc_form .input-prepend input.input-xlarge {
+	width:210px;
+}
+
 /* Nueva Tabla con Divs para móviles */
 
 #sgcinsc_form .acleheading div,

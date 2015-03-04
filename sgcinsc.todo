@@ -16,7 +16,7 @@ x- Añadir columna para año de inscripción, así se pueden mantener todos los 
 	+- Mejorar elementos tipográficos en tabla
 	+-- Mejorar zona de clic para cada curso
 	+- Hacer que no salga el bloque horario si es que no hay cursos en éste.
-	-- Mejorar vista landing page ACLE
+	+-- Mejorar vista landing page ACLE
 - Localizar variable de cursos obligatorios
 +- Añadir modo debug para que no envíe mails todo el rato
 +- Añadir filtro público para ver A.C.L.E. (Disponibles, área, curso, etc)
@@ -42,7 +42,7 @@ x- Dar formato automático al RUT
 --- Añadir un botón que borre todas las inscripciones
 
 --Final
-	- Retirar modo debug para envío de correos
+	+- Retirar modo debug para envío de correos
 	- Revisar inscripciones probando contenidos reales
-	- Añadir pistas visuales para cambio de filtros
+	+- Añadir pistas visuales para cambio de filtros
 	- Mejorar oportunismo de mensajes de error 
