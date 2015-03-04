@@ -24,7 +24,7 @@ define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
 
 //Modo debug para no enviar chorradas
-define ('SGCINSC_DEBUG', true);
+define ('SGCINSC_DEBUG', false);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/sgccsv', 0755);

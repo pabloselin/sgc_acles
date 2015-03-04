@@ -104,7 +104,7 @@ function sgcinsc_todoacles() {
 	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. 2015</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Quitar filtros</button></div></div></div>';
 	$output .= '<div class="publicacles container"><div class="row"><div class="container">
 		<div class="alert alertacle
-		">Viendo A.C.L.E.s para: <span class="tipcurso">todos los cursos</span>, <span class="tiparea">todas las áreas</span>, <span class="tiphorario">todos los horarios</span> </div>
+		">VIENDO A.C.L.E.s PARA: <span class="tipcurso">todos los cursos</span>, <span class="tiparea">todas las áreas</span>, <span class="tiphorario">todos los horarios</span> </div>
 	</div>';
 
 		foreach($dias as $key=>$dia) {
