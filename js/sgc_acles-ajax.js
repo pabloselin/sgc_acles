@@ -79,20 +79,21 @@ function sgcinsc_niceCurso(curso) {
 
 function sgcinsc_niceSeguro(seguro) {
   switch(seguro) {
-    case "alemana":
+    case 'alemana':
       var niceseguro = 'Clínica Alemana';
     break;
-    case "santamaria":
+    case 'santamaria':
       var niceseguro = 'Clínica Santa María';
     break;
-    case "indisa":
+    case 'indisa':
       var niceseguro = 'Clínica Indisa';
     break;
-    case "uc":
+    case 'uc':
       var niceseguro = 'Clínica Universidad Católica';
     break;
-    case "davila":
+    case 'davila':
       var niceseguro = 'Clínica Dávila';
+    break;
     default:
       var niceseguro = seguro;
     break;
