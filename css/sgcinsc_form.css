@@ -114,12 +114,14 @@
 	bottom:6px;
 }
 
-#sgcinsc_form .acleitemcurso.selected {
-	background-color:#84BA41;
+#sgcinsc_form .acleitemcurso.selected,
+#sgcinsc_form .acleitemcurso.selected:hover
+ {
+	background-color:#FD9D53;
 }
 
-#sgcinsc_form .acleitemcurso.selected:hover {
-	background-color:#72A038;
+#sgcinsc_form .acleitemcurso.selected .aclename {
+	color:#AC4E28;
 }
 
 #sgcinsc_form .acleitemcurso:hover {
