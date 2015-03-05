@@ -194,12 +194,11 @@ function sgcinsc_renderFinalInfo(data) {
 }
 
 function countemptyacles(container, message) {
-  $('div.message').remove();
+  $('.noacles').show();
   $(container).each(function(element) {
       var countacle = $('div.acleitem:visible', this).length;
-      console.log('count:' + countacle);
       if(countacle == 0) {
-        $(this).append('<div class="message">' + message + '</div>');
+        $(this).hide().addClass('noacles');
       }
   });
 }
@@ -290,7 +289,7 @@ $('#sgcinsc_form').validate(
       required: true
     },
     celu_apoderado: {
-      minlength: 6,
+      minlength: 8,
       required: true
     },
     aclecurso: {
