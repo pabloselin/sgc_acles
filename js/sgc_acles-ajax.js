@@ -118,9 +118,9 @@ function sgcinsc_renderAcles(curso) {
         maxlength: maxacle,
         required: true,
         messages: {
-          required: 'Necesitas inscribir un A.C.L.E.',
-          minlength: 'Necesitas inscribir el mínimo de A.C.L.E.s para tu curso',
-          maxlength: 'No puedes inscribir más A.C.L.E.s según tu curso'
+          required: 'Necesitas inscribir A.C.L.E.s',
+          minlength: 'Necesitas inscribir tu segundo A.C.L.E.',
+          maxlength: 'Revisa tu selección. Sólo puedes inscribir ' + maxacle + ' A.C.L.E.'
         }
       });
       $('#sgcinsc_form span.cursel').empty().append(sgcinsc_niceCurso(curso));

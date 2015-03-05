@@ -168,7 +168,7 @@ function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $no
 	$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
 	$message .= '<p>Su número identificador de inscripción es el <strong>'. $ID_inscripcion . '</strong></p>';
 	$message .= '<p>Usted inscribió los siguientes cursos:</p>';	
-	$message .= '<table cellpadding="5" cellspacing="0" style="background-color:#71ADCD;margin:0 auto;" width="70%">';
+	$message .= '<table cellpadding="5" cellspacing="0" style="background-color:#AFD4E4;margin:0 auto;" width="70%">';
 	foreach($acles as $acle):
 		$aclepost = get_post($acle);
 		$message .= '<tr style="border-bottom:1px solid #456A7D;"><td style="border-bottom:1px solid #456A7D;">';
@@ -240,7 +240,7 @@ function sgcinsc_storeformdata($data) {
 	$rut_apoderado = sgcinsc_processrut($data['rut_apoderado']);
 	$rut_alumno = sgcinsc_processrut($data['rut_alumno']);
 
-
+	//chequea que no haya otra inscripción en el mismo momento para el mismo curso
 	
 	//Inserta inscripción y detalles
 	$insertinsc = $wpdb->insert($table_name, 
