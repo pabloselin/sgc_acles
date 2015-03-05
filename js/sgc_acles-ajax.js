@@ -173,13 +173,13 @@ function sgcinsc_renderFinalInfo(data) {
                     '<li><span class="fieldcont">Nombre: </span>' + data[0].value + '</li>' +
                     '<li><span class="fieldcont">RUT: </span>' + data[1].value + '</li>' +
                     '<li><span class="fieldcont">Curso: </span>' + sgcinsc_niceCurso(data[2].value) + ' ' + data[3].value + '</li>';
-    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(data[6].value) + '</li>';                  
+    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(data[5].value) + '</li>';                  
   var appendstuffapoderado = '<h3>Datos del apoderado(a)</h3> <ul>' + 
-                    '<li><span class="fieldcont">Nombre: </span>' + data[7].value + '</li>' +
-                    '<li><span class="fieldcont">RUT: </span>' + data[8].value + '</li>' +
-                    '<li><span class="fieldcont">Email: </span>' + data[9].value + '</li>' +
-                    '<li><span class="fieldcont">Teléfono: </span>' + data[10].value + '</li>' +
-                    '<li><span class="fieldcont">Celular: </span>' + data[11].value + '</li>';                  
+                    '<li><span class="fieldcont">Nombre: </span>' + data[6].value + '</li>' +
+                    '<li><span class="fieldcont">RUT: </span>' + data[7].value + '</li>' +
+                    '<li><span class="fieldcont">Email: </span>' + data[8].value + '</li>' +
+                    '<li><span class="fieldcont">Teléfono: </span>' + data[9].value + '</li>' +
+                    '<li><span class="fieldcont">Celular: </span>' + data[10].value + '</li>';                  
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
   if(typeof data[14] != 'undefined') {
