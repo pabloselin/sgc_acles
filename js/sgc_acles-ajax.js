@@ -291,6 +291,7 @@ $('#sgcinsc_form').validate(
     },
     celu_apoderado: {
       minlength: 8,
+      maxlength: 8,
       required: true
     },
     aclecurso: {
@@ -328,7 +329,8 @@ $('#sgcinsc_form').validate(
     letracurso: 'Falta la letra del curso',
     celu_apoderado: {
       required: 'Falta el celular del apoderado(a)',
-      minlength: 'El número es demasiado corto'
+      minlength: 'El número es demasiado corto, deben ser 8 dígitos',
+      maxlength: 'El número es demasiado largo, deben ser 8 dígitos'
     },
     fono_apoderado: {
       required: 'Falta el teléfono fijo del apoderado(a)',

@@ -168,8 +168,10 @@
  {
 	width:15%;
 	float:left;
-	font-weight:bold;
-	font-size:16px;
+	font-weight:normal;
+	font-size:18px;
+	color:#0471AB;
+	font-family:'Raleway', sans-serif;
 }
 
 #sgcinsc_form .acleheading {
@@ -180,8 +182,9 @@
 }
 
 #sgcinsc_form .acleheading div.curso {
-	font-size:16px;
-	font-weight:bold;
+	font-size:18px;
+	font-weight:normal;
+	font-family:'Raleway', sans-serif;
 }
 
 #sgcinsc_form .bloque2 {
@@ -191,12 +194,13 @@
 
 
 #sgcinsc_form .aclecursostabla span.aclename {
-	font-weight:bold;
-	font-size:16px;
+	font-weight:normal;
+	font-size:18px;
 	line-height:1.2em;
 	color:#334B14;
 	display:inline-block;
 	padding:3px 6px;
+	font-family:'Raleway', sans-serif;
 }
 
 
