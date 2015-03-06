@@ -387,6 +387,7 @@ div.btncontainer {
 	clear:both;
 	overflow: hidden;
 	margin:24px 0;
+	padding:12px;
 }
 
 #inscboton.btn {
@@ -397,4 +398,8 @@ div.btncontainer {
 	background-color:#ef4500;
 	background-image:none;
 	}
+
+#inscboton.btn:hover {
+	box-shadow:0 2px 4px #333;
+}
 
