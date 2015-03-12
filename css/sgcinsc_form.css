@@ -399,6 +399,10 @@ div.btncontainer {
 	background-image:none;
 	}
 
+#inscboton.disabled {
+	background-color:#555;	
+}
+
 #inscboton.btn:hover {
 	box-shadow:0 2px 4px #333;
 }

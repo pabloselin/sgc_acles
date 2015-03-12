@@ -457,7 +457,7 @@ function sgcinsc_inscbotonshortcode($atts) {
 	$output .= '<p style="text-align:center;">';
 	$endtext = 'Inscripciones Cerradas';
 	if($off == 'true' || strtotime(SGCINSC_ENDINSC) <= strtotime(date('m-d-Y'))) {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large disabled" title="'.$endtext.'" href="#">'.$endtext.'</a>';
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$endtext.'" href="#">'.$endtext.'</a>';
 	} else {
 		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
 	}
