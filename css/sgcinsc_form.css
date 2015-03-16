@@ -114,6 +114,20 @@
 	bottom:6px;
 }
 
+#sgcinsc_form .control-group.alert .controls{
+	margin-left:0;
+}
+
+#sgcinsc_form .control-group.alert .controls .input {
+	transform: scale(1.5);
+	-webkit-transform: scale(1.5);
+}
+
+#sgcinsc_form .control-group.alert label {
+	text-align:left;
+	font-size:18px;
+}
+
 #sgcinsc_form .acleitemcurso.selected,
 #sgcinsc_form .acleitemcurso.selected:hover
  {
@@ -208,6 +222,7 @@
 #sgcinsc_form .aclecupos--1, #sgcinsc_form .aclecupos--1:hover
  {
 	background-color:#ccc;
+	display:none;
 }
 
 #sgcinsc_form .aclecupos-1 strong.full,
@@ -356,6 +371,7 @@
 .publicacles .acleitem.open-1 {
 	background-color:#f0f0f0;
 	color:#ccc;
+	display:none;
 }
 
 .publicacles .acleitem.open-1 span.nocupos {

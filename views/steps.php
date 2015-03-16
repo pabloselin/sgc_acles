@@ -1,14 +1,7 @@
 <?php 
 //pasos Inscripción
 ?>	
-
-	<div id="sgcinsc-acleinscstep1" class="acleinsc-step1">	
-
-		<?php if($_POST['sgcinsc_nonce']) {		
-			
-			sgcinsc_verifydata($_POST);			
-			
-		} else {?>					
+		<div id="sgcinsc-acleinscstep1" class="acleinsc-step1">						
 				<!--Lista de ACLES disponibles con filtros por curso y por horario-->
 				<!--Lista de ACLES en formato Calendario-->
 				<!--Lista de ACLES por áreas-->			
@@ -190,14 +183,21 @@
 								</div>
 
 								<div class="datos-acle well">
-								</div>								
+								</div>
+
+								<div class="control-group alert alert-info">
+								
+									<p>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida</p>
+
+									<label for="acepta_terminos" class="control-label">Aceptar</label>
+							
+										<div class="controls">
+										<input type="checkbox" class="input-xlarge" name="acepta_terminos"></div>
+									</div>								
 
 							</fieldset>
 
 							
 
 						</form>									
-					
-
-				<?php }?>
 			</div>

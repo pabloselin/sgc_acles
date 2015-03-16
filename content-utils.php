@@ -174,7 +174,22 @@ function sgcinsc_orderedacles() {
 }
 
 function sgcinsc_displaycursos() {
-	$curso = $_POST['nivel'];	
+	$curso = $_POST['nivel'];
+	$rutalumno = sgcinsc_processrut($_POST['rutalumno']);
+
+	$cursos_preinscritos = sgcinsc_aclesporalumno($rutalumno);
+	if($cursos_preinscritos):
+		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
+		echo '<div class="preinsc alert alert-info">';
+		echo 'Usted ha inscrito previamente los siguientes cursos para el alumno <strong>'.$nombrealumno.'</strong>:<br/<br/>';
+		foreach($cursos_preinscritos as $acle) {
+			echo '<p class="oldacle"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). '</p>';
+		}
+		echo '<p><strong>IMPORTANTE: No se pueden seleccionar cursos en el mismo horario que los cursos previamente inscritos, sin embargo, los datos de su inscripción son los ingresados en el sistema, la lista oficial de inscripciones ACLE se encuentra disponible para descargar en la página principal de ACLE 2015.<a href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank">(ver link)</a></strong></p>';
+		echo '</div>';
+	endif;
+
 	$acleitems = sgcinsc_aclesporcurso($curso);	
 	foreach($acleitems as $key=>$acleitem):
 		//Distribuir cursos en columnas según día y hora	
@@ -306,6 +321,7 @@ function sgcinsc_getacles() {
 add_action('wp_ajax_sgcinsc_getacles', 'sgcinsc_getacles');
 add_action('wp_ajax_nopriv_sgcinsc_getacles', 'sgcinsc_getacles');
 
+
 function sgcinsc_aclesporalumno($rutalumno) {
 	global $wpdb, $table_name;
 	$consulta = $wpdb->get_var("SELECT acles_inscritos FROM $table_name WHERE rut_alumno = $rutalumno");
@@ -382,6 +398,18 @@ function sgcinsc_niceseguro($seguro) {
 	return $niceseguro;
 }
 
+function sgcinsc_nicehorario($horario) {
+	switch($horario) {
+		case('horario1'):
+			$nicehorario = '15:20 a 16:50';
+		break;
+		case('horario2'):
+			$nicehorario = '17:00 a 18:30';
+		break;
+	}
+	return $nicehorario;
+}
+
 //Adaptar curso
 function sgcinsc_nicecurso($curso) {
 	switch($curso){
@@ -440,8 +468,21 @@ function sgcinsc_nicedia($dia) {
 	return $nicedia;
 }
 
+function sgcinsc_nombrealumno($rut) {
+	//devuelve el nombre del alumno por el rut
+	global $wpdb, $table_name;
+	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE rut_alumno = $rut");
+	return $nombre;
+}
+
 function sgcinsc_resetcupos() {
 
+}
+
+function sgcinsc_getinsc($idinsc) {
+	global $wpdb, $table_name, $table2_name;
+	$iteminsc = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $idinsc");
+	return $iteminsc;
 }
 
 function sgcinsc_inscbotonshortcode($atts) {

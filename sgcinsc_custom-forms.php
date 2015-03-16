@@ -16,7 +16,7 @@ function sgcinsgc_forms_sections($template)
 
 	*/
 
-	//Tomar variables	
+	//Tomar variables
 		if($_GET['sgcinsc_cert'] == 1 && $_GET['sgcinsc_nonce'] && $_GET['idinsc']):
 			$newtemplate = plugin_dir_path(__FILE__) . '/views/certificado.php';		
 			return $newtemplate;
@@ -65,13 +65,37 @@ function sgcinsc_checkreprut($rut, $columna) {
 	endif;
 }
 
+function sgcinsc_checksecondreprut($rut, $columna) {
+	//chequea que el rut no se haya usado para una tercera inscripción
+	global $wpdb, $table_name, $table2_name;
+	$puede = true;
+	$consulta = $wpdb->get_results("SELECT * FROM $table_name WHERE $columna = $rut");
+	//chequea los múltiples insc donde hay un sgcinsc second
+	foreach($consulta as $consult) {
+		//Ya hay un rut inscrito
+		if($consult->rut_alumno == $rut) {
+			$secondsult = $wpdb->get_var("SELECT second_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
+			if($secondsult == 1) {
+				//Ya hay una segunda inscripción
+				$puede = false;
+			}
+		}
+	}
+
+	return $puede;
+}
+
 function sgcinsc_verifydata($data) {
 	global $wpdb, $post;
 	// 1.Verificar que el nonce funcione
+	
+
 	if(!wp_verify_nonce( $_POST['sgcinsc_nonce'], 'submit_stepone' )) {
 		echo 'El nonce es inválido';
 		die();
 	} else {
+		//verificar que no estoy recargando url
+
 		//Escapar todos los datos
 		$data = esc_sql( $data );
 		
@@ -80,20 +104,16 @@ function sgcinsc_verifydata($data) {
 		$rut_alumno = sgcinsc_processrut($data['rut_alumno']);				
 
 		// 1. Verificar que los ruts no estén repetidos
-		if(sgcinsc_checkreprut($rut_alumno, 'rut_alumno')):
+		if(sgcinsc_checksecondreprut($rut_alumno, 'rut_alumno')):
 			//Verificar que los cursos no se hayan llenado mientras se producía la postulación.
 			$preserialize = sgcinsc_serializeacles($data);
 			//Verificar que haya llenado el mínimo de cursos requeridos		
 			foreach($preserialize[0] as $precupo) {						
 					$cupos = sgcinsc_cupos($precupo);					
 					if( $cupos <= 0):
-						echo '<div class="alert alert-error">';
-						echo '<h1>Error en la inscripción</h1>';
-						echo '<p>Uno de sus cursos seleccionados ya no tiene vacantes, probablemente alguien completó el proceso de postulación antes de que usted lo enviara.</p>';
-						echo '<p>Si cree que se trata de un error, por favor comuníquese con inscripcionacle@gmail.com</p>';
-						echo '<p><a class="btn btn-success" href="' . get_permalink($post->ID) . '">Intentar inscripción nuevamente</a></p>';
-						echo '</div>';
-						die();					
+						$cuposurl = add_query_arg('excode', 3, get_permalink());
+						wp_redirect($cuposurl, 303);
+						die();
 					endif;
 			}
 
@@ -107,60 +127,16 @@ function sgcinsc_verifydata($data) {
 			//el ingreso devuelve un ID de regalo
 			$ID_inscripcion = sgcinsc_storeformdata($data);		
 			$acles = sgcinsc_serializeacles($data);		
-
-			echo '<div class="alert alert-success">';			
-			echo '<h1>¡Hemos recibido su inscripción!</h2>';
-			echo '<p>En unos minutos recibirá un aviso informativo en el email del apoderado(a) <strong>&lt;' . $email_apoderado . '&gt;</strong>';
-			if($email_alumno):
-				echo ' y el email del alumno(a) <strong>&lt;' . $email_alumno . '&gt;</strong>';
-			endif;
-			echo '<p> El número identificador de su inscripción es el <strong>'. $ID_inscripcion . '</strong></p>';
-			echo '<p> Si no lo recibiera, revise su casilla spam, de todos modos la inscripción ya ha sido registrada y se encuentra en nuestra base de datos.</p>';			
-			echo '<p><a id="certinsc" data-idinsc="'.$ID_inscripcion.'" class="btn btn-info btn-large" href="#">Ver certificado de inscripción (en una ventana emergente)</a>';
-			echo '<p> Dudas y consultas sobre acles y su proceso de inscripción: <a href="mailto:inscripcionacle@gmail.com">inscripcionacle@gmail.com</a> </p>';
-			echo '<p> ¡Gracias!</p>';
-			echo '<div class="hidden" id="certificado">';
-			echo '<style>@media print { body { text-align:center; } button { display:none !important;} }</style>';			
-			echo '<table cellpadding="20" cellspacing="0" width="500" style="font-family:sans-serif;text-align:center;background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;">
-    		<tr><td>
-    			<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2;font-weight:normal;">Saint Gaspar College</h2><h3 style="text-align:center;">Inscripción en A.C.L.E. 2015</h3></p>
-		        <h1>Comprobante de Inscripción</h1>
-		        <p>El apoderado(a) <strong>'.$data['nombre_apoderado'].'</strong> inscribió los siguientes A.C.L.E. para el alumno(a) <strong>'.$data['nombre_alumno'].' del curso ' . sgcinsc_nicecurso($data['curso_alumno']). ' ' . $data['letracurso_alumno'] . '</strong></p>';
-		        echo '</td>';
-				echo '</tr>';
-
-		        foreach($acles[0] as $acle):
-					$aclepost = get_post($acle);
-					echo '<tr style="border-bottom:1px solid #456A7D;"><td style="border-bottom:1px solid #456A7D;">';
-					echo '<strong>' . $aclepost->post_title . '</strong>';
-					$prof = get_post_meta($aclepost->ID, 'sgcinsc_profacle', true);
-					// if($prof):
-					// 	echo '<p>Profesor: ' . get_post_meta($aclepost->ID, 'sgcinsc_profacle', true) . '</p>';
-					// endif;
-					echo '<p>Horario: '. sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
-					echo '</td></tr>';	
-				endforeach;				             
-
-			echo '<tr><td>';
-			echo '<p>Su número de inscripción es el '. $ID_inscripcion . '</p>';
-			echo '</td></tr>';
-			echo '</table>';
-			echo '<p style="text-align:center;"><button style="font-size:16px;" target="_blank" class="btn btn-info" href="#" onclick="window.print();" id="printcert"><i class="icon icon-printer"></i> Imprimir comprobante</button></p>';
-			echo '</div>';			
-			
-			$curso = sgcinsc_nicecurso($data['curso_alumno']) . ' ' . $data['letracurso_alumno'];		
-			sgcinsc_confirmail($email_alumno, $email_apoderado, $data['nombre_alumno'], $data['nombre_apoderado'], $acles[0], $ID_inscripcion, $curso);		
-
-			echo '</div>';
+			$successarr = array(
+							'excode' => 1,
+							'idinsc' => $ID_inscripcion
+							);
+			$successurl = add_query_arg($successarr, get_permalink());
+			wp_redirect($successurl, 303);
 
 		else:
-
-			echo '<div class="alert alert-error">';
-			echo '<h1>Error en la inscripción</h1>';
-			echo '<p>Ya existe una inscripción asociada al RUT del alumno.</p>';
-			echo '<p>Si cree que se trata de un error, por favor comuníquese con inscripcionacle@gmail.com</p>';
-			echo '<p><a class="btn btn-success" href="' . get_permalink($post->ID) . '">Intentar inscripción nuevamente</a></p>';
-			echo '</div>';
+			$errorurl = add_query_arg('excode', 2, get_permalink());
+			wp_redirect($errorurl, 303);
 		endif;
 		
 	}	
@@ -168,7 +144,7 @@ function sgcinsc_verifydata($data) {
 
 function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	
 	$message .= '<table cellpadding="20" cellspacing="0" width="600" style="background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;"><tr><td>';
-	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. 2015</h3></p>';
+	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. 2015 (segunda etapa)</h3></p>';
 	$message .= '<p>Estimado(a) <strong>' . $nombre_apoderado . ':</strong></p>';
 	$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
 	$message .= '<p>Su número identificador de inscripción es el <strong>'. $ID_inscripcion . '</strong></p>';
@@ -185,6 +161,7 @@ function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $no
 		$message .= '<p>Horario: ' . sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
 		$message .= '</td></tr>';	
 	endforeach;
+	$message .= '<tr><td><p><strong>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida.</strong></p></td></tr>';
 	$message .= '</table>';
 	$message .= '<p>Para consultas escriba a inscripcionacle@gmail.com</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
@@ -247,6 +224,15 @@ function sgcinsc_storeformdata($data) {
 
 	//chequea que no haya otra inscripción en el mismo momento para el mismo curso
 	
+
+	//chequea si hubo o no antes inscripción
+	$prev = 0;
+
+	$consprev = $wpdb->get_var("SELECT id FROM $table_name WHERE rut_alumno = $rut_alumno");
+	if($consprev > 0) {
+		$prev = 1;
+	}
+
 	//Inserta inscripción y detalles
 	$insertinsc = $wpdb->insert($table_name, 
 					array(
@@ -271,7 +257,8 @@ function sgcinsc_storeformdata($data) {
 		$wpdb->insert($table2_name,
 			array(				
 				'id_curso' => $acle,
-				'id_inscripcion' => $lastid				
+				'id_inscripcion' => $lastid,
+				'second_insc' => $prev				
 				)
 			);
 	}

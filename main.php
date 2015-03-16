@@ -3,7 +3,7 @@
  * Plugin Name: ACLES - Saint Gaspar College
  * Plugin URI: http://www.saintgasparcollege.cl
  * Description: Sistema de inscripción de actividades SGC.
- * Version: 0.81
+ * Version: 0.9
  * Author: A Pie
  * Author URI: http://apie.cl
  * License: GPL2
@@ -23,10 +23,10 @@ TODO
 define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
 define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
-define( 'SGCINSC_ENDINSC', '03-12-2015');
+define( 'SGCINSC_ENDINSC', '20-03-2015');
 
 //Modo debug para no enviar chorradas
-define ('SGCINSC_DEBUG', false);
+define ('SGCINSC_DEBUG', true);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/sgccsv', 0755);
@@ -63,7 +63,7 @@ global $wpdb;
 //Nombre de tabla y versión
 $table_name = $wpdb->prefix . 'sgcinsc';
 $table2_name = $wpdb->prefix . 'sgccupos';
-$sgcinsc_dbversion = 1.1;
+$sgcinsc_dbversion = 1.3;
 
 //Cursos obligatorios por nivel
 $obcursos = array(
@@ -113,6 +113,7 @@ function sgcinsc_createinsctables() {
 	$sql2 = "CREATE TABLE $table2_name (id mediumint(9) NOT NULL AUTO_INCREMENT,
 			id_curso int(9) NOT NULL,
 			id_inscripcion int(9) NOT NULL,
+			second_insc tinyint(1) NOT NULL,
 			UNIQUE KEY id (id));
 			";
 

@@ -102,7 +102,7 @@ function sgcinsc_niceSeguro(seguro) {
 }
 
 //Muestra los cursos disponibles para cada nivel
-function sgcinsc_renderAcles(curso) {
+function sgcinsc_renderAcles(curso, rut) {
   var ajaxPlace = $('#ajaxAclesPlace');
   ajaxPlace.append('<i class="icon-refresh icon-spin"></i><br/>Cargando cursos disponibles...');
   jQuery.ajax({
@@ -110,7 +110,8 @@ function sgcinsc_renderAcles(curso) {
     url: sgcajax.ajaxurl,
     data: {
       action: 'sgcinsc_displaycursos',
-      nivel: curso
+      nivel: curso,
+      rutalumno: rut
     },
     success: function(data, textStatus, XMLHttpRequest) {
       ajaxPlace.empty().append(data);
@@ -126,9 +127,9 @@ function sgcinsc_renderAcles(curso) {
       });
       $('#sgcinsc_form span.cursel').empty().append(sgcinsc_niceCurso(curso));
       if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>2 curso(s)</strong> haciendo click sobre la casilla. NO se pueden escoger 2 A.C.L.E. que se encuentren en el mismo horario, ni más de 2 acles.');  
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle +' curso(s)</strong> haciendo click sobre la casilla. NO se pueden escoger 2 A.C.L.E. que se encuentren en el mismo horario, ni más de ' + maxacle + ' acles.');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>1 curso(s)</strong> haciendo click sobre la casilla. NO se puede escoger más de 1 acles.');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle +' curso(s)</strong> haciendo click sobre la casilla. NO se puede escoger más de ' + maxacle +' acles.');
       }
       
       //Chequeo las que se chequearon en otros pasos.
@@ -184,10 +185,18 @@ function sgcinsc_renderFinalInfo(data) {
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
   if(typeof data[14] != 'undefined') {
+    //más de 2
     var value1 = data[13].value;
     var value2 = data[14].value;
-    var acles = [value1, value2];
+    if(typeof data[15] != 'undefined') {
+      //3 acles
+      var value3 = data[15].value;  
+      var acles = [value1, value2, value3];
+    } else {
+      var acles = [value1, value2];
+    }
   } else {
+    //1 acle
     var value1 = data[13].value;
     acles = [value1];
   }
@@ -202,6 +211,24 @@ function countemptyacles(container, message) {
         $(this).hide().addClass('noacles');
       }
   });
+}
+
+function sgc_getprevinsc(RUT) {
+  //Obtiene los IDs de las inscripciones previas de un alumno
+  jQuery.ajax({
+    type: 'POST',
+    url: sgcajax.ajaxurl,
+    data: {
+      action: 'sgcinsc_getprevinsc',
+      rut: RUT
+    },
+    success: function(data, textStatus, XMLHttpRequest) {
+      console.log(data);
+    }, 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      console.log(errorThrown);
+    }
+  })
 }
 
 /* La siguiente instrucción extiende las capacidades de jquery.validate() para que
@@ -294,6 +321,9 @@ $('#sgcinsc_form').validate(
       maxlength: 8,
       required: true
     },
+    acepta_terminos: {
+      required: true
+    },
     aclecurso: {
       required: true
     }    
@@ -335,6 +365,9 @@ $('#sgcinsc_form').validate(
     fono_apoderado: {
       required: 'Falta el teléfono fijo del apoderado(a)',
       minlength: 'El número es demasiado corto'
+    },
+    acepta_terminos: {
+      required: 'Debe aceptar los términos de la inscripción'
     },    
     confirmar_envio: {
       required: 'Por favor, confirme los datos para enviar la inscripción'
@@ -364,9 +397,13 @@ $('#sgcinsc_form').validate(
                     $("#sgcinsc_form").validate().settings.ignore = ":disabled,:hidden";
                     return $("#sgcinsc_form").valid();                                                                                                                     
                 },
-    onStepChanged: function(event, currentIndex, priorIndex) {                    
-                    if(currentIndex == 2){
-                      sgcinsc_renderAcles(cursel);                     
+    onStepChanged: function(event, currentIndex, priorIndex) {
+                    if(currentIndex == 1) {
+                      alumrut = $('#sgcinsc_form input[name="rut_alumno"]').val();
+                      console.log(parseInt(alumrut));
+                    }                    
+                    else if(currentIndex == 2){
+                      sgcinsc_renderAcles(cursel, alumrut);                     
                     } else if(currentIndex == 3) {
                       formdata = $("#sgcinsc_form").serializeArray();                      
                       sgcinsc_renderFinalInfo(formdata);
@@ -417,16 +454,17 @@ $('#sgcinsc_form').validate(
   $('#sgcinsc_form select[name="curso_alumno"]').on('change', function(){
     cursel = $('option:selected', this).attr('value'); 
 
+
     //Vacío los cursos seleccionados si es que el apoderado cambia de curso.
     checkedarray = [];
 
     //Requerimientos de cursos mínimos y máximos
     if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
       minacle = 1;      
-      maxacle = 1;          
+      maxacle = 3;          
     } else {
-      minacle = 2;            
-      maxacle = 2;
+      minacle = 1;            
+      maxacle = 3;
       }; 
       //Máximo igual para todos
       

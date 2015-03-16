@@ -25,7 +25,9 @@ function sgcinsc_aclesinsc() {
 	echo '<th>Horario</th>';
 	echo '<th>Cupos totales</th>';
 	echo '<th>Cupos disponibles</th>';
-	echo '<th>Ver inscripciones</th>';
+	echo '<th>Ver inscripciones 1ª Etapa</th>';
+	echo '<th>Ver inscripciones 2ª Etapa</th>';
+	echo '<th>Ver inscripciones Totales</th>';
 	echo '</thead>';
 
 
@@ -41,26 +43,34 @@ function sgcinsc_aclesinsc() {
 			$nicecursos[] = sgcinsc_nicecurso($curso);
 		}
 		$nicecursos = implode(', ', $nicecursos);
-		$tableurl = add_query_arg('acle', $acle->ID, admin_url('options-general.php?page=sgc_aclesadmin'));
-		echo '<td>'.$acle->post_title.'</td>';
+		$tableurl = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 0), admin_url('options-general?page=sgc_aclesadmin'));
+		$tableurl1 = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 1), admin_url('options-general?page=sgc_aclesadmin'));
+		$tableurl2 = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 'all'), admin_url('options-general?page=sgc_aclesadmin'));
+		echo '<td><strong>'.$acle->post_title.'</strong></td>';
 		echo '<td>'.$nicecursos. '</td>';
 		echo '<td>'.sgcinsc_nicedia(get_post_meta($acle->ID, 'sgcinsc_diaacle', true)).'</td>';
 		echo '<td>'.sgcinsc_renderhorario(get_post_meta($acle->ID, 'sgcinsc_horaacle', true)). '</td>';
 		echo '<td>'.get_post_meta($acle->ID, 'sgcinsc_cuposacle', true). '</td>';
 		echo '<td>'.sgcinsc_cupos($acle->ID). '</td>';
-		echo '<td><a class="button button-primary" href="'.$tableurl.'">Ver inscripciones</a></td>';
+		echo '<td><a class="button button-primary" href="'.$tableurl.'">Inscripciones 1º Etapa</a></td>';
+		echo '<td><a class="button button-primary" href="'.$tableurl1.'">Inscripciones 2º Etapa</a></td>';
+		echo '<td><a class="button button-primary" href="'.$tableurl2.'">Total</a></td>';
 		echo '</tr>';
 	endforeach;
 	echo '</table>';
 	//sgcinsc_aclestable($acles);
 }
 
-function sgcinsc_inscporacle($acleid) {
+function sgcinsc_inscporacle($acleid, $etapa) {
 	global $wpdb, $table2_name, $table_name;
-	$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
-	foreach($infoinsc as $key=>$infinsc){		
-		//var_dump($infinsc);
-		$inscritos = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $infinsc->id_inscripcion");	
+	if($etapa == 'all'):
+		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
+	else:	
+		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND second_insc = $etapa");
+	endif;
+	//$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE second_insc = $etapa");
+	foreach($infoinsc as $key=>$infinsc){
+		$inscritos = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $infinsc->id_inscripcion");
 		if($key % 2 == 0):			
 			echo '<tr class="alternate">';
 		else:
@@ -84,10 +94,13 @@ function sgcinsc_inscporacle($acleid) {
 }
 
 //Genera un csv para descarga con inscritos.
-function sgcinsc_putcsv($acleid) {
+function sgcinsc_putcsv($acleid, $etapa) {
 		global $wpdb, $table2_name, $table_name;
-		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
-		
+		if($etapa == 'all'):
+			$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
+		else:
+			$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND second_insc = $etapa");
+		endif;
 
 		if($infoinsc) {
 		// output headers so that the file is downloaded rather than displayed
@@ -95,7 +108,7 @@ function sgcinsc_putcsv($acleid) {
 		//header('Content-Disposition: attachment; filename=data.csv');
 
 		$acle = get_post($acleid);
-		$filename = $acle->post_name . '-' . $acle->ID .'.csv';
+		$filename = $acle->post_name . '-' . $acle->ID .'-' .$etapa . '.csv';
 		
 		// create a file pointer connected to the output stream
 		$output = fopen(SGCINSC_CSVPATH . $filename, 'w');
@@ -131,7 +144,7 @@ function sgcinsc_putcsv($acleid) {
 		}
 }
 
-function sgcinsc_aclestable($acleid) {
+function sgcinsc_aclestable($acleid, $etapa) {
 	
 	$acle = get_post($acleid);
 		echo '<h2>' . $acle->post_title. '</h2>';
@@ -149,10 +162,10 @@ function sgcinsc_aclestable($acleid) {
 			echo '<th>E-Mail Apoderado</th>';
 			echo '<th>Seguro escolar</th>';
 			echo '<th>RUT Apoderado</th></thead>';
-			sgcinsc_inscporacle($acle->ID);			
+			sgcinsc_inscporacle($acle->ID, $etapa);			
 		echo '</table>';
 
-		$csv = sgcinsc_putcsv($acle->ID);
+		$csv = sgcinsc_putcsv($acle->ID, $etapa);
 		echo '<p><a class="button" href="'.$csv.'"> Descargar CSV de inscripciones de ' . $acle->post_title .'</a> </p>';
 		echo '<p><a class="button button-primary" href="'.admin_url('options-general.php?page=sgc_aclesadmin' ).'"> Volver a la lista de cursos</a> </p>';
 	
@@ -171,12 +184,24 @@ function sgcinsc_doadmin() {
 	?>
 
 	<div class="wrap">
+	<?php 
+			$acleesc = $_GET['acle'];			
+			$aclestage = $_GET['etapa'];
+			if($aclestage == 0):
+				$stagetitle = 'Primera Etapa';
+			elseif($aclestage == 1):
+				$stagetitle = 'Segunda Etapa';
+			else:
+				$stagetitle = 'Inscripciones Totales (incluye ambas etapas)';
+			endif;
+	?>
 		<h2>Inscripciones A.C.L.E.</h2>
+		<h3><?php echo $stagetitle;?></h3>
 
 		<?php 
-			$acleesc = $_GET['acle'];			
+			
 			if($acleesc):
-				sgcinsc_aclestable($acleesc);
+				sgcinsc_aclestable($acleesc, $aclestage);
 			else:
 				sgcinsc_aclesinsc();
 			endif;
