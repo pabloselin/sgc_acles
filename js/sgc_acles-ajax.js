@@ -127,9 +127,9 @@ function sgcinsc_renderAcles(curso, rut) {
       });
       $('#sgcinsc_form span.cursel').empty().append(sgcinsc_niceCurso(curso));
       if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle +' curso(s)</strong> haciendo click sobre la casilla. NO se pueden escoger 2 A.C.L.E. que se encuentren en el mismo horario, ni más de ' + maxacle + ' acles.');  
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir esta vez un máximo de ' + maxacle + ' acles .');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle +' curso(s)</strong> haciendo click sobre la casilla. NO se puede escoger más de ' + maxacle +' acles.');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir esta vez un máximo de ' + maxacle + ' acles .');
       }
       
       //Chequeo las que se chequearon en otros pasos.
@@ -367,7 +367,7 @@ $('#sgcinsc_form').validate(
       minlength: 'El número es demasiado corto'
     },
     acepta_terminos: {
-      required: 'Debe aceptar los términos de la inscripción'
+      required: 'Debe aceptar los términos para inscribir'
     },    
     confirmar_envio: {
       required: 'Por favor, confirme los datos para enviar la inscripción'

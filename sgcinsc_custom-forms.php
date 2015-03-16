@@ -247,13 +247,13 @@ function sgcinsc_storeformdata($data) {
 					);	
 	$lastid = $wpdb->insert_id;	
 
-	//Inserta cupos
+	//Inserta cupos son todas inscripciones de segunda etapa
 	foreach($acles[0] as $acle){
 		$wpdb->insert($table2_name,
 			array(				
 				'id_curso' => $acle,
 				'id_inscripcion' => $lastid,
-				'second_insc' => $prev				
+				'second_insc' => 1				
 				)
 			);
 	}

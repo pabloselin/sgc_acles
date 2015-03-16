@@ -81,7 +81,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 					echo '<td>'.$inscrito->time.'</td>';
 					echo '<td>'.sgcinsc_nicecurso($inscrito->curso_alumno).' ' . $inscrito->letracurso_alumno. '</td>';
 					echo '<td>'.$inscrito->nombre_alumno.'</td>';					
-					echo '<td>'.$inscrito->rut_alumno. '-' . dv($inscrito->rut_apoderado) .'</td>';
+					echo '<td>'.$inscrito->rut_alumno. '-' . dv($inscrito->rut_alumno) .'</td>';
 					echo '<td>'.$inscrito->nombre_apoderado.'</td>';
 					echo '<td>'.$inscrito->celu_apoderado.'</td>';
 					echo '<td>'.$inscrito->redfija_apoderado.'</td>';
@@ -187,12 +187,12 @@ function sgcinsc_doadmin() {
 	<?php 
 			$acleesc = $_GET['acle'];			
 			$aclestage = $_GET['etapa'];
-			if($aclestage == 0):
-				$stagetitle = 'Primera Etapa';
+			if($aclestage == 'all'):
+				$stagetitle = 'Inscripciones Totales (incluye ambas etapas)';
 			elseif($aclestage == 1):
 				$stagetitle = 'Segunda Etapa';
-			else:
-				$stagetitle = 'Inscripciones Totales (incluye ambas etapas)';
+			elseif($aclestage == '0'):
+				$stagetitle = 'Primera Etapa';
 			endif;
 	?>
 		<h2>Inscripciones A.C.L.E.</h2>

@@ -186,7 +186,8 @@ function sgcinsc_displaycursos() {
 			echo '<p class="oldacle"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). '</p>';
 		}
-		echo '<p><strong>IMPORTANTE: No se pueden seleccionar cursos en el mismo horario que los cursos previamente inscritos, sin embargo, los datos de su inscripción son los ingresados en el sistema, la lista oficial de inscripciones ACLE se encuentra disponible para descargar en la página principal de ACLE 2015.<a href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank">(ver link)</a></strong></p>';
+		echo '<p><strong>IMPORTANTE: No se pueden seleccionar cursos en el mismo horario que los cursos previamente inscritos, sin embargo, los datos de su inscripción son los ingresados en el sistema, la lista oficial de inscripciones confirmadas ACLE se encuentra disponible para descargar en la página principal de ACLE 2015.</strong></p>
+		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank"><i class="icon icon-download"></i> Página principal ACLE 2015</a></p>';
 		echo '</div>';
 	endif;
 

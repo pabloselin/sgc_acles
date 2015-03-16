@@ -114,6 +114,11 @@
 	bottom:6px;
 }
 
+
+#sgcinsc_form .control-group.alert {
+	color:#112C38;
+}
+
 #sgcinsc_form .control-group.alert .controls{
 	margin-left:0;
 }
@@ -162,6 +167,10 @@
 
 #sgcinsc_form .mdia {
 	display:none;
+}
+
+#sgcinsc_form .preinsc {
+	color:#112C38;
 }
 
 #sgcinsc_form .input-prepend input.input-xlarge {
@@ -247,7 +256,7 @@
 }
 
 #sgcinsc_form .sincursos {
-	display: block;
+	display: none;
 	text-align: center;
 }
 
