@@ -31,13 +31,8 @@ function sgcinsgc_forms_sections($template)
 
 function sgcinsc_shortcode($atts) {	
 	ob_start();
-	if(strtotime(SGCINSC_ENDINSC) <= strtotime(date('m-d-Y'))) {
-		include( plugin_dir_path(__FILE__) . '/views/closed.php');	
-		return ob_get_clean();	
-	} else {
 		include( plugin_dir_path(__FILE__) . '/views/steps.php');	
 		return ob_get_clean();	
-	}
 }
 
 add_shortcode( 'sgcinsc_form', 'sgcinsc_shortcode' );
