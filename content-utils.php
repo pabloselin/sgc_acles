@@ -360,8 +360,6 @@ function sgcinsc_cupos($curso) {
 	//Contar cuantos inscritos hay en un curso
 	global $wpdb, $table_name, $table2_name;
 	$inscritos = $wpdb->get_var("SELECT COUNT(*) FROM $table2_name WHERE id_curso = $curso");
-
-	
 	$cupos = get_post_meta($curso, 'sgcinsc_cuposacle', true);
 	if($cupos):		
 		$cupos_restantes = $cupos - $inscritos;
