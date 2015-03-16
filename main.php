@@ -3,7 +3,7 @@
  * Plugin Name: ACLES - Saint Gaspar College
  * Plugin URI: http://www.saintgasparcollege.cl
  * Description: Sistema de inscripción de actividades SGC.
- * Version: 0.9
+ * Version: 0.95
  * Author: A Pie
  * Author URI: http://apie.cl
  * License: GPL2
@@ -23,7 +23,7 @@ TODO
 define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
 define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
-define( 'SGCINSC_ENDINSC', '20-03-2015');
+define( 'SGCINSC_ENDINSC', '10-03-2015');
 
 //Modo debug para no enviar chorradas
 define ('SGCINSC_DEBUG', true);
