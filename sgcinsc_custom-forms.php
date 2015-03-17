@@ -116,7 +116,6 @@ function sgcinsc_verifydata($data) {
 			//Verificar que no hayan cosas raras
 
 			// 3.Envía correo de confirmación
-			$email_alumno = $data['email_alumno'];
 			$email_apoderado = $data['email_apoderado'];
 
 			//el ingreso devuelve un ID de regalo
@@ -137,7 +136,7 @@ function sgcinsc_verifydata($data) {
 	}	
 }
 
-function sgcinsc_confirmail($email_alumno, $email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	
+function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	
 	$message .= '<table cellpadding="20" cellspacing="0" width="600" style="background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;"><tr><td>';
 	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. 2015 (segunda etapa)</h3></p>';
 	$message .= '<p>Estimado(a) <strong>' . $nombre_apoderado . ':</strong></p>';
