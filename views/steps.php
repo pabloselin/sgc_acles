@@ -191,7 +191,7 @@
 
 									<label for="acepta_terminos" class="control-label">Acepto <i class="icon icon-arrow-right"></i></label>
 							
-										<div class="controls">
+										<div class="controls finalcheckbox">
 										<input type="checkbox" class="input-xlarge" name="acepta_terminos"></div>
 									</div>								
 

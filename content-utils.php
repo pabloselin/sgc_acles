@@ -180,14 +180,20 @@ function sgcinsc_displaycursos() {
 	$cursos_preinscritos = sgcinsc_aclesporalumno($rutalumno);
 	if($cursos_preinscritos):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
-		echo '<div class="preinsc alert alert-info">';
-		echo 'Usted ha inscrito previamente los siguientes cursos para el alumno <strong>'.$nombrealumno.'</strong>:<br/<br/>';
+		echo '<div class="preinsc well">';
+		echo '<p><strong>RECORDATORIO:</strong> Usted en la Primera etapa de inscripción ha inscrito los siguientes cursos para el alumno/a <strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
+
 		foreach($cursos_preinscritos as $acle) {
-			echo '<p class="oldacle"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). '</p>';
 		}
-		echo '<p><strong>IMPORTANTE: No se pueden seleccionar cursos en el mismo horario que los cursos previamente inscritos, sin embargo, los datos de su inscripción son los ingresados en el sistema, la lista oficial de inscripciones confirmadas ACLE se encuentra disponible para descargar en la página principal de ACLE 2015.</strong></p>
-		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank"><i class="icon icon-download"></i> Página principal ACLE 2015</a></p>';
+		
+		echo '</div>';
+
+		echo '<div class="alert alert-info">';
+		echo '<p><strong>IMPORTANTE: Los datos oficiales de inscripción ACLE de la primera etapa se encuentran disponible para descargar en la página principal de ACLE 2015.</strong></p>
+		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank"><i class="icon icon-download"></i> Resultados inscripción ACLE 2015 Primera Etapa (pdf)</a></p>';
+		echo '<p>No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.</p>';
 		echo '</div>';
 	endif;
 

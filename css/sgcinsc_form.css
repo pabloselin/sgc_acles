@@ -27,6 +27,13 @@
 	overflow:hidden;
 }
 
+#sgcinsc_form .finalcheckbox  {
+	float:left;
+	padding:4px;
+	background-color:#8F9EA3;
+	border-radius:5px;
+}
+
 #sgcinsc_form .steps ul li,
 #sgcinsc_form .actions ul li
  {
