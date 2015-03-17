@@ -128,7 +128,7 @@ function sgcinsc_putcsv($acleid, $etapa) {
 				$inscritoarr[] = $inscrito->time;
 				$inscritoarr[] = sgcinsc_nicecurso($inscrito->curso_alumno) . ' ' . $inscrito->letracurso_alumno;
 				$inscritoarr[] = $inscrito->nombre_alumno;
-				$inscritoarr[] = $inscrito->rut_alumno . '-' . dv($inscrito->rut_apoderado);
+				$inscritoarr[] = $inscrito->rut_alumno . '-' . dv($inscrito->rut_alumno);
 				$inscritoarr[] = $inscrito->nombre_apoderado;
 				$inscritoarr[] = $inscrito->celu_apoderado;
 				$inscritoarr[] = $inscrito->redfija_apoderado;

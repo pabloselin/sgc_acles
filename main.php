@@ -26,7 +26,7 @@ define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
 define( 'SGCINSC_ENDINSC', '20-04-2015');
 
 //Modo debug para no enviar chorradas
-define ('SGCINSC_DEBUG', true);
+define ('SGCINSC_DEBUG', false);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/sgccsv', 0755);

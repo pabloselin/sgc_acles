@@ -1,13 +1,14 @@
 Segunda tanda inscripción
 
-- Mostrar inscripción previa en tabla de cursos y en resumen
++- Mostrar inscripción previa en tabla de cursos y en resumen
 - Bloquear inscripción de otro curso en el mismo tramo horario
 +- Añadir campo de aceptar condiciones en certificado y en formulario
 - Mejorar sistema de cancelación por fecha
 +- Ocultar cursos llenos o preinscritos
-- Añadir campo extra en base de datos para segunda inscripción
-- Verificar que no ocurra una TERCERA inscripción
-- Verificar que no se reenvíen los datos al recargar el mensaje ( redirigir a otro lado )
++- Añadir campo extra en base de datos para segunda inscripción
++- Verificar que no ocurra una TERCERA inscripción
++- Verificar que no se reenvíen los datos al recargar el mensaje ( redirigir a otro lado )
+- Testear emails
 
 Cosas que mejorar
 
