@@ -192,7 +192,7 @@ function sgcinsc_displaycursos() {
 
 		echo '<div class="alert alert-info">';
 		echo '<p><strong>IMPORTANTE: Los datos oficiales de inscripción ACLE de la primera etapa se encuentran disponible para descargar en la página principal de ACLE 2015.</strong></p>
-		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/acles-2015/" target="_blank"><i class="icon icon-download"></i> Resultados inscripción ACLE 2015 Primera Etapa (pdf)</a></p>';
+		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/wp-content/uploads/2013/10/LISTA-ACLE-2015.pdf" target="_blank"><i class="icon icon-file-text"></i> Resultados inscripción ACLE 2015 Primera Etapa (pdf)</a></p>';
 		echo '<p>No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.</p>';
 		echo '</div>';
 	endif;
@@ -312,7 +312,7 @@ function sgcinsc_acleitem($acleid) {
 
 function sgcinsc_getacles() {
 	$acles = $_POST['acles'];	
-	echo '<h3>Curso(s) seleccionado(s)</h3>';
+	echo '<h3>Curso(s) seleccionado(s) en SEGUNDA ETAPA DE INSCRIPCIÓN</h3>';
 	foreach($acles as $acle):		
 		$aclepost = get_post($acle);
 		$prof = get_post_meta($aclepost->ID, 'sgcinsc_profacle', true);

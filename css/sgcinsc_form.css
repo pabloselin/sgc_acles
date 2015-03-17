@@ -29,9 +29,13 @@
 
 #sgcinsc_form .finalcheckbox  {
 	float:left;
-	padding:4px;
-	background-color:#8F9EA3;
+	padding:0 9px 9px 9px;
+	background-color:#61B3C9;
 	border-radius:5px;
+}
+
+#sgcinsc_form .final-control-label {
+	width:90px;
 }
 
 #sgcinsc_form .steps ul li,

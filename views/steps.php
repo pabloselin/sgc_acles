@@ -170,7 +170,7 @@
 
 							<h2 class="stepmark">Confirmación</h2>					
 							<fieldset>
-								<legend>Confirmación de Inscripción</legend>
+								<legend>Confirmación de Inscripción segunda etapa ACLE</legend>
 
 								<i style="font-size:32px" class="icon icon-info-sign"></i>
 								<p>Antes de enviar por favor revise su información. Si escribió mal algún dato puede volver atrás y corregir la información.</p>
@@ -189,7 +189,7 @@
 								
 									<p>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida</p>
 
-									<label for="acepta_terminos" class="control-label">Acepto <i class="icon icon-arrow-right"></i></label>
+									<label for="acepta_terminos" class="control-label final-control-label">Acepto <i class="icon icon-arrow-right"></i></label>
 							
 										<div class="controls finalcheckbox">
 										<input type="checkbox" class="input-xlarge" name="acepta_terminos"></div>
