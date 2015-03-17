@@ -185,7 +185,8 @@ function sgcinsc_displaycursos() {
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
-			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). '</p>';
+			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
+			
 		}
 		
 		echo '</div>';
