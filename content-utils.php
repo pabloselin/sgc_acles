@@ -99,7 +99,7 @@ function sgcinsc_todoacles($cupos = true) {
 	$acles = sgcinsc_orderedacles($cupos);
 	
 
-	$filtermessage = 'En esta página están todos los A.C.L.E. disponibles. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong><br>Sólo aparecen los cursos que tienen cupos disponibles. <br>Recuerda que la segunda etapa de inscripciones <strong>estará abierta a partir del martes 17 de marzo en un link en esta misma página.</strong>.';
+	$filtermessage = 'En esta página están todos los A.C.L.E. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>';
 
 	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. 2015</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Quitar filtros</button></div></div></div>';
 	$output .= '<div class="publicacles container"><div class="row"><div class="container">
