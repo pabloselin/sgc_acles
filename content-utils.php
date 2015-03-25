@@ -48,7 +48,7 @@ function sgcinsc_aclesftable($id) {
 	$output .= '</div>';
 }
 
-function sgcinsc_todoacles() {
+function sgcinsc_todoacles($cupos = true) {
 	
 	$output = '';
 
@@ -96,7 +96,7 @@ function sgcinsc_todoacles() {
 	$filterhorario = '<div class="selecthold"><h4>Filtar por horario</h4><select name="acleshorario" data-filter="horario">'.$opfieldshorario.'</select></div>';
 
 
-	$acles = sgcinsc_orderedacles();
+	$acles = sgcinsc_orderedacles($cupos);
 	
 
 	$filtermessage = 'En esta página están todos los A.C.L.E. disponibles. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong><br>Sólo aparecen los cursos que tienen cupos disponibles. <br>Recuerda que la segunda etapa de inscripciones <strong>estará abierta a partir del martes 17 de marzo en un link en esta misma página.</strong>.';
@@ -123,7 +123,7 @@ function sgcinsc_todoacles() {
 }
 
 //Devuelve una versión ordenada por día y horario de los posts de ACLES
-function sgcinsc_orderedacles() {
+function sgcinsc_orderedacles($cupos) {
 	$dias = array('lunes', 'martes', 'miercoles', 'jueves', 'viernes');
 	$horarios = array('horario1', 'horario2');
 	foreach($horarios as $horario) {
@@ -147,9 +147,9 @@ function sgcinsc_orderedacles() {
 				$cursos = get_post_meta($aclespost->ID, 'sgcinsc_cursos', false);
 				$nicecursos = array();
 				$open = 0;
-				if(sgcinsc_cupos($aclespost->ID) <= 0) {
-					$open = 1;
-				}
+				// if(sgcinsc_cupos($aclespost->ID) <= 0 && $cupos == false) {
+				// 	$open = 1;
+				// }
 				foreach($cursos as $curso) {
 					$nicecursos[] = sgcinsc_nicecurso($curso);
 				}
