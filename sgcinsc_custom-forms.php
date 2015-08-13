@@ -108,7 +108,7 @@ function sgcinsc_verifydata($data) {
 			foreach($preserialize[0] as $precupo) {						
 					$cupos = sgcinsc_cupos($precupo);					
 					if( $cupos <= 0):
-						$cuposurl = add_query_arg('excode', 3, get_permalink());
+						$cuposurl = esc_url( add_query_arg('excode', 3, get_permalink()) );
 						wp_redirect($cuposurl, 303);
 						die();
 					endif;
@@ -127,11 +127,11 @@ function sgcinsc_verifydata($data) {
 							'excode' => 1,
 							'idinsc' => $ID_inscripcion
 							);
-			$successurl = add_query_arg($successarr, get_permalink());
+			$successurl = esc_url( add_query_arg($successarr, get_permalink()) );
 			wp_redirect($successurl, 303);
 
 		else:
-			$errorurl = add_query_arg('excode', 2, get_permalink());
+			$errorurl = esc_url( add_query_arg('excode', 2, get_permalink()) );
 			wp_redirect($errorurl, 303);
 		endif;
 		

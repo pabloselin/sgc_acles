@@ -43,9 +43,9 @@ function sgcinsc_aclesinsc() {
 			$nicecursos[] = sgcinsc_nicecurso($curso);
 		}
 		$nicecursos = implode(', ', $nicecursos);
-		$tableurl = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 0), admin_url('options-general.php?page=sgc_aclesadmin'));
-		$tableurl1 = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 1), admin_url('options-general.php?page=sgc_aclesadmin'));
-		$tableurl2 = add_query_arg(array('acle'=> $acle->ID, 'etapa' => 'all'), admin_url('options-general.php?page=sgc_aclesadmin'));
+		$tableurl = esc_url( add_query_arg(array('acle'=> $acle->ID, 'etapa' => 0), admin_url('options-general.php?page=sgc_aclesadmin')) );
+		$tableurl1 = esc_url( add_query_arg(array('acle'=> $acle->ID, 'etapa' => 1), admin_url('options-general.php?page=sgc_aclesadmin')) );
+		$tableurl2 = esc_url( add_query_arg(array('acle'=> $acle->ID, 'etapa' => 'all'), admin_url('options-general.php?page=sgc_aclesadmin')) );
 		echo '<td><strong>'.$acle->post_title.'</strong></td>';
 		echo '<td>'.$nicecursos. '</td>';
 		echo '<td>'.sgcinsc_nicedia(get_post_meta($acle->ID, 'sgcinsc_diaacle', true)).'</td>';
