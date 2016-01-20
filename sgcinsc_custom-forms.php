@@ -101,14 +101,14 @@ function sgcinsc_verifydata($data) {
 		$rut_alumno = sgcinsc_processrut($data['rut_alumno']);				
 
 		// 1. Verificar que los ruts no estén repetidos
-		if(sgcinsc_checksecondreprut($rut_alumno, 'rut_alumno')):
+		if(sgcinsc_checkreprut($rut_alumno, 'rut_alumno')):
 			//Verificar que los cursos no se hayan llenado mientras se producía la postulación.
 			$preserialize = sgcinsc_serializeacles($data);
 			//Verificar que haya llenado el mínimo de cursos requeridos		
 			foreach($preserialize[0] as $precupo) {						
 					$cupos = sgcinsc_cupos($precupo);					
 					if( $cupos <= 0):
-						$cuposurl = esc_url( add_query_arg('excode', 3, get_permalink()) );
+						$cuposurl = esc_url_raw( add_query_arg('excode', 3, get_permalink()) );
 						wp_redirect($cuposurl, 303);
 						die();
 					endif;
@@ -127,11 +127,11 @@ function sgcinsc_verifydata($data) {
 							'excode' => 1,
 							'idinsc' => $ID_inscripcion
 							);
-			$successurl = esc_url( add_query_arg($successarr, get_permalink()) );
+			$successurl = esc_url_raw( add_query_arg($successarr, get_permalink()) );
 			wp_redirect($successurl, 303);
 
 		else:
-			$errorurl = esc_url( add_query_arg('excode', 2, get_permalink()) );
+			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
 			wp_redirect($errorurl, 303);
 		endif;
 		
