@@ -292,7 +292,7 @@ function sgcinsc_acleitem($acleid) {
 	$cupos = sgcinsc_cupos($acleid);
 	$prof = get_post_meta($acleid, 'sgcinsc_profacle', true);
 
-	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '">';
+	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '" data-id="' . $acleid . '">';
 		$output .= '<label class="control-label" for="aclecurso-'.$acleid.'"><span class="aclename">'.get_the_title($acleid) . '</span>';	
 		// if($prof):			
 		// 	echo '<span class="prof">Profesor(a):<br/>' . $prof . '</span>';

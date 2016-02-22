@@ -124,6 +124,7 @@ function sgcinsc_renderAcles(curso, rut) {
           minlength: 'Necesitas inscribir tu segundo A.C.L.E.',
           maxlength: 'Revisa tu selección. Sólo puedes inscribir ' + maxacle + ' A.C.L.E.'
         }
+
       });
       $('#sgcinsc_form span.cursel').empty().append(sgcinsc_niceCurso(curso));
       if(minacle == 2) {
@@ -139,6 +140,18 @@ function sgcinsc_renderAcles(curso, rut) {
           exselected.prop('checked', true);
           $('div#curso-'+ element).addClass('selected');
           });
+      }
+
+      var preinsc = $('#ajaxAclesPlace p.oldacle');
+      if(preinsc) {
+        preinsc.each(function(idx, obj) {
+          var preinscid = $(obj).data('id');
+          var preinsc = $('.acleitemcurso[data-id="' + preinscid + '"]');
+          preinsc.addClass('preinsc');
+          $('input', preinsc).prop('disabled', true);
+          $('span.aclename', preinsc).append('<span class="in">[INSCRITO]</span>');
+
+        });
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -581,5 +594,11 @@ $('#sgcinsc_form').validate(
     $('.tiparea', alertbox).html(defaultarea);
     $('.tiphorario', alertbox).html(defaulthorario);
   })
+
+  $('a.populateacles').on('click', function() {
+      var curso = $('reinfo').data('curso');
+      var rut = $('reinfo').data('rut');
+      sgcinsc_renderAcles(curso, rut);
+  });
 
     });

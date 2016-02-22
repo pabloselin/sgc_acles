@@ -155,6 +155,22 @@
 	background-color:#FD9D53;
 }
 
+#sgcinsc_form .acleitemcurso.preinsc,
+#sgcinsc_form .acleitemcurso.preinsc.selected
+#sgcinsc_form .acleitemcurso.preinsc:hover
+ {
+	background-color:#FD9D53;
+}
+
+#sgcinsc_form .acleitemcurso.preinsc span.in {
+	display:block;
+	font-size:11px;
+	color:#333;
+	background-color:#FCFF89;
+	padding:3px;
+	border-radius:3px;
+}
+
 #sgcinsc_form .acleitemcurso.selected .aclename {
 	color:#AC4E28;
 }

@@ -66,7 +66,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 	if($etapa == 'all'):
 		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
 	else:	
-		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND second_insc = $etapa");
+		$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND etapa_insc = $etapa");
 	endif;
 	//$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE second_insc = $etapa");
 	foreach($infoinsc as $key=>$infinsc){
@@ -99,7 +99,7 @@ function sgcinsc_putcsv($acleid, $etapa) {
 		if($etapa == 'all'):
 			$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid");
 		else:
-			$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND second_insc = $etapa");
+			$infoinsc = $wpdb->get_results("SELECT id_inscripcion FROM $table2_name WHERE id_curso = $acleid AND etapa_insc = $etapa");
 		endif;
 
 		if($infoinsc) {

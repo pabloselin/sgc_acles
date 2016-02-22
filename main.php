@@ -1,32 +1,36 @@
 <?php
 /**
- * Plugin Name: ACLES - Saint Gaspar College
- * Plugin URI: http://www.saintgasparcollege.cl
- * Description: Sistema de inscripción de actividades SGC.
- * Version: 0.95
+ * Plugin Name: ACLES
+ * Plugin URI: http://apie.cl
+ * Description: Sistema de inscripción de actividades A.C.L.E. para colegios
+ * Version: 0.98
  * Author: A Pie
  * Author URI: http://apie.cl
- * License: GPL2
+ * License: MIT
  */
 
 /*
-TODO
+to-do
 
-1. Validar campos del formulario en PHP
-2. Cargar ACLES según disponibilidad y curso
-3. Crear vistas de ACLES
-5. Enviar correos de confirmación
-6. Procesar formulario vía AJAX.
+1. Definir etapa de inscripción y hacer que se inscriban o no.
+2. Crear link secreto para modificaciones en la inscripción.
+3. 
 
 */
 
 define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
+
+//Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
 define( 'SGCINSC_ENDINSC', '20-04-2015');
 
+//Etapa de inscripción
+define( 'SGCINSC_STAGE', 1);
+
 //Modo debug para no enviar chorradas
-define ('SGCINSC_DEBUG', false);
+define('SGCINSC_DEBUG', false);
+define('SGCINSC_INSCID', 35861);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/sgccsv', 0755);
@@ -37,10 +41,6 @@ if(!is_dir(SGCINSC_CSVPATH)){
 // 1.Meta Box
 
 // 2.Bootstrap
-
-//Synbolic links for wp dev
-//include( plugin_dir_path( __FILE__ ) . 'lib/class-symbolic-press.php');
-//new Symbolic_Press(__FILE__);
 
 //Páginas de administración
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminpage.php');
@@ -63,7 +63,7 @@ global $wpdb;
 //Nombre de tabla y versión
 $table_name = $wpdb->prefix . 'sgcinsc';
 $table2_name = $wpdb->prefix . 'sgccupos';
-$sgcinsc_dbversion = 1.3;
+$sgcinsc_dbversion = 1.5;
 
 //Cursos obligatorios por nivel
 $obcursos = array(
@@ -106,6 +106,7 @@ function sgcinsc_createinsctables() {
 			email_apoderado text NOT NULL,
 			seguro_escolar text NOT NULL,
 			acles_inscritos text NOT NULL,
+			hash_inscripcion text NOT NULL,
 			UNIQUE KEY id (id))";
 	
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -113,7 +114,7 @@ function sgcinsc_createinsctables() {
 	$sql2 = "CREATE TABLE $table2_name (id mediumint(9) NOT NULL AUTO_INCREMENT,
 			id_curso int(9) NOT NULL,
 			id_inscripcion int(9) NOT NULL,
-			second_insc tinyint(1) NOT NULL,
+			etapa_insc tinyint(1) NOT NULL,
 			UNIQUE KEY id (id));
 			";
 

@@ -1,36 +1,9 @@
 <?php 
-function sgcinsgc_forms_sections($template)
-{	
-	/*
-	The answer to this is quite involved and getting it right takes a little care, but here are the essential points of one approach:
-
-		1. The action must be set to load the current page and you can do this by changing the action attribute in the <form> tag to: action=""
-		
-		2. In the template file for this page, detect when the page loads after a form submission. You can do this by checking the state of the $_POST variable.
-		
-		3. If there are post variables, process the form submission in the template file. You need to look at what happens in "send_form.php" to figure out what to do. Take care that you don't introduce security issues (e.g. be sure to use the NONCE).
-		
-		4. Redirect back to the same page to get rid of the post variables. If you don't do this people will get those "Do you want to resubmit the form" warning messages. See the PHP header() function for doing the redirect and note that this must happen before any output is sent to the page.
-
-		5. Use server sessions to display a "Form submission successful". Set a session variable to your message before the redirect, then detect it when the page loads, display it, and remove it so the message doesn't display the next time the page loads.
-
-	*/
-
-	//Tomar variables
-		if($_GET['sgcinsc_cert'] == 1 && $_GET['sgcinsc_nonce'] && $_GET['idinsc']):
-			$newtemplate = plugin_dir_path(__FILE__) . '/views/certificado.php';		
-			return $newtemplate;
-		else:
-			return $template;
-		endif;	
-}
-
-//add_action('template_include', 'sgcinsgc_forms_sections', 1);
 
 //Hacerlo via shortcode así tenemos mayor control sobre la URL y es más independiente del tema
 
 function sgcinsc_shortcode($atts) {	
-	ob_start();
+		ob_start();
 		include( plugin_dir_path(__FILE__) . '/views/steps.php');	
 		return ob_get_clean();	
 }
@@ -47,6 +20,15 @@ add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
 
 function sgcinsc_getsessiondata() {
 
+}
+
+function sgcinsc_checkrep($rut, $columna) {
+	$stage = SGCINSC_STAGE;
+	if($stage > 1):
+		return sgcinsc_checksecondreprut($rut, $columna);
+	else:
+		return sgcinsc_checkreprut($rut, $columna);
+	endif;
 }
 
 function sgcinsc_checkreprut($rut, $columna) {
@@ -71,8 +53,8 @@ function sgcinsc_checksecondreprut($rut, $columna) {
 	foreach($consulta as $consult) {
 		//Ya hay un rut inscrito
 		if($consult->rut_alumno == $rut) {
-			$secondsult = $wpdb->get_var("SELECT second_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
-			if($secondsult == 1) {
+			$secondsult = $wpdb->get_var("SELECT etapa_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
+			if($secondsult == SGCINSC_STAGE) {
 				//Ya hay una segunda inscripción
 				$puede = false;
 			}
@@ -100,8 +82,9 @@ function sgcinsc_verifydata($data) {
 		$rut_apoderado = sgcinsc_processrut($data['rut_apoderado']);
 		$rut_alumno = sgcinsc_processrut($data['rut_alumno']);				
 
-		// 1. Verificar que los ruts no estén repetidos
-		if(sgcinsc_checkreprut($rut_alumno, 'rut_alumno')):
+		 // 1. Verificar que los ruts no estén repetidos dependiendo de la etapa puede haber 1 o 2 etapas de inscripción
+		
+		if(sgcinsc_checkrep($rut_alumno, 'rut_alumno')):
 			//Verificar que los cursos no se hayan llenado mientras se producía la postulación.
 			$preserialize = sgcinsc_serializeacles($data);
 			//Verificar que haya llenado el mínimo de cursos requeridos		
@@ -123,12 +106,20 @@ function sgcinsc_verifydata($data) {
 			//el ingreso devuelve un ID de regalo
 			$ID_inscripcion = sgcinsc_storeformdata($data);		
 			$acles = sgcinsc_serializeacles($data);		
+			
+			//añado un validador de nonce par ala URL
+
+			$nonce = wp_create_nonce( 'checkinsc' );
+			
 			$successarr = array(
 							'excode' => 1,
-							'idinsc' => $ID_inscripcion
+							'idinsc' => $ID_inscripcion,
+							'checkinsc' => $nonce
 							);
-			$successurl = esc_url_raw( add_query_arg($successarr, get_permalink()) );
-			wp_redirect($successurl, 303);
+			$finalurl = add_query_arg($successarr, get_permalink());
+						
+
+			wp_redirect($finalurl, 303);
 
 		else:
 			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
@@ -159,6 +150,7 @@ function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado,
 	endforeach;
 	$message .= '<tr><td><p><strong>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida.</strong></p></td></tr>';
 	$message .= '</table>';
+	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($ID_inscripcion) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
 	$message .= '<p>Para consultas escriba a inscripcionacle@gmail.com</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
 	$message .= '</td></tr></table>';
@@ -202,6 +194,21 @@ function sgcinsc_serializeacles($data) {
 	return $acles;
 }
 
+function sgcinsc_url($idinsc) {
+	/**
+	 * Devuelve la URL de la inscripción basado en ID
+	 */
+	global $wpdb, $table_name;
+	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
+	$acleurl = get_permalink(35861);
+	$args = array(
+		'ih' => $inschash,
+		'id' => $idinsc
+		);
+	$inscurl = add_query_arg($args, $acleurl);
+	return $inscurl;
+}
+
 function sgcinsc_storeformdata($data) {
 	global $wpdb, $table_name, $table2_name;
 
@@ -229,6 +236,8 @@ function sgcinsc_storeformdata($data) {
 		$prev = 1;
 	}
 
+	//Genera el hash para la inscripción
+	$hash = wp_hash( $rut_apoderado );
 	//Inserta inscripción y detalles
 	$insertinsc = $wpdb->insert($table_name, 
 					array(
@@ -243,7 +252,8 @@ function sgcinsc_storeformdata($data) {
 						'redfija_apoderado' => $data['fono_apoderado'],
 						'celu_apoderado' => $data['celu_apoderado'],
 						'seguro_escolar' => $data['seguro_alumno'],
-						'acles_inscritos' => $aclestring
+						'acles_inscritos' => $aclestring,
+						'hash_inscripcion' => $hash
 						)
 					);	
 	$lastid = $wpdb->insert_id;	
@@ -254,9 +264,77 @@ function sgcinsc_storeformdata($data) {
 			array(				
 				'id_curso' => $acle,
 				'id_inscripcion' => $lastid,
-				'second_insc' => 1				
+				'etapa_insc' => SGCINSC_STAGE				
 				)
 			);
 	}
 	return $lastid;
+}
+
+function sgcinsc_validatehash($id, $hash) {
+	/**
+	 * Valida el hash en relación con el ID
+	 */
+	global $wpdb, $table_name;
+	$checkhash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $id");
+	if($checkhash == $hash) {
+		//Chequeo correcto
+		return true;
+	} else {
+		//Chequeo incorrecto
+		return false;
+	}
+}
+
+function sgcinsc_changeinsc($id, $hash) {
+	//comprobar el hash con el ID
+	if(sgcinsc_validatehash($hash, $id)) {
+		return '<div id="sgcinsc_reinscripcion">' . sgcinsc_reinsctemplate() . '</div>';
+	} else {
+		return 'Hash inválido';
+	}
+}
+
+function sgcinsc_reinsctemplate() {
+	global $wpdb, $table_name;
+	$output = '';
+	/**
+	 * Toma las variables GET para armar una reinscripción.
+	 */
+	//1. Datos de la inscripción
+	$id = $_GET['id'];
+	$inscripcion = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $id", ARRAY_A);
+	$output .= '<ul class="preinscdata">';
+	foreach($inscripcion as $insc) {
+		$output .= '<li><strong>Fecha de inscripción:</strong> ' . $insc['time']. '</li>';
+		$output .= '<li><strong>Nombre Alumno:</strong> ' . $insc['nombre_alumno'] .'</li>';
+		$output .= '<li><strong>RUT Alumno:</strong> ' . $insc['rut_apoderado'] . '</li>';
+		$output .= '<li><strong>Seguro:</strong></li>';
+	}
+	$output .= '</ul>';
+	//2. Cursos previamente inscritos
+	
+	//2.5. Poblar variables por curso (minacles)
+	$output .= '<div class="alert"><strong>Importante:</strong> Al modificar la inscripción se invalidará la inscripción previa.</div>';
+	$output .= '<a href="#" class="btn btn-success populateacles">Modificar inscripción</a>';
+
+	//3. Tabla de postulación
+	$output .= '<div class="modinsc hidden">';
+	$output .= '<h2 class="stepmark">Selección de A.C.L.E. <i class="icon-chevron-right"></i></h2>';
+	$output .= '<form action="" method="POST" id="sgcinsc_reinsc" class="form-horizontal">';
+	$output .= '<fieldset>';								
+	$output .= '<legend>Selección de  A.C.L.E.</legend>';
+	$output .= '<div class="well">';
+	$output .= '<p><i style="font-size:32px;" class="icon icon-info-sign"></i></p>';
+	$output .= '<p>Se muestran sólo los cursos disponibles para: <strong><span class="cursel"></span></strong> (seleccionado en el paso 1)</p>';
+	$output .= '<p class="maxcursos"></p>';
+	$output .= '</div>';
+	$output .= '<div id="ajaxErrorPlace"></div>';
+	$output .= '<div id="ajaxAclesPlace"></div>';
+	$output .= '</fieldset>';
+	$output .= '<input class="btn btn-danger" type="submit" name="reinsc" value="Enviar Reinscripción">';
+	$output .= '</form>';
+	$output .= '</div>';
+
+	return $output;
 }

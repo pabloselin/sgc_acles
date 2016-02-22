@@ -1,0 +1,31 @@
+{
+  "name": "jquery.rut",
+  "main": "jquery.rut.js",
+  "homepage": "https://github.com/daver182/jquery.rut",
+  "authors": [
+    "daver182 <daver182@gmail.com>"
+  ],
+  "description": "Plugin para Jquery que permite validar un RUT, trabaja con Jquery Validation",
+  "keywords": [
+    "rut",
+    "jquery"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "a0bbeabf59",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a0bbeabf5906a768f6c187de5ea72e7831b7a698"
+  },
+  "_source": "git://github.com/daver182/jquery.rut.git",
+  "_target": "*",
+  "_originalSource": "jquery.rut",
+  "_direct": true
+}
