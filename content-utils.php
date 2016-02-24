@@ -174,11 +174,17 @@ function sgcinsc_orderedacles($cupos) {
 }
 
 function sgcinsc_displaycursos() {
+	/**
+	 * Muestra los cursos y los cursos preinscritos
+	 */
 	$curso = $_POST['nivel'];
 	$rutalumno = sgcinsc_processrut($_POST['rutalumno']);
+	$modcond = $_POST['mod'];
+	var_dump($modcond);
 
 	$cursos_preinscritos = sgcinsc_aclesporalumno($rutalumno);
-	if($cursos_preinscritos):
+	
+	if($cursos_preinscritos && SGCINSC_STAGE > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 		echo '<div class="preinsc well">';
 		echo '<p><strong>RECORDATORIO:</strong> Usted en la Primera etapa de inscripción ha inscrito los siguientes cursos para el alumno/a <strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
@@ -474,6 +480,10 @@ function sgcinsc_nicedia($dia) {
 	return $nicedia;
 }
 
+function sgcinsc_nicerut($nodvrut) {
+	return $nodvrut . '-' . dv($nodvrut);
+}
+
 function sgcinsc_nombrealumno($rut) {
 	//devuelve el nombre del alumno por el rut
 	global $wpdb, $table_name;
@@ -515,3 +525,58 @@ function sgcinsc_inscbotonshortcode($atts) {
 }
 
 add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');
+
+function sgcinsc_insctemplate($idinsc) {
+	$data = sgcinsc_getinsc($idinsc);
+	$args = array(
+		'ih' => $_GET['ih'],
+		'id' => $idinsc,
+		'mod' => 1
+		);
+	$modlink = add_query_arg( $args, get_permalink(SGCINSC_INSCID) );
+		
+
+		$output .= '<p></p><div class="alert alert-info">Información de la inscripción</div>';
+
+		//Plantilla
+		$output .= '<div class="datos-alumno well">';
+		$output .= '<h3>Datos del Alumno/a</h3>';
+		$output .= '<ul>';
+		$output .= '<li><strong>Nombre:</strong> ' . $data[0]->nombre_alumno .'</li>';
+		$output .= '<li><strong>RUT:</strong> ' . sgcinsc_nicerut($data[0]->rut_alumno) . '</li>';
+		$output .= '<li><strong>Curso:</strong> ' . sgcinsc_nicecurso($data[0]->curso_alumno) .' </li>';
+		$output .= '</ul>';
+		$output .= '</div>';
+
+		$output .= '<div class="datos-apoderado well">';
+		$output .= '<h3>Datos del Apoderado/a</h3>';
+		$output .= '<ul>';
+		$output .= '<li><strong>Nombre:</strong> ' . $data[0]->nombre_apoderado . '</li>';
+		$output .= '<li><strong>RUT:</strong> ' . sgcinsc_nicerut($data[0]->rut_apoderado) . '</li>';
+		$output .= '<li><strong>Email:</strong> ' . $data[0]->email_apoderado . '</li>';
+		$output .= '<li><strong>Teléfono Fijo:</strong>' . $data[0]->redfija_apoderado . '</li>';
+		$output .= '<li><strong>Celular: </strong>' . $data[0]->celu_apoderado . '</li>';
+		$output .= '</div>';
+
+		$acles = unserialize($data[0]->acles_inscritos);
+
+		$output .= '<div class="datos-acle well">';
+		$output .= '<h3>A.C.L.E.s inscritos</h3>';
+		foreach($acles as $acle) {
+			$output .= '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
+		}
+		$output .= '</div>';
+
+
+	//2.5. Poblar variables por curso (minacles)
+	$output .= '<div class="alert"><h3>Importante:</h3> 
+		<ul>
+			<li>En caso de modificar los ACLES inscritos se invalidarán los ACLES inscritos previamente y sólo podrá inscribir cursos que cuenten con cupos disponibles hasta ahora.</li>
+			<li>En caso de que haya ingresado mal el curso, también se invalidarán los ACLES inscritos previamente y se podrán inscribir nuevamente los cursos disponibles para el curso del alumno.</li>
+			<li>En caso de modificar únicamente información de contacto o información personal del alumno, se respetará la inscripción previa de los ACLES.</li>
+		</ul></div>';
+	$output .= '<a href="' . $modlink .'" class="btn btn-success populateacles">Modificar inscripción</a>';
+
+	return $output;
+}

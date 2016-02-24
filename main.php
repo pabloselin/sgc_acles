@@ -45,6 +45,8 @@ if(!is_dir(SGCINSC_CSVPATH)){
 //Páginas de administración
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminpage.php');
 
+include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminoptions.php');
+
 //Contenidos especiales
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-content.php');
 
@@ -214,7 +216,7 @@ function dv($r){
      for($m=0;$r!=0;$r/=10)
          $s=($s+$r%10*(9-$m++%6))%11;
      return chr($s?$s+47:75);
-  }
+  }  
 
 function in_string($needle, $haystack, $insensitive = false) { 
     if ($insensitive) { 

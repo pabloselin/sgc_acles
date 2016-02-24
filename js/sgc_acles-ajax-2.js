@@ -41,35 +41,36 @@ function validaRut(campo){
 }
 
 function sgcinsc_niceCurso(curso) {
-  switch (curso) {
-    case "1":
+  intcurso = parseInt(curso);
+  switch (intcurso) {
+    case 1:
       var nicecurso = '1° Básico';
     break;
-    case "2":
+    case 2:
       var nicecurso = '2° Básico';
     break;
-    case "3":
+    case 3:
       var nicecurso = '3° Básico';
     break;
-    case "4":
+    case 4:
       var nicecurso = '4° Básico';
     break;
-    case "5":
+    case 5:
       var nicecurso = '5° Básico';
     break;
-    case "6":
+    case 6:
       var nicecurso = '6° Básico';
     break;
-    case "7":
+    case 7:
       var nicecurso = '7° Básico';
     break;
-    case "8":
+    case 8:
       var nicecurso = '8° Básico';
     break;
-    case "9":
+    case 9:
       var nicecurso = 'I° Medio';
     break;
-    case "10":
+    case 10:
       var nicecurso = 'II° Medio';
     break;    
   }
@@ -102,8 +103,10 @@ function sgcinsc_niceSeguro(seguro) {
 }
 
 //Muestra los cursos disponibles para cada nivel
-function sgcinsc_renderAcles(curso, rut) {
+function sgcinsc_renderAcles(curso, rut, modcond) {
+  console.log(curso);
   var ajaxPlace = $('#ajaxAclesPlace');
+  var nicecurso = sgcinsc_niceCurso(curso);
   ajaxPlace.append('<i class="icon-refresh icon-spin"></i><br/>Cargando cursos disponibles...');
   jQuery.ajax({
     type: 'POST',
@@ -111,7 +114,8 @@ function sgcinsc_renderAcles(curso, rut) {
     data: {
       action: 'sgcinsc_displaycursos',
       nivel: curso,
-      rutalumno: rut
+      rutalumno: rut,
+      mod: modcond
     },
     success: function(data, textStatus, XMLHttpRequest) {
       ajaxPlace.empty().append(data);
@@ -126,7 +130,7 @@ function sgcinsc_renderAcles(curso, rut) {
         }
 
       });
-      $('#sgcinsc_form span.cursel').empty().append(sgcinsc_niceCurso(curso));
+      $('#sgcinsc_form span.cursel').empty().append(nicecurso);
       if(minacle == 2) {
         $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir esta vez un máximo de ' + maxacle + ' acles .');  
       } else {
@@ -267,7 +271,7 @@ $(document).ready(function() {
 	//$('#article-acleinscstep1 .step').hide();
   //$('#article-acleinscstep1 #sgcinsc_submit').hide();
   checkedarray = new Array();
-
+  modcond = $('form#sgcinsc_form').data('mod');
 
   $('#otroseguro, #emailalumno').hide();
 
@@ -416,7 +420,7 @@ $('#sgcinsc_form').validate(
                       console.log(parseInt(alumrut));
                     }                    
                     else if(currentIndex == 2){
-                      sgcinsc_renderAcles(cursel, alumrut);                     
+                      sgcinsc_renderAcles(cursel, alumrut, modcond);                     
                     } else if(currentIndex == 3) {
                       formdata = $("#sgcinsc_form").serializeArray();                      
                       sgcinsc_renderFinalInfo(formdata);
@@ -598,7 +602,7 @@ $('#sgcinsc_form').validate(
   $('a.populateacles').on('click', function() {
       var curso = $('reinfo').data('curso');
       var rut = $('reinfo').data('rut');
-      sgcinsc_renderAcles(curso, rut);
+      sgcinsc_renderAcles(curso, rut, modcond);
   });
 
     });

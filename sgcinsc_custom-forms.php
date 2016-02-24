@@ -18,10 +18,6 @@ function sgcinsc_viewaclesshortcode($atts) {
 
 add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
 
-function sgcinsc_getsessiondata() {
-
-}
-
 function sgcinsc_checkrep($rut, $columna) {
 	$stage = SGCINSC_STAGE;
 	if($stage > 1):
@@ -288,53 +284,9 @@ function sgcinsc_validatehash($id, $hash) {
 
 function sgcinsc_changeinsc($id, $hash) {
 	//comprobar el hash con el ID
-	if(sgcinsc_validatehash($hash, $id)) {
-		return '<div id="sgcinsc_reinscripcion">' . sgcinsc_reinsctemplate() . '</div>';
+	if(sgcinsc_validatehash($id, $hash)) {
+		return '<div id="sgcinsc_reinscripcion">' . sgcinsc_insctemplate($id) . '</div>';
 	} else {
 		return 'Hash inválido';
 	}
-}
-
-function sgcinsc_reinsctemplate() {
-	global $wpdb, $table_name;
-	$output = '';
-	/**
-	 * Toma las variables GET para armar una reinscripción.
-	 */
-	//1. Datos de la inscripción
-	$id = $_GET['id'];
-	$inscripcion = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $id", ARRAY_A);
-	$output .= '<ul class="preinscdata">';
-	foreach($inscripcion as $insc) {
-		$output .= '<li><strong>Fecha de inscripción:</strong> ' . $insc['time']. '</li>';
-		$output .= '<li><strong>Nombre Alumno:</strong> ' . $insc['nombre_alumno'] .'</li>';
-		$output .= '<li><strong>RUT Alumno:</strong> ' . $insc['rut_apoderado'] . '</li>';
-		$output .= '<li><strong>Seguro:</strong></li>';
-	}
-	$output .= '</ul>';
-	//2. Cursos previamente inscritos
-	
-	//2.5. Poblar variables por curso (minacles)
-	$output .= '<div class="alert"><strong>Importante:</strong> Al modificar la inscripción se invalidará la inscripción previa.</div>';
-	$output .= '<a href="#" class="btn btn-success populateacles">Modificar inscripción</a>';
-
-	//3. Tabla de postulación
-	$output .= '<div class="modinsc hidden">';
-	$output .= '<h2 class="stepmark">Selección de A.C.L.E. <i class="icon-chevron-right"></i></h2>';
-	$output .= '<form action="" method="POST" id="sgcinsc_reinsc" class="form-horizontal">';
-	$output .= '<fieldset>';								
-	$output .= '<legend>Selección de  A.C.L.E.</legend>';
-	$output .= '<div class="well">';
-	$output .= '<p><i style="font-size:32px;" class="icon icon-info-sign"></i></p>';
-	$output .= '<p>Se muestran sólo los cursos disponibles para: <strong><span class="cursel"></span></strong> (seleccionado en el paso 1)</p>';
-	$output .= '<p class="maxcursos"></p>';
-	$output .= '</div>';
-	$output .= '<div id="ajaxErrorPlace"></div>';
-	$output .= '<div id="ajaxAclesPlace"></div>';
-	$output .= '</fieldset>';
-	$output .= '<input class="btn btn-danger" type="submit" name="reinsc" value="Enviar Reinscripción">';
-	$output .= '</form>';
-	$output .= '</div>';
-
-	return $output;
 }
