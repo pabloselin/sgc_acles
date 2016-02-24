@@ -107,7 +107,7 @@ function sgcinsc_renderAcles(curso, rut, modcond) {
   console.log(curso);
   var ajaxPlace = $('#ajaxAclesPlace');
   var nicecurso = sgcinsc_niceCurso(curso);
-  ajaxPlace.append('<i class="icon-refresh icon-spin"></i><br/>Cargando cursos disponibles...');
+  ajaxPlace.empty().append('<i class="icon-refresh icon-spin"></i><br/>Cargando cursos disponibles...');
   jQuery.ajax({
     type: 'POST',
     url: sgcajax.ajaxurl,
@@ -149,11 +149,18 @@ function sgcinsc_renderAcles(curso, rut, modcond) {
       var preinsc = $('#ajaxAclesPlace p.oldacle');
       if(preinsc) {
         preinsc.each(function(idx, obj) {
+          
           var preinscid = $(obj).data('id');
           var preinsc = $('.acleitemcurso[data-id="' + preinscid + '"]');
+
+          $('span.aclename', preinsc).after('<span class="in">inscrito</span>');
           preinsc.addClass('preinsc');
-          $('input', preinsc).prop('disabled', true);
-          $('span.aclename', preinsc).append('<span class="in">[INSCRITO]</span>');
+
+          if(checkedarray == 0) {
+            preinsc.addClass('selected');
+            $('input', preinsc).prop('checked', true);  
+          }
+            
 
         });
       }
@@ -166,7 +173,7 @@ function sgcinsc_renderAcles(curso, rut, modcond) {
 
 //Muestra los cursos disponibles para cada nivel
 function sgcinsc_renderAcleInfo(acleids, container) {    
-  container.append('Cargando cursos disponibles...');
+  container.append('<p>Cargando...</p>');
   jQuery.ajax({
     type: 'POST',
     url: sgcajax.ajaxurl,
@@ -184,40 +191,45 @@ function sgcinsc_renderAcleInfo(acleids, container) {
 }
 
 function sgcinsc_renderFinalInfo(data) {
+  //console.log(data);
+  var datalen = data.length;
+  var dataObj = {};
+
+  var aclesinscs = [];
+
+  for(i=0; i < datalen; i++) {
+    if(data[i].name == 'aclecurso[]') {
+
+      aclesinscs.push(data[i].value);
+
+    } else {
+
+      dataObj[data[i].name] = data[i].value;  
+
+    }
+  }
+
+  
+
   var datosalumno = $('#sgcinsc_form .datos-alumno');
   var datosapoderado = $('#sgcinsc_form .datos-apoderado');
   var datosacles = $('#sgcinsc_form .datos-acle');
   var acles;
   var appendstuffalumno = '<h3>Datos del alumno(a)</h3> <ul>' + 
-                    '<li><span class="fieldcont">Nombre: </span>' + data[0].value + '</li>' +
-                    '<li><span class="fieldcont">RUT: </span>' + data[1].value + '</li>' +
-                    '<li><span class="fieldcont">Curso: </span>' + sgcinsc_niceCurso(data[2].value) + ' ' + data[3].value + '</li>';
-    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(data[5].value) + '</li>';                  
+                    '<li><span class="fieldcont">Nombre: </span>' + dataObj['nombre_alumno'] + '</li>' +
+                    '<li><span class="fieldcont">RUT: </span>' + dataObj['rut_alumno'] + '</li>' +
+                    '<li><span class="fieldcont">Curso: </span>' + sgcinsc_niceCurso(dataObj['curso_alumno']) + ' ' + dataObj['letracurso'] + '</li>';
+    appendstuffalumno += '<li><span class="fieldcont">Seguro Médico: </span>' + sgcinsc_niceSeguro(dataObj['seguro_alumno']) + '</li>';                  
   var appendstuffapoderado = '<h3>Datos del apoderado(a)</h3> <ul>' + 
-                    '<li><span class="fieldcont">Nombre: </span>' + data[6].value + '</li>' +
-                    '<li><span class="fieldcont">RUT: </span>' + data[7].value + '</li>' +
-                    '<li><span class="fieldcont">Email: </span>' + data[8].value + '</li>' +
-                    '<li><span class="fieldcont">Teléfono: </span>' + data[9].value + '</li>' +
-                    '<li><span class="fieldcont">Celular: </span>' + data[10].value + '</li>';                  
+                    '<li><span class="fieldcont">Nombre: </span>' + dataObj['nombre_apoderado'] + '</li>' +
+                    '<li><span class="fieldcont">RUT: </span>' + dataObj['rut_apoderado'] + '</li>' +
+                    '<li><span class="fieldcont">Email: </span>' + dataObj['email_apoderado'] + '</li>' +
+                    '<li><span class="fieldcont">Teléfono: </span>' + dataObj['fono_apoderado'] + '</li>' +
+                    '<li><span class="fieldcont">Celular: </span>' + dataObj['celu_apoderado'] + '</li>';                  
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
-  if(typeof data[14] != 'undefined') {
-    //más de 2
-    var value1 = data[13].value;
-    var value2 = data[14].value;
-    if(typeof data[15] != 'undefined') {
-      //3 acles
-      var value3 = data[15].value;  
-      var acles = [value1, value2, value3];
-    } else {
-      var acles = [value1, value2];
-    }
-  } else {
-    //1 acle
-    var value1 = data[13].value;
-    acles = [value1];
-  }
-  sgcinsc_renderAcleInfo(acles, datosacles);
+  
+  sgcinsc_renderAcleInfo(aclesinscs, datosacles);
 }
 
 function countemptyacles(container, message) {

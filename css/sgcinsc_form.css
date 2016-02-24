@@ -114,6 +114,7 @@
 	min-height:70px;
 	border-radius:6px;
 	position:relative;
+	overflow:hidden;
 }
 
 #sgcinsc_form .acleitemcurso .control-label {
@@ -155,20 +156,28 @@
 	background-color:#FD9D53;
 }
 
-#sgcinsc_form .acleitemcurso.preinsc,
-#sgcinsc_form .acleitemcurso.preinsc.selected
-#sgcinsc_form .acleitemcurso.preinsc:hover
- {
-	background-color:#FD9D53;
+// #sgcinsc_form .acleitemcurso.preinsc,
+// #sgcinsc_form .acleitemcurso.preinsc.selected
+// #sgcinsc_form .acleitemcurso.preinsc:hover
+//  {
+// 	background-color:#FD9D53;
+// }
+
+#sgcinsc_form .acleitemcurso.preinsc .aclename {
+	padding-right:26px;
 }
 
 #sgcinsc_form .acleitemcurso.preinsc span.in {
-	display:block;
+	display:inline-block;
 	font-size:11px;
-	color:#333;
-	background-color:#FCFF89;
-	padding:3px;
-	border-radius:3px;
+	color:white;
+	background-color:#C23B39;
+	padding:3px 24px;
+	line-height:12px;
+	position: absolute;
+	right:-22px;
+	top:10px;
+	transform:rotate(45deg);
 }
 
 #sgcinsc_form .acleitemcurso.selected .aclename {
@@ -250,8 +259,8 @@
 
 #sgcinsc_form .aclecursostabla span.aclename {
 	font-weight:normal;
-	font-size:18px;
-	line-height:1.2em;
+	font-size:16px;
+	line-height:1.1em;
 	color:#334B14;
 	display:inline-block;
 	padding:3px 6px;

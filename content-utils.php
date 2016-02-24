@@ -180,14 +180,13 @@ function sgcinsc_displaycursos() {
 	$curso = $_POST['nivel'];
 	$rutalumno = sgcinsc_processrut($_POST['rutalumno']);
 	$modcond = $_POST['mod'];
-	var_dump($modcond);
 
 	$cursos_preinscritos = sgcinsc_aclesporalumno($rutalumno);
 	
 	if($cursos_preinscritos && SGCINSC_STAGE > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 		echo '<div class="preinsc well">';
-		echo '<p><strong>RECORDATORIO:</strong> Usted en la Primera etapa de inscripción ha inscrito los siguientes cursos para el alumno/a <strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
+		echo '<p><strong>RECORDATORIO:</strong> Usted en la Primera etapa de inscripción ha inscrito los siguientes A.C.L.E.s para el alumno/a <strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -201,6 +200,23 @@ function sgcinsc_displaycursos() {
 		echo '<p><strong>IMPORTANTE: Los datos oficiales de inscripción ACLE de la primera etapa se encuentran disponible para descargar en la página principal de ACLE 2015.</strong></p>
 		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/wp-content/uploads/2013/10/LISTA-ACLE-2015.pdf" target="_blank"><i class="icon icon-file-text"></i> Resultados inscripción ACLE 2015 Primera Etapa (pdf)</a></p>';
 		echo '<p>No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.</p>';
+		echo '</div>';
+	endif;
+
+	if($modcond == 1):
+		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
+
+		echo '<div class="preinsc mod well">';
+		echo '<p><strong>RECORDATORIO:</strong> Usted ha inscrito los siguientes A.C.L.E.s para el alumno/a <strong>' . $nombrealumno . '</strong>:</p>';
+
+		foreach($cursos_preinscritos as $acle) {
+			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
+			
+		}
+
+		echo '<p>Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles.</p>';
+
 		echo '</div>';
 	endif;
 
@@ -300,14 +316,12 @@ function sgcinsc_acleitem($acleid) {
 
 	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '" data-id="' . $acleid . '">';
 		$output .= '<label class="control-label" for="aclecurso-'.$acleid.'"><span class="aclename">'.get_the_title($acleid) . '</span>';	
-		// if($prof):			
-		// 	echo '<span class="prof">Profesor(a):<br/>' . $prof . '</span>';
-		// endif;
+		
 		if($cupos < 0):					
 		$output .= '<span class="aclecupos">Cerrado</span>';
 		endif;
 		$output .= '</label>';
-		//echo '<a class="masinfocurso" href="'.get_permalink($acleitem->ID).'"><i class="icon-link"></i> Ver más </a>';
+		
 				if($cupos > 0):
 					$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 				else:
@@ -319,7 +333,7 @@ function sgcinsc_acleitem($acleid) {
 
 function sgcinsc_getacles() {
 	$acles = $_POST['acles'];	
-	echo '<h3>Curso(s) seleccionado(s) en SEGUNDA ETAPA DE INSCRIPCIÓN</h3>';
+	echo '<h3>Curso(s) seleccionado(s)</h3>';
 	foreach($acles as $acle):		
 		$aclepost = get_post($acle);
 		$prof = get_post_meta($aclepost->ID, 'sgcinsc_profacle', true);

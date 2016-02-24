@@ -76,9 +76,16 @@ function sgcinsc_verifydata($data) {
 		
 		//Arreglar las variables
 		$rut_apoderado = sgcinsc_processrut($data['rut_apoderado']);
-		$rut_alumno = sgcinsc_processrut($data['rut_alumno']);				
+		$rut_alumno = sgcinsc_processrut($data['rut_alumno']);
 
-		 // 1. Verificar que los ruts no estén repetidos dependiendo de la etapa puede haber 1 o 2 etapas de inscripción
+		//Verificar de que tipo de envío se trata
+		if($data['modcond'] == 1) {
+
+			sgcinsc_fixinsc($data);
+
+		} else {
+
+		 // 1. Verificar que los ruts no estén repetidos dependiendo de la etapa puede haber 1 o 2 etapas de inscripción, también puede ser una corrección a una inscripción anterior.
 		
 		if(sgcinsc_checkrep($rut_alumno, 'rut_alumno')):
 			//Verificar que los cursos no se hayan llenado mientras se producía la postulación.
@@ -121,8 +128,26 @@ function sgcinsc_verifydata($data) {
 			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
 			wp_redirect($errorurl, 303);
 		endif;
+
+		}
 		
 	}	
+}
+
+function sgcinsc_fixinsc($data) {
+	/**
+	 * Función para la modificación de una inscripción previa
+	 */
+	global $wpdb, $table_name, $table2_name;
+
+	//Nonce
+	if(!wp_verify_nonce( $_POST['sgcinsc_nonce'], 'submit_stepone' )) {
+		echo 'El nonce es inválido';
+		die();
+	} else {
+		 var_dump($data);
+	}
+
 }
 
 function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	

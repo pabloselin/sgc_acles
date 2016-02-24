@@ -22,6 +22,10 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 				<!--Lista de ACLES por áreas-->			
 									
 						<form id="sgcinsc_form" method="POST" action="" class="form-horizontal" data-mod="<?php echo $modcond;?>" >
+						<!--campos escondidos de info-->
+						<input name="modcond" id="modcond" type="text" class="hidden" value="<?php echo $modcond;?>"></input>
+						<input name="stage" id="stage" type="text" class="hidden" value="<?php echo SGCINSC_STAGE;?>"></input>
+
 							<h2 class="stepmark">Datos del alumno(a) <i class="icon-chevron-right"></i></h2>
 							<fieldset>							
 
