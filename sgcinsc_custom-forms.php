@@ -145,7 +145,103 @@ function sgcinsc_fixinsc($data) {
 		echo 'El nonce es inválido';
 		die();
 	} else {
-		 var_dump($data);
+		/**
+		 * Estamos listos para empezar a ingresar una modificación
+		 */
+		 //var_dump($data);
+		 $id = $data['inscid'];
+		 
+		 $oldinsc = sgcinsc_getinsc($id);		 
+		 $oldacles = unserialize($oldinsc[0]->acles_inscritos);
+
+		 
+
+		 $newacles = sgcinsc_serializeacles($data);
+		 $newaclesk = $newacles[0];
+
+		 // var_dump($newaclesk);
+		 // var_dump($oldacles);
+		 
+
+		 //Comparar datos de acles con datos antiguos
+		 $diff = sgcinsc_identical_values($newaclesk, $oldacles);
+		 //var_dump($diff);
+		 
+		 if($diff == true) {
+		 	//NO Hay diferencia de ACLES
+		 	echo 'NO NEW ACLES';
+		 	
+		 	//Procesar el resto de la info como si nada
+
+		 } else {
+		 	//SI hay diferencia de ACLES
+		 	echo 'NEW ACLES';
+		 	
+		 	//Buscar la diferencia
+
+		 	//Curso-s que llega-n
+		 	$arrdiff = array_diff($newaclesk, $oldacles);
+
+		 	//Curso-s que se va-n
+		 	$dumpacles = array_diff($oldacles, $newaclesk);
+
+		 	//Cursos que quedan (para crear luego la cadena serializada)
+			$stayacles = array_intersect($oldacles, $newaclesk);		 	
+
+		 	//Buscar la entrada y el cupo correspondiente
+		 	
+
+		 	//Boto los cupos viejos
+		 	
+		 	foreach($dumpacles as $dumpacle) {
+		 		$where = array(
+		 			'id_inscripcion' => $id,
+		 			'id_curso' => $dumpacle
+		 			);
+		 		$dump = $wpdb->delete($table2_name, $where);
+
+		 	}
+
+		 	//Nuevos ACLES
+		 	foreach($arrdiff as $newacle) {
+		 		//Revisar si quedan cupos en el curso
+		 		if(sgcinsc_cupos($newacle) > 0){
+		 			//Reingresar los cupos
+		 			$insdata = array(
+		 				'id_curso' => $newacle,
+		 				'id_inscripcion' => $id,
+		 				'etapa_insc' => SGCINSC_STAGE
+		 				);
+		 			$new = $wpdb->insert($table2_name, $insdata);
+
+		 			//Añadir al array de stayacles
+		 			$stayacles[] = $newacle;
+		 		}
+		 		
+		 	}
+
+		 	//Reingresar la inscripción
+		 	$aclesdata = serialize($stayacles);
+
+		 	$pmod = array(
+		 				'fecha_modificacion' => current_time('mysql'),
+		 				'cursos_anteriores' => serialize($oldacles)
+		 			);
+
+		 	$mod_data = serialize($pmod);
+
+		 	$updatedata = array(
+		 		'acles_inscritos' => $aclesdata,
+		 		'mod_data' => $mod_data
+		 		);
+
+		 	$whereupdata = array(
+		 		'id' => $id
+		 		);
+
+		 	$update = $wpdb->update($table_name, $updatedata, $whereupdata);
+
+		 }
 	}
 
 }

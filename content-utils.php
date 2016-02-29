@@ -594,3 +594,11 @@ function sgcinsc_insctemplate($idinsc) {
 
 	return $output;
 }
+
+function sgcinsc_identical_values( $arrayA , $arrayB ) { 
+
+    sort( $arrayA ); 
+    sort( $arrayB ); 
+
+    return $arrayA == $arrayB; 
+} 

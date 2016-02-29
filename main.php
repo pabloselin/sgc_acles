@@ -65,7 +65,7 @@ global $wpdb;
 //Nombre de tabla y versión
 $table_name = $wpdb->prefix . 'sgcinsc';
 $table2_name = $wpdb->prefix . 'sgccupos';
-$sgcinsc_dbversion = 1.5;
+$sgcinsc_dbversion = 1.6;
 
 //Cursos obligatorios por nivel
 $obcursos = array(
@@ -109,6 +109,7 @@ function sgcinsc_createinsctables() {
 			seguro_escolar text NOT NULL,
 			acles_inscritos text NOT NULL,
 			hash_inscripcion text NOT NULL,
+			mod_data text NOT NULL,
 			UNIQUE KEY id (id))";
 	
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
