@@ -556,6 +556,11 @@ $('#sgcinsc_form').validate(
   countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
   countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
 
+  var defaultcurso = 'todos los cursos';
+  var alertbox = $('div.alertacle');
+  var defaultarea = 'todas las areas';
+  var defaulthorario = 'todos los horarios';
+
   //Filtrar
   $('.filteracles select').on('change', function(event) {
       var filters = $('.filteracles select');
@@ -563,11 +568,6 @@ $('#sgcinsc_form').validate(
       var acleitems = 'div.acleitem';
       var selectedvalue = $('option:selected', this).attr('value');
 
-      var defaultcurso = 'todos los cursos';
-      var defaultarea = 'todas las areas';
-      var defaulthorario = 'todos los horarios';
-      var alertbox = $('div.alertacle');
-      
       var selectedcurso = $('.filteracles select[name="filtercurso"] option:selected').attr('value');
       var selectedarea = $('.filteracles select[name="aclesareas"] option:selected').attr('value');
       var selectedhorario = $('.filteracles select[name="acleshorario"] option:selected').attr('value');
@@ -596,12 +596,15 @@ $('#sgcinsc_form').validate(
         $('.tiphorario', alertbox).html(defaulthorario);
       }
 
+      alertbox.addClass('alert-success');
+
       countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
       countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
 
   });
 
   $('.filteracles .btn.clear').on('click', function(event) {
+
     $('.filteracles select').prop('selectedIndex', 0);
     $('div.acleitem').removeClass('filtered').show();
     countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
@@ -609,6 +612,9 @@ $('#sgcinsc_form').validate(
     $('.tipcurso', alertbox).html(defaultcurso);
     $('.tiparea', alertbox).html(defaultarea);
     $('.tiphorario', alertbox).html(defaulthorario);
+
+    alertbox.removeClass('alert-success');
+
   })
 
   $('a.populateacles').on('click', function() {

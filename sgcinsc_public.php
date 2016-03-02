@@ -106,7 +106,7 @@ function sgcinsc_todoacles($cupos = true) {
 
 	$filtermessage = 'En esta página están todos los A.C.L.E. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>';
 
-	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. ' . date('Y') . '</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Quitar filtros</button></div></div></div>';
+	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. ' . date('Y') . '</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Limpiar filtros</button></div></div></div>';
 	$output .= '<div class="publicacles container"><div class="row"><div class="container">
 		<div class="alert alertacle
 		">VIENDO A.C.L.E.s PARA: <span class="tipcurso">todos los cursos</span>, <span class="tiparea">todas las áreas</span>, <span class="tiphorario">todos los horarios</span> </div>
