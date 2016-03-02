@@ -1,190 +1,11 @@
 <?php
-//Llamadas personalizadas a contenido de la base de datos
-
-function sgcinsc_aclesporcurso($curso) {
-	//cada curso es una letra de 1 a 10 (1° Básico a II Medio)
-	$args = array(
-		'post_type' => 'sginsc_acles2014',
-		'numberposts' => -1,
-		'meta_query' => array(
-			array(
-				'key' => 'sgcinsc_cursos',
-				'value' => $curso
-				)
-			)
-		);
-	$cursos = get_posts($args);	
-	return $cursos;	
-}
-
-function sgcinsc_displaydiacursos($dia, $ndia) {
-	if($dia) {
-			$output = '<div class="curso">';
-			$output .= '<div class="mdia">' . $ndia . '</div>';
-		foreach($dia as $curdia) {
-			$output .= sgcinsc_acleitem($curdia->ID);
-		}
-			$output .= '</div>';
-	} else {
-			$output = '<div class="curso"><em class="sincursos">Sin cursos para este tramo horario</em></div>';
-		}
-	return $output;
-}
-
-function sgcinsc_publicacle($id) {
-	$acleunit = '<div class="acleunit" data-area="{idarea}" data-curso="{idcurso}" data-horario="{idhorario}">
-					<h2>{title}</h2>
-					<p class="info">
-						<span class="horario">{horario}</span>
-						<span class="area">{area}</span>
-						<span class="curso"{curso}></span>
-					</p>
-				</div>';
-}
-
-function sgcinsc_aclesftable($id) {
-	$output = '<div class="aclecursostabla">';
-	$output .= '<div class="acleheading"><div class="fcol">Horario</div><div class="curso">Lunes</div><div class="curso">Martes</div><div class="curso">Miércoles</div><div class="curso">Jueves</div><div class="curso">Viernes</div></div>';
-	$output .= '</div>';
-}
-
-function sgcinsc_todoacles($cupos = true) {
-	/**
-	 * Muestra la tabla de todos los acles disponibles con sus filtros para vista pública antes de empezar la inscripción o como consulta a través de un shortcode
-	 */
-	$output = '';
-
-	$args = array(
-		'fields' => 'id=>name',
-		'hide_empty' => 0
-		);
-
-
- 	$optionarea = get_terms( 'sgcinsc_area', $args );
- 	$optioncurso = array(
- 					1 => '1º Básico',
- 					2 => '2º Básico',
- 					3 => '3º Básico',
- 					4 => '4º Básico',
- 					5 => '5º Básico',
- 					6 => '6º Básico',
- 					7 => '7º Básico',
- 					8 => '8º Básico',
- 					9 => 'Iº Medio',
- 					10 => 'IIº Medio'
- 		);
- 	$optionhorario = array(
- 						1 => '15:20 a 16:50',
- 						2 => '17:00 a 18:30'
- 						);
- 	$dias = array('lunes', 'martes', 'miercoles', 'jueves', 'viernes');
- 	$horarios = array('horario1', 'horario2');
- 	$opfieldsarea = '<option value="0" default>Escoge un área</option>';
- 	$opfieldscurso = '<option value="0" default>Escoge un curso</option>';
- 	$opfieldshorario = '<option value="0" default>Escoge un horario</option>';
-
- 	foreach($optionarea as $key=>$optarea) {
- 		$opfieldsarea .= '<option value="'.$key.'">'.$optarea.'</option>';
- 	}
- 	foreach($optioncurso as $key=>$optcurso) {
- 		$opfieldscurso .= '<option value="'.$key.'">'.$optcurso.'</option>';
- 	}
- 	foreach($optionhorario as $key=>$opthorario) {
- 		$opfieldshorario .= '<option value="horario'.$key.'">'.$opthorario.'</option>';
- 	}
-
-	$filtercurso = '<div class="selecthold"><h4>Filtrar por curso</h4><select name="filtercurso" data-filter="curso">'.$opfieldscurso.'</select></div>';
-	$filterarea = '<div class="selecthold"><h4>Filtrar por área</h4><select name="aclesareas" data-filter="area">'.$opfieldsarea.'</select></div>';
-	$filterhorario = '<div class="selecthold"><h4>Filtar por horario</h4><select name="acleshorario" data-filter="horario">'.$opfieldshorario.'</select></div>';
-
-
-	$acles = sgcinsc_orderedacles($cupos);
-	
-
-	$filtermessage = 'En esta página están todos los A.C.L.E. Puedes utilizar las cajas de más abajo para filtrar los A.C.L.E. por <strong>curso, área u horario.</strong>';
-
-	$output .= '<div class="filteracles container"><div class="row"><div class="span12"><h2>Oferta A.C.L.E. ' . date('Y') . '</h2><p>'.$filtermessage.'</p>'.$filtercurso. $filterarea . $filterhorario . ' <button class="btn btn-primary clear">Quitar filtros</button></div></div></div>';
-	$output .= '<div class="publicacles container"><div class="row"><div class="container">
-		<div class="alert alertacle
-		">VIENDO A.C.L.E.s PARA: <span class="tipcurso">todos los cursos</span>, <span class="tiparea">todas las áreas</span>, <span class="tiphorario">todos los horarios</span> </div>
-	</div>';
-
-		foreach($dias as $key=>$dia) {
-			$output .= '<div class="dia span2">';
-			$output .= '<h1>'.sgcinsc_nicedia($dia).'</h1>';
-			foreach($horarios as $horario) 
-			{	
-				$output .= '<div class="horario"><h2>'.sgcinsc_renderhorario($horario).'</h2>';
-				$output .= $acles[$dia][$horario];
-				$output .= '</div>';
-			}
-			$output .= '</div>';
-		}
-	$output .= '</div></div>';
-	return $output;
-}
-
-//Devuelve una versión ordenada por día y horario de los posts de ACLES
-function sgcinsc_orderedacles($cupos) {
-	$dias = array('lunes', 'martes', 'miercoles', 'jueves', 'viernes');
-	$horarios = array('horario1', 'horario2');
-	foreach($horarios as $horario) {
-		foreach($dias as $dia) {
-			$args = array(
-				'post_type' => 'sginsc_acles2014',
-				'numberposts' => -1,
-				);
-			$args['meta_query'] = array(
-				array(
-					'key' => 'sgcinsc_horaacle',
-					'value' => $horario
-					),
-				array(
-					'key' => 'sgcinsc_diaacle',
-					'value' => $dia
-					)
-				);
-			$aclesposts = get_posts($args);
-			foreach($aclesposts as $aclespost) {
-				$cursos = get_post_meta($aclespost->ID, 'sgcinsc_cursos', false);
-				$nicecursos = array();
-				$open = 0;
-				 if(sgcinsc_cupos($aclespost->ID) <= 0 && $cupos == false) {
-				 	$open = 1;
-				 }
-				foreach($cursos as $curso) {
-					$nicecursos[] = sgcinsc_nicecurso($curso);
-				}
-				$areas = get_the_terms( $aclespost->ID, 'sgcinsc_area' );
-				$niceareas = array();
-				if($areas):
-					foreach($areas as $area) {
-						$niceareas[] = $area->term_id;
-					}
-				endif;
-				$niceareas = implode(' ', $niceareas);
-
-				$acles[$dia][$horario] .= '<div class="acleitem open-'.$open.'" data-dia="'.$dia.'" data-horario="'.$horario.'" data-id="id-'.$aclespost->ID.'" data-curso="'.implode(' ', $cursos).'" data-area="'.$niceareas.'" data-open="'.$open.'"><h4>'.$aclespost->post_title.'</h4>';
-				if($open == 1) {
-					$acles[$dia][$horario] .= '<span class="nocupos">(SIN CUPOS)</span>';
-				}
-				$acles[$dia][$horario] .= ' <dl><dd>'.implode(', ', $nicecursos).'</dd></dl>';
-				
-				if(is_user_logged_in()){
-					$totcupos = get_post_meta($aclespost->ID, 'sgcinsc_cuposacle', true);
-					$acles[$dia][$horario] .= '<p class="admincupos">' . sgcinsc_cupos($aclespost->ID) .'/' . $totcupos . '</p>';
-				}
-
-				$acles[$dia][$horario] .= '</div>';
-			}
-		}
-	}
-	return $acles;
-}
+/**
+ * Utilidades para trabajar con el contenido de A.C.L.E.s
+ */
 
 function sgcinsc_displaycursos() {
 	/**
-	 * Muestra los cursos y los cursos preinscritos
+	 * Muestra los cursos y los cursos preinscritos en el formulario
 	 */
 	$curso = $_POST['nivel'];
 	$rutalumno = sgcinsc_processrut($_POST['rutalumno']);
@@ -195,7 +16,7 @@ function sgcinsc_displaycursos() {
 	if($cursos_preinscritos && SGCINSC_STAGE > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 		echo '<div class="preinsc well">';
-		echo '<p><strong>RECORDATORIO:</strong> Usted en la Primera etapa de inscripción ha inscrito los siguientes A.C.L.E.s para el alumno/a <strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
+		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_STAGEMODWARN .'<strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -206,9 +27,9 @@ function sgcinsc_displaycursos() {
 		echo '</div>';
 
 		echo '<div class="alert alert-info">';
-		echo '<p><strong>IMPORTANTE: Los datos oficiales de inscripción ACLE de la primera etapa se encuentran disponible para descargar en la página principal de ACLE 2015.</strong></p>
-		<p><a class="btn btn-danger" href="http://www.saintgasparcollege.cl/wp-content/uploads/2013/10/LISTA-ACLE-2015.pdf" target="_blank"><i class="icon icon-file-text"></i> Resultados inscripción ACLE 2015 Primera Etapa (pdf)</a></p>';
-		echo '<p>No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.</p>';
+		echo '<p><strong>' . SGCINSC_INFOACLES .'</strong></p>
+		<p><a class="btn btn-danger" href="' . SGCINSC_PDFACLES .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
+		echo '<p>' . SGCINSC_WARNSTAGE .'</p>';
 		echo '</div>';
 	endif;
 
@@ -216,7 +37,7 @@ function sgcinsc_displaycursos() {
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 
 		echo '<div class="preinsc mod well">';
-		echo '<p><strong>RECORDATORIO:</strong> Usted ha inscrito los siguientes A.C.L.E.s para el alumno/a <strong>' . $nombrealumno . '</strong>:</p>';
+		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' <strong>' . $nombrealumno . '</strong>:</p>';
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -224,7 +45,7 @@ function sgcinsc_displaycursos() {
 			
 		}
 
-		echo '<p>Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles.</p>';
+		echo '<p>' . SGCINSC_MODWARN . '</p>';
 
 		echo '</div>';
 	endif;
@@ -514,10 +335,6 @@ function sgcinsc_nombrealumno($rut) {
 	return $nombre;
 }
 
-function sgcinsc_resetcupos() {
-
-}
-
 function sgcinsc_getinsc($idinsc) {
 	global $wpdb, $table_name, $table2_name;
 	$iteminsc = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $idinsc");
@@ -595,11 +412,11 @@ function sgcinsc_insctemplate($idinsc) {
 	//2.5. Poblar variables por curso (minacles)
 	$output .= '<div class="alert"><h3>Importante:</h3> 
 		<ul>
-			<li>En caso de modificar los ACLES inscritos se invalidarán los ACLES inscritos previamente y sólo podrá inscribir cursos que cuenten con cupos disponibles hasta ahora.</li>
-			<li>En caso de que haya ingresado mal el curso, también se invalidarán los ACLES inscritos previamente y se podrán inscribir nuevamente los cursos disponibles para el curso del alumno.</li>
-			<li>En caso de modificar únicamente información de contacto o información personal del alumno, se respetará la inscripción previa de los ACLES.</li>
+			<li>' . SGCINSC_WARNLIST_1 . '</li>
+			<li>' . SGCINSC_WARNLIST_2 . '</li>
+			<li>' . SGCINSC_WARNLIST_3 . '</li>
 		</ul></div>';
-	$output .= '<a href="' . $modlink .'" class="btn btn-success populateacles">Modificar inscripción</a>';
+	$output .= '<a href="' . $modlink .'" class="btn btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
 
 	return $output;
 }
@@ -611,3 +428,136 @@ function sgcinsc_identical_values( $arrayA , $arrayB ) {
 
     return $arrayA == $arrayB; 
 } 
+
+
+//Verificación de datos
+
+//RUT:
+
+function dv($r){
+     $s=1;
+     for($m=0;$r!=0;$r/=10)
+         $s=($s+$r%10*(9-$m++%6))%11;
+     return chr($s?$s+47:75);
+  }  
+
+function in_string($needle, $haystack, $insensitive = false) { 
+    if ($insensitive) { 
+        return false !== stristr($haystack, $needle); 
+    } else { 
+        return false !== strpos($haystack, $needle); 
+    } 
+} 
+
+
+function sgcinsc_serializeacles($data) {
+	$acles = array();
+	foreach($data as $key=>$dat) {		
+		if(in_string('aclecurso', $key)):
+			$acles[] = $dat;
+		endif;
+	}
+	return $acles;
+}
+
+function sgcinsc_url($idinsc) {
+	/**
+	 * Devuelve la URL de la inscripción basado en ID
+	 */
+	global $wpdb, $table_name;
+	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
+	$acleurl = get_permalink(35861);
+	$args = array(
+		'ih' => $inschash,
+		'id' => $idinsc
+		);
+	$inscurl = add_query_arg($args, $acleurl);
+	return $inscurl;
+}
+
+function sgcinsc_validatehash($id, $hash) {
+	/**
+	 * Valida el hash en relación con el ID
+	 */
+	global $wpdb, $table_name;
+	$checkhash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $id");
+	if($checkhash == $hash) {
+		//Chequeo correcto
+		return true;
+	} else {
+		//Chequeo incorrecto
+		return false;
+	}
+}
+
+//Hacerlo via shortcode así tenemos mayor control sobre la URL y es más independiente del tema
+
+function sgcinsc_shortcode($atts) {	
+		ob_start();
+		include( plugin_dir_path(__FILE__) . '/views/steps.php');	
+		return ob_get_clean();	
+}
+
+add_shortcode( 'sgcinsc_form', 'sgcinsc_shortcode' );
+
+function sgcinsc_viewaclesshortcode($atts) {
+	$a = shortcode_atts( array('cupos' => false) , $atts );	
+	$cupos = $a['cupos'];
+	return sgcinsc_todoacles($cupos);
+}
+
+add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
+
+
+function sgcinsc_checkrep($rut, $columna) {
+	$stage = SGCINSC_STAGE;
+	if($stage > 1):
+		return sgcinsc_checksecondreprut($rut, $columna);
+	else:
+		return sgcinsc_checkreprut($rut, $columna);
+	endif;
+}
+
+function sgcinsc_checkreprut($rut, $columna) {
+	global $wpdb, $table_name;
+	$consulta = $wpdb->get_var(
+			"SELECT id FROM $table_name
+			WHERE $columna = $rut"			
+		);
+	if($consulta > 0):
+		return false;
+	else:
+		return true;
+	endif;
+}
+
+function sgcinsc_checksecondreprut($rut, $columna) {
+	//chequea que el rut no se haya usado para una tercera inscripción
+	global $wpdb, $table_name, $table2_name;
+	$puede = true;
+	$consulta = $wpdb->get_results("SELECT * FROM $table_name WHERE $columna = $rut");
+	//chequea los múltiples insc donde hay un sgcinsc second
+	foreach($consulta as $consult) {
+		//Ya hay un rut inscrito
+		if($consult->rut_alumno == $rut) {
+			$secondsult = $wpdb->get_var("SELECT etapa_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
+			if($secondsult == SGCINSC_STAGE) {
+				//Ya hay una segunda inscripción
+				$puede = false;
+			}
+		}
+	}
+
+	return $puede;
+}
+
+function sgcinsc_processrut($rut) {
+	//Saco los puntos
+	$rut = str_replace('.', '', $rut);
+	//Elimino el guión
+	$rut = str_replace('-', '', $rut);
+	//Saco el último dígito
+	$rut = substr($rut, 0, -1);
+
+	return $rut;
+}

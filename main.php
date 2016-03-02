@@ -13,13 +13,14 @@
 to-do
 
 1. Definir etapa de inscripción y hacer que se inscriban o no.
-2. Crear link secreto para modificaciones en la inscripción.
-3. 
+2. Admin options
+3. Mensajes de resultados para cada inscripción
+4. Desplazar mensajes a una sola sección 
 
 */
 
-define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/sgccsv/');
-define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
+define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/acles/');
+define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 
 //Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
@@ -30,10 +31,10 @@ define( 'SGCINSC_STAGE', 1);
 
 //Modo debug para no enviar chorradas
 define('SGCINSC_DEBUG', false);
-define('SGCINSC_INSCID', 35861);
+define('SGCINSC_INSCID', 35729);
 
 if(!is_dir(SGCINSC_CSVPATH)){
-	mkdir(WP_CONTENT_DIR . '/sgccsv', 0755);
+	mkdir(WP_CONTENT_DIR . '/acles', 0755);
 }
 
 //Clases requeridas
@@ -53,7 +54,17 @@ include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-content.php');
 //Formularios
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-forms.php');
 
-include( plugin_dir_path( __FILE__ ) . 'content-utils.php');
+include( plugin_dir_path( __FILE__ ) . 'sgcinsc_utils.php');
+
+//Mails
+include( plugin_dir_path( __FILE__ ) . 'sgcinsc_mails.php');
+
+//Funciones para visualización pública (No formulario)
+include( plugin_dir_path( __FILE__ ) . 'sgcinsc_public.php');
+
+//Mensajes
+include( plugin_dir_path( __FILE__ ) . 'sgcinsc_messages.php');
+
 
 
 
@@ -63,9 +74,9 @@ include( plugin_dir_path( __FILE__ ) . 'content-utils.php');
 global $wpdb;
 
 //Nombre de tabla y versión
-$table_name = $wpdb->prefix . 'sgcinsc';
-$table2_name = $wpdb->prefix . 'sgccupos';
-$sgcinsc_dbversion = 1.6;
+$table_name = $wpdb->prefix . 'inscacles';
+$table2_name = $wpdb->prefix . 'cuposacles';
+$sgcinsc_dbversion = 1.65;
 
 //Cursos obligatorios por nivel
 $obcursos = array(
@@ -187,9 +198,6 @@ add_action('wp_enqueue_scripts', 'sgcinsc_styles');
  	4. Asignar lista de espera en caso de inscripción sobre el cupo. 	
 */
 
-
-
-
 /* Crear una tabla que muestre los horarios */
 
 
@@ -207,25 +215,6 @@ function sgcinsc_templates( $template ) {
 }
 
 
-
-//Verificación de datos
-
-//RUT:
-
-function dv($r){
-     $s=1;
-     for($m=0;$r!=0;$r/=10)
-         $s=($s+$r%10*(9-$m++%6))%11;
-     return chr($s?$s+47:75);
-  }  
-
-function in_string($needle, $haystack, $insensitive = false) { 
-    if ($insensitive) { 
-        return false !== stristr($haystack, $needle); 
-    } else { 
-        return false !== strpos($haystack, $needle); 
-    } 
-} 
 
 
 

@@ -1,64 +1,6 @@
 <?php 
 
-//Hacerlo via shortcode así tenemos mayor control sobre la URL y es más independiente del tema
 
-function sgcinsc_shortcode($atts) {	
-		ob_start();
-		include( plugin_dir_path(__FILE__) . '/views/steps.php');	
-		return ob_get_clean();	
-}
-
-add_shortcode( 'sgcinsc_form', 'sgcinsc_shortcode' );
-
-function sgcinsc_viewaclesshortcode($atts) {
-	$a = shortcode_atts( array('cupos' => false) , $atts );	
-	$cupos = $a['cupos'];
-	return sgcinsc_todoacles($cupos);
-}
-
-add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
-
-function sgcinsc_checkrep($rut, $columna) {
-	$stage = SGCINSC_STAGE;
-	if($stage > 1):
-		return sgcinsc_checksecondreprut($rut, $columna);
-	else:
-		return sgcinsc_checkreprut($rut, $columna);
-	endif;
-}
-
-function sgcinsc_checkreprut($rut, $columna) {
-	global $wpdb, $table_name;
-	$consulta = $wpdb->get_var(
-			"SELECT id FROM $table_name
-			WHERE $columna = $rut"			
-		);
-	if($consulta > 0):
-		return false;
-	else:
-		return true;
-	endif;
-}
-
-function sgcinsc_checksecondreprut($rut, $columna) {
-	//chequea que el rut no se haya usado para una tercera inscripción
-	global $wpdb, $table_name, $table2_name;
-	$puede = true;
-	$consulta = $wpdb->get_results("SELECT * FROM $table_name WHERE $columna = $rut");
-	//chequea los múltiples insc donde hay un sgcinsc second
-	foreach($consulta as $consult) {
-		//Ya hay un rut inscrito
-		if($consult->rut_alumno == $rut) {
-			$secondsult = $wpdb->get_var("SELECT etapa_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
-			if($secondsult == SGCINSC_STAGE) {
-				//Ya hay una segunda inscripción
-				$puede = false;
-			}
-		}
-	}
-
-	return $puede;
-}
 
 function sgcinsc_verifydata($data) {
 	global $wpdb, $post;
@@ -85,17 +27,41 @@ function sgcinsc_verifydata($data) {
 
 		} else {
 
+			sgcinsc_inscribe($data);
+		
+
+		}
+		
+	}	
+}
+
+function sgcinsc_inscribe($data) {
+	/**
+	 * Función general para inscripción de A.C.L.E.
+	 */
+
+	$stage = SGCINSC_STAGE;
+	$rutal = sgcinsc_processrut($data['rut_alumno']);
+	$mod = $data['modcond'];
+
+	if($mod != 1) {
+		//Se trata de una inscripción nueva
+
 		 // 1. Verificar que los ruts no estén repetidos dependiendo de la etapa puede haber 1 o 2 etapas de inscripción, también puede ser una corrección a una inscripción anterior.
 		
-		if(sgcinsc_checkrep($rut_alumno, 'rut_alumno')):
+		if(sgcinsc_checkrep($rutal, 'rut_alumno')):
+			
 			//Verificar que los cursos no se hayan llenado mientras se producía la postulación.
+			
 			$preserialize = sgcinsc_serializeacles($data);
+			
 			//Verificar que haya llenado el mínimo de cursos requeridos		
+			
 			foreach($preserialize[0] as $precupo) {						
 					$cupos = sgcinsc_cupos($precupo);					
 					if( $cupos <= 0):
 						$cuposurl = esc_url_raw( add_query_arg('excode', 3, get_permalink()) );
-						wp_redirect($cuposurl, 303);
+							wp_redirect($cuposurl, 303);
 						die();
 					endif;
 			}
@@ -125,13 +91,19 @@ function sgcinsc_verifydata($data) {
 			wp_redirect($finalurl, 303);
 
 		else:
+
 			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
 			wp_redirect($errorurl, 303);
+
 		endif;
 
-		}
-		
-	}	
+	} else {
+		//Se trata de una inscripción a modificar
+		sgcinsc_modifydata($data);
+	}
+
+	// Chequea rut con etapa
+
 }
 
 function sgcinsc_fixinsc($data) {
@@ -154,14 +126,9 @@ function sgcinsc_fixinsc($data) {
 		 $oldinsc = sgcinsc_getinsc($id);		 
 		 $oldacles = unserialize($oldinsc[0]->acles_inscritos);
 
-		 
-
 		 $newacles = sgcinsc_serializeacles($data);
 		 $newaclesk = $newacles[0];
 
-		 // var_dump($newaclesk);
-		 // var_dump($oldacles);
-		 
 
 		 //Comparar datos de acles con datos antiguos
 		 $diff = sgcinsc_identical_values($newaclesk, $oldacles);
@@ -169,9 +136,9 @@ function sgcinsc_fixinsc($data) {
 		 
 		 if($diff == true) {
 		 	//NO Hay diferencia de ACLES
-		 	echo 'NO NEW ACLES';
 		 	
-		 	//Procesar el resto de la info como si nada
+		 	//Procesar el resto de la info
+		 	sgcinsc_inscribe($data);
 
 		 } else {
 		 	//SI hay diferencia de ACLES
@@ -246,86 +213,6 @@ function sgcinsc_fixinsc($data) {
 
 }
 
-function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado, $acles, $ID_inscripcion, $cursoalumno) {	
-	$message .= '<table cellpadding="20" cellspacing="0" width="600" style="background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;"><tr><td>';
-	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. 2015 (segunda etapa)</h3></p>';
-	$message .= '<p>Estimado(a) <strong>' . $nombre_apoderado . ':</strong></p>';
-	$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
-	$message .= '<p>Su número identificador de inscripción es el <strong>'. $ID_inscripcion . '</strong></p>';
-	$message .= '<p>Usted inscribió los siguientes cursos:</p>';	
-	$message .= '<table cellpadding="5" cellspacing="0" style="background-color:#AFD4E4;margin:0 auto;" width="70%">';
-	foreach($acles as $acle):
-		$aclepost = get_post($acle);
-		$message .= '<tr style="border-bottom:1px solid #456A7D;"><td style="border-bottom:1px solid #456A7D;">';
-		$message .= '<strong>' . $aclepost->post_title . '</strong>';
-		$prof = get_post_meta($aclepost->ID, 'sgcinsc_profacle', true);
-		// if($prof):
-		// 	$message .= '<p>Profesor: ' . get_post_meta($aclepost->ID, 'sgcinsc_profacle', true) . '</p>';
-		// endif;
-		$message .= '<p>Horario: ' . sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
-		$message .= '</td></tr>';	
-	endforeach;
-	$message .= '<tr><td><p><strong>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida.</strong></p></td></tr>';
-	$message .= '</table>';
-	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($ID_inscripcion) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
-	$message .= '<p>Para consultas escriba a inscripcionacle@gmail.com</p>';
-	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
-	$message .= '</td></tr></table>';
-	$subject = 'Inscripción de A.C.L.E. en Saint Gaspar College';
-	$headers = "From: Saint Gaspar College <info@saintgasparcollege.cl>" . "\r\n";
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-
-	$debug = SGCINSC_DEBUG;
-	//Email al alumno
-	if(!$debug) {
-		if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-		 	echo '.';
-		 endif;
-
-		//Email al apoderado
-		if (wp_mail( $email_apoderado, $subject, $message, $headers )):
-			echo '.';
-		endif;
-	}	
-}
-
-function sgcinsc_processrut($rut) {
-	//Saco los puntos
-	$rut = str_replace('.', '', $rut);
-	//Elimino el guión
-	$rut = str_replace('-', '', $rut);
-	//Saco el último dígito
-	$rut = substr($rut, 0, -1);
-
-	return $rut;
-}
-
-function sgcinsc_serializeacles($data) {
-	$acles = array();
-	foreach($data as $key=>$dat) {		
-		if(in_string('aclecurso', $key)):
-			$acles[] = $dat;
-		endif;
-	}
-	return $acles;
-}
-
-function sgcinsc_url($idinsc) {
-	/**
-	 * Devuelve la URL de la inscripción basado en ID
-	 */
-	global $wpdb, $table_name;
-	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
-	$acleurl = get_permalink(35861);
-	$args = array(
-		'ih' => $inschash,
-		'id' => $idinsc
-		);
-	$inscurl = add_query_arg($args, $acleurl);
-	return $inscurl;
-}
-
 function sgcinsc_storeformdata($data) {
 	global $wpdb, $table_name, $table2_name;
 
@@ -388,19 +275,56 @@ function sgcinsc_storeformdata($data) {
 	return $lastid;
 }
 
-function sgcinsc_validatehash($id, $hash) {
+function sgcinsc_modifydata($data) {
+	global $wpdb, $table_name, $table2_name;
+
 	/**
-	 * Valida el hash en relación con el ID
+	 * Modifica una inscripción
 	 */
-	global $wpdb, $table_name;
-	$checkhash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $id");
-	if($checkhash == $hash) {
-		//Chequeo correcto
-		return true;
+
+	$id = $data['id'];
+	$oldrut = $wpdb->get_var("SELECT rut_alumno FROM $table_name WHERE id = $id" );
+	$rutal = $data['rut_alumno'];
+
+	// Reviso si modificó el RUT
+	if($rutal != $oldrut) {
+		//Necesito verificar que el nuevo rut no se haya inscrito antes
+		$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
+	}
+
+	if($reprut) {
+		//No se repite RUT, puedo seguir con la inscripción
+
+		$mod_data = array(
+			'fecha_modificacion' => current_time( $mysql )
+			);
+
+		$mdata = serialize($mod_data);
+
+		$newdata = array(
+						'rut_alumno' => sgcinsc_processrut($data['rut_alumno']),
+						'rut_apoderado' => sgcinsc_processrut($data['rut_apoderado']),
+						'nombre_alumno' => $data['nombre_alumno'],
+						'nombre_apoderado' => $data['nombre_apoderado'],
+						'curso_alumno' => $data['curso_alumno'],
+						'letracurso_alumno' => $data['letracurso'],
+						'email_apoderado' => $data['email_apoderado'],
+						'redfija_apoderado' => $data['fono_apoderado'],
+						'celu_apoderado' => $data['celu_apoderado'],
+						'seguro_escolar' => $data['seguro_alumno'],
+						'mod_data' => $mdata
+			);
+
+		$whereupdate = array( 'id'=> $data['id'] );
+
+		$updateinsc = $wpdb->update($table_name, $newdata, $whereupdate );
+
+		return $updateinsc;
+
 	} else {
-		//Chequeo incorrecto
 		return false;
 	}
+
 }
 
 function sgcinsc_changeinsc($id, $hash) {
