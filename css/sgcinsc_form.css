@@ -394,6 +394,17 @@
 	margin-top:50px;
 }
 
+@media screen and (max-width:480px) {
+	.filteracles .btn {
+		float:none;
+		margin:0 0 12px 24px;
+	}
+
+	.dia.noacles h1 {
+		display:none;
+	}
+}
+
 .filteracles div.selecthold h4 {
 	margin-bottom:6px;
 }
