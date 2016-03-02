@@ -23,7 +23,7 @@ define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/sgccsv/');
 
 //Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
-define( 'SGCINSC_ENDINSC', '20-04-2015');
+define( 'SGCINSC_ENDINSC', '20-04-2016');
 
 //Etapa de inscripción
 define( 'SGCINSC_STAGE', 1);
