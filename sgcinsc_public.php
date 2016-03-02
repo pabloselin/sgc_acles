@@ -173,10 +173,10 @@ function sgcinsc_orderedacles($cupos) {
 				}
 				$acles[$dia][$horario] .= ' <dl><dd>'.implode(', ', $nicecursos).'</dd></dl>';
 				
-				if(is_user_logged_in()){
+				
 					$totcupos = get_post_meta($aclespost->ID, 'sgcinsc_cuposacle', true);
-					$acles[$dia][$horario] .= '<p class="admincupos">' . sgcinsc_cupos($aclespost->ID) .'/' . $totcupos . '</p>';
-				}
+					$acles[$dia][$horario] .= '<p class="admincupos">cupos: ' . sgcinsc_cupos($aclespost->ID) .' de ' . $totcupos . '</p>';
+				
 
 				$acles[$dia][$horario] .= '</div>';
 			}

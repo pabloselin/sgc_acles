@@ -23,7 +23,7 @@ function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado,
 		$message .= '<p>Horario: ' . sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
 		$message .= '</td></tr>';	
 	endforeach;
-	$message .= '<tr><td><p><strong>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida.</strong></p></td></tr>';
+	$message .= '<tr><td><p><strong>' . SGCINSC_ACLERESP . '</strong></p></td></tr>';
 	$message .= '</table>';
 	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($ID_inscripcion) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
 	$message .= '<p>Para consultas escriba a inscripcionacle@gmail.com</p>';

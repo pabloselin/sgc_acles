@@ -519,6 +519,9 @@ function sgcinsc_checkrep($rut, $columna) {
 }
 
 function sgcinsc_checkreprut($rut, $columna) {
+	/**
+	 * Busca si hay otro rut, devuelve FALSE en caso que haya otro RUT
+	 */
 	global $wpdb, $table_name;
 	$consulta = $wpdb->get_var(
 			"SELECT id FROM $table_name
@@ -552,6 +555,9 @@ function sgcinsc_checksecondreprut($rut, $columna) {
 }
 
 function sgcinsc_processrut($rut) {
+	/**
+	 * Limpia el rut para guardarlo en la base de datos y usarlo en comparaciones
+	 */
 	//Saco los puntos
 	$rut = str_replace('.', '', $rut);
 	//Elimino el guión

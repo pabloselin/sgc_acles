@@ -142,7 +142,6 @@ function sgcinsc_fixinsc($data) {
 
 		 } else {
 		 	//SI hay diferencia de ACLES
-		 	echo 'NEW ACLES';
 		 	
 		 	//Buscar la diferencia
 
@@ -207,6 +206,20 @@ function sgcinsc_fixinsc($data) {
 		 		);
 
 		 	$update = $wpdb->update($table_name, $updatedata, $whereupdata);
+		 	$updateotherdata = sgcinsc_modifydata($data);
+
+		 	$nonce = wp_create_nonce( 'checkinsc' );
+			
+			$successarr = array(
+							'excode' => 5,
+							'idinsc' => $id,
+							'checkinsc' => $nonce
+							);
+			$modacleurl = add_query_arg($successarr, get_permalink());
+			
+
+
+			wp_redirect($modacleurl, 303);
 
 		 }
 	}
@@ -284,13 +297,19 @@ function sgcinsc_modifydata($data) {
 
 	$id = $data['id'];
 	$oldrut = $wpdb->get_var("SELECT rut_alumno FROM $table_name WHERE id = $id" );
-	$rutal = $data['rut_alumno'];
+	$rutal = sgcinsc_processrut($data['rut_alumno']);
+
+	$reprut = true;
 
 	// Reviso si modificó el RUT
 	if($rutal != $oldrut) {
 		//Necesito verificar que el nuevo rut no se haya inscrito antes
 		$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
 	}
+
+	var_dump($reprut);
+	var_dump($oldrut);
+	var_dump($rutal);
 
 	if($reprut) {
 		//No se repite RUT, puedo seguir con la inscripción
@@ -319,10 +338,23 @@ function sgcinsc_modifydata($data) {
 
 		$updateinsc = $wpdb->update($table_name, $newdata, $whereupdate );
 
-		return $updateinsc;
+		//Un nonce pa la url
+		$nonce = wp_create_nonce('checkinsc');
+		$successarr = array(
+			'excode' => 4,
+			'idinsc' => $data['id'],
+			'checkinsc' => $nonce
+			);
+
+		$modurl = add_query_arg($successarr, get_permalink());
+
+		wp_redirect($finalurl, 303);
 
 	} else {
-		return false;
+		
+		$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
+		wp_redirect($errorurl, 303);
+
 	}
 
 }
