@@ -10,7 +10,7 @@ define('SGCINSC_TXTPDFACLES', 'Resultados inscripción ACLE 2015 Primera Etapa (
 
 define('SGCINSC_WARNSTAGE', 'No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.');
 
-define('SGCINSC_MODWARN', 'Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles.');
+define('SGCINSC_MODWARN', 'Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles. Estos son los cursos que usted ya tiene inscritos.');
 
 define('SGCINSC_WARNLIST_1', 'En caso de modificar los ACLES inscritos se invalidarán los ACLES inscritos previamente y sólo podrá inscribir cursos que cuenten con cupos disponibles hasta ahora.');
 

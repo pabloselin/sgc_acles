@@ -10,8 +10,10 @@ function sgcinsc_displaycursos() {
 	$curso = $_POST['nivel'];
 	$rutalumno = sgcinsc_processrut($_POST['rutalumno']);
 	$modcond = $_POST['mod'];
+	$id = $_POST['idinsc'];
 
-	$cursos_preinscritos = sgcinsc_aclesporalumno($rutalumno);
+	$inscripcion = sgcinsc_getinsc($id);
+	$cursos_preinscritos = unserialize($inscripcion[0]->acles_inscritos);
 	
 	if($cursos_preinscritos && SGCINSC_STAGE > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
@@ -34,10 +36,11 @@ function sgcinsc_displaycursos() {
 	endif;
 
 	if($modcond == 1):
-		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
+		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
 		echo '<div class="preinsc mod well">';
-		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' <strong>' . $nombrealumno . '</strong>:</p>';
+		echo '<p>ID Inscripción:' . $id .'</p>';
+		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -332,6 +335,13 @@ function sgcinsc_nombrealumno($rut) {
 	//devuelve el nombre del alumno por el rut
 	global $wpdb, $table_name;
 	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE rut_alumno = $rut");
+	return $nombre;
+}
+
+function sgcinsc_nombrealumnoporid($id) {
+	//devuelve el nombre del alumno por el rut
+	global $wpdb, $table_name;
+	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE id = $id");
 	return $nombre;
 }
 

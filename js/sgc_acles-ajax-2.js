@@ -103,9 +103,11 @@ function sgcinsc_niceSeguro(seguro) {
 }
 
 //Muestra los cursos disponibles para cada nivel
-function sgcinsc_renderAcles(curso, rut, modcond) {
+function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
   console.log(curso);
+  inscparam = typeof idinsc !== 'undefined' ? idinsc : 0;
   var ajaxPlace = $('#ajaxAclesPlace');
+
   var nicecurso = sgcinsc_niceCurso(curso);
   ajaxPlace.empty().append('<i class="icon-refresh icon-spin"></i><br/>Cargando cursos disponibles...');
   jQuery.ajax({
@@ -115,7 +117,8 @@ function sgcinsc_renderAcles(curso, rut, modcond) {
       action: 'sgcinsc_displaycursos',
       nivel: curso,
       rutalumno: rut,
-      mod: modcond
+      mod: modcond,
+      idinsc: idinsc
     },
     success: function(data, textStatus, XMLHttpRequest) {
       ajaxPlace.empty().append(data);
@@ -243,7 +246,7 @@ function countemptyacles(container, message) {
 }
 
 function sgc_getprevinsc(RUT) {
-  //Obtiene los IDs de las inscripciones previas de un alumno
+  //Obtiene los IDs de las inscripciones previas de un alumno por su RUT
   jQuery.ajax({
     type: 'POST',
     url: sgcajax.ajaxurl,
@@ -259,6 +262,25 @@ function sgc_getprevinsc(RUT) {
     }
   })
 }
+
+function sgc_getprevinscid(idinsc) {
+  //Obtiene los IDs de las inscripciones previas de un alumno por su RUT
+  jQuery.ajax({
+    type: 'POST',
+    url: sgcajax.ajaxurl,
+    data: {
+      action: 'sgcinsc_getprevinscid',
+      id: idinsc
+    },
+    success: function(data, textStatus, XMLHttpRequest) {
+      console.log(data);
+    }, 
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      console.log(errorThrown);
+    }
+  })
+}
+
 
 /* La siguiente instrucción extiende las capacidades de jquery.validate() para que
   admita el método RUT, por ejemplo:
@@ -284,6 +306,7 @@ $(document).ready(function() {
   //$('#article-acleinscstep1 #sgcinsc_submit').hide();
   checkedarray = new Array();
   modcond = $('form#sgcinsc_form').data('mod');
+  idinsc = $('form#sgcinsc_form').data('id');
 
   $('#otroseguro, #emailalumno').hide();
 
@@ -432,7 +455,7 @@ $('#sgcinsc_form').validate(
                       console.log(parseInt(alumrut));
                     }                    
                     else if(currentIndex == 2){
-                      sgcinsc_renderAcles(cursel, alumrut, modcond);                     
+                      sgcinsc_renderAcles(cursel, alumrut, modcond, idinsc);                     
                     } else if(currentIndex == 3) {
                       formdata = $("#sgcinsc_form").serializeArray();                      
                       sgcinsc_renderFinalInfo(formdata);

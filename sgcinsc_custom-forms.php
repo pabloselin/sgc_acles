@@ -295,21 +295,15 @@ function sgcinsc_modifydata($data) {
 	 * Modifica una inscripción
 	 */
 
-	$id = $data['id'];
+	$id = $data['inscid'];
 	$oldrut = $wpdb->get_var("SELECT rut_alumno FROM $table_name WHERE id = $id" );
 	$rutal = sgcinsc_processrut($data['rut_alumno']);
 
 	$reprut = true;
 
-	// Reviso si modificó el RUT
-	if($rutal != $oldrut) {
-		//Necesito verificar que el nuevo rut no se haya inscrito antes
+	if($oldrut != $rutal) {
 		$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
 	}
-
-	var_dump($reprut);
-	var_dump($oldrut);
-	var_dump($rutal);
 
 	if($reprut) {
 		//No se repite RUT, puedo seguir con la inscripción
@@ -334,7 +328,7 @@ function sgcinsc_modifydata($data) {
 						'mod_data' => $mdata
 			);
 
-		$whereupdate = array( 'id'=> $data['id'] );
+		$whereupdate = array( 'id'=> $id );
 
 		$updateinsc = $wpdb->update($table_name, $newdata, $whereupdate );
 
@@ -348,7 +342,7 @@ function sgcinsc_modifydata($data) {
 
 		$modurl = add_query_arg($successarr, get_permalink());
 
-		wp_redirect($finalurl, 303);
+		wp_redirect($modurl, 303);
 
 	} else {
 		
