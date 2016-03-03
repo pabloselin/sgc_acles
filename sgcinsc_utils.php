@@ -384,7 +384,7 @@ function sgcinsc_insctemplate($idinsc) {
 		'mod' => 1
 		);
 	$modlink = add_query_arg( $args, get_permalink(SGCINSC_INSCID) );
-		
+	var_dump($modlink);	
 
 		$output .= '<p></p><div class="alert alert-info">Información de la inscripción</div>';
 
@@ -476,7 +476,7 @@ function sgcinsc_url($idinsc) {
 	 */
 	global $wpdb, $table_name;
 	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
-	$acleurl = get_permalink(35861);
+	$acleurl = get_permalink(SGCINSC_INSCID);
 	$args = array(
 		'ih' => $inschash,
 		'id' => $idinsc
