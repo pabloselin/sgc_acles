@@ -68,7 +68,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 							</div>
 
 							<div class="control-group">								
-								<label class="control-label" for="curso_alumno">Curso Alumno(a):</label>
+								<label class="control-label" for="curso_alumno">Curso Alumno(a) <strong>2016</strong>:</label>
 								
 								<div class="controls">									
 									<select name="curso_alumno">
@@ -304,6 +304,8 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 								<div class="datos-acle well">
 								</div>
 
+								<?php if(SGCINSC_STAGE > 1):?>
+
 								<div class="control-group alert alert-info">
 								
 									<p>Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida</p>
@@ -313,6 +315,8 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 										<div class="controls finalcheckbox">
 										<input type="checkbox" class="input-xlarge" name="acepta_terminos"></div>
 									</div>								
+								
+								<?php endif;?>
 
 							</fieldset>
 
