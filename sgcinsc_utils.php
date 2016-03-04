@@ -48,8 +48,6 @@ function sgcinsc_displaycursos() {
 			
 		}
 
-		echo '<p>' . SGCINSC_MODWARN . '</p>';
-
 		echo '</div>';
 	endif;
 

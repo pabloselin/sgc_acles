@@ -219,7 +219,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 								</div>
 
 								<div class="control-group">									
-									<label class="control-label" for="fono_apoderado">Teléfono fijo apoderado(a):</label>
+									<label class="control-label" for="fono_apoderado">Teléfono fijo apoderado(a): <br><span class="badge">opcional</span></label>
 								
 									<div class="controls">									
 										<div class="input-prepend">
@@ -234,7 +234,6 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 
 										<?php endif;?>
 										</div>
-
 										<span class="help-block">Ejemplo: 27279199</span>
 									</div>
 								</div>

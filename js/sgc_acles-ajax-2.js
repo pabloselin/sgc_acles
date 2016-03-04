@@ -97,7 +97,7 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
       if(minacle == 2) {
         $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo ' + minacle + ' A.C.L.E.s.</strong>');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo' + minacle + ' A.C.LE.s.</strong>');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo ' + minacle + ' A.C.LE.s.</strong>');
       }
       
       //Chequeo las que se chequearon en otros pasos.
@@ -279,7 +279,7 @@ $('#sgcinsc_form').validate(
   errorPlacement: function(error, element) {
         if(element.is('input[name="aclecurso[]"]')) {
             error.appendTo('#ajaxErrorPlace');
-        } else if(element.is('input[name="celu_apoderado"]')) {
+        } else if(element.is('input[name="celu_apoderado"]') || element.is('input[name="fono_apoderado"]') ) {
           error.appendTo(element.closest('.controls'));
         }
         else {            
@@ -322,7 +322,7 @@ $('#sgcinsc_form').validate(
     },
     fono_apoderado: {
       minlength: 8,
-      required: false
+      maxlength: 8
     },
     celu_apoderado: {
       minlength: 8,
@@ -372,7 +372,8 @@ $('#sgcinsc_form').validate(
     },
     fono_apoderado: {
       required: 'Falta el teléfono fijo del apoderado(a)',
-      minlength: 'El número es demasiado corto'
+      minlength: 'El número es demasiado corto, deben ser 8 dígitos',
+      maxlength: 'El número es demasiado largo, deben ser 8 dígitos'
     },
     acepta_terminos: {
       required: 'Debe aceptar los términos para inscribir'
