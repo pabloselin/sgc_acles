@@ -23,7 +23,13 @@ function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado,
 		$message .= '<p>Horario: ' . sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
 		$message .= '</td></tr>';	
 	endforeach;
-	$message .= '<tr><td><p><strong>' . SGCINSC_ACLERESP . '</strong></p></td></tr>';
+	
+	if(SGCINSC_STAGE > 1):
+
+		$message .= '<tr><td><p><strong>' . SGCINSC_ACLERESP . '</strong></p></td></tr>';
+
+	endif;
+	
 	$message .= '</table>';
 	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($ID_inscripcion) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
 	$message .= '<p>Para consultas escriba a ' . SGCINSC_MAILINSC .'</p>';
