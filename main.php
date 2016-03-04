@@ -31,7 +31,7 @@ define( 'SGCINSC_STAGE', 1);
 
 //Modo debug para no enviar chorradas
 define('SGCINSC_DEBUG', false);
-define('SGCINSC_INSCID', 35729);
+define('SGCINSC_INSCID', 26539);
 //define('SGCINSC_INSCID', 36129);
 
 if(!is_dir(SGCINSC_CSVPATH)){

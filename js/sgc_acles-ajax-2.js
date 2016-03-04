@@ -515,7 +515,7 @@ $('#sgcinsc_form').validate(
       minacle = 1;      
       maxacle = 3;          
     } else {
-      minacle = 1;            
+      minacle = 2;            
       maxacle = 3;
       }; 
       //Máximo igual para todos
