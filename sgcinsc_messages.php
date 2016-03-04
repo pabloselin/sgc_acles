@@ -44,7 +44,7 @@ define('SGCINSC_YOURID', 'El número identificador de su inscripción es el ');
 define('SGCINSC_DOUBTINSC', 'Dudas y consultas sobre acles y su proceso de inscripción:');
 
 /**
- * Códigos de Error
+ * Mensajes de Error
  */
 
 

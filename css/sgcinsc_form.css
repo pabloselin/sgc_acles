@@ -297,8 +297,9 @@
 }
 
 #sgcinsc_form .sincursos {
-	display: none;
+	display: block;
 	text-align: center;
+	text-indent:-9999em;
 }
 
 #sgcinsc_form #ajaxErrorPlace .error {
@@ -493,3 +494,10 @@ div.btncontainer {
 	box-shadow:0 2px 4px #333;
 }
 
+
+.datos-alumno.well,
+.datos-apoderado.well,
+.datos-acle.well
+ {
+	background-color:white;
+}

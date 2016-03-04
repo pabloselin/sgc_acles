@@ -187,8 +187,8 @@ function sgcinsc_renderFinalInfo(data) {
                     '<li><span class="fieldcont">Nombre: </span>' + dataObj['nombre_apoderado'] + '</li>' +
                     '<li><span class="fieldcont">RUT: </span>' + dataObj['rut_apoderado'] + '</li>' +
                     '<li><span class="fieldcont">Email: </span>' + dataObj['email_apoderado'] + '</li>' +
-                    '<li><span class="fieldcont">Teléfono: </span>' + dataObj['fono_apoderado'] + '</li>' +
-                    '<li><span class="fieldcont">Celular: </span>' + dataObj['celu_apoderado'] + '</li>';                  
+                    '<li><span class="fieldcont">Teléfono: +56 2 </span>' + dataObj['fono_apoderado'] + '</li>' +
+                    '<li><span class="fieldcont">Celular: +56 9 </span>' + dataObj['celu_apoderado'] + '</li>';                  
   datosalumno.empty().append(appendstuffalumno);
   datosapoderado.empty().append(appendstuffapoderado);
   
