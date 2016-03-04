@@ -43,4 +43,8 @@ define('SGCINSC_IFNOTRECEIVE', 'Si no lo recibiera, revise su casilla spam, de t
 define('SGCINSC_YOURID', 'El número identificador de su inscripción es el ');
 define('SGCINSC_DOUBTINSC', 'Dudas y consultas sobre acles y su proceso de inscripción:');
 
+/**
+ * Códigos de Error
+ */
+
 
