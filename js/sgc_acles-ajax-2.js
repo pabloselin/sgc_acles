@@ -95,9 +95,9 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
       });
       $('#sgcinsc_form span.cursel').empty().append(nicecurso);
       if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>máximo  ' + maxacle + ' A.C.L.E.s</strong> y <strong>mínimo ' + minacle + ' A.C.L.E.s.</strong>');  
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo ' + minacle + ' A.C.L.E.s.</strong>');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>máximo ' + maxacle + ' A.C.L.E.s</strong> y <strong>mínimo' + minacle + ' A.C.LE.s.</strong>');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo' + minacle + ' A.C.LE.s.</strong>');
       }
       
       //Chequeo las que se chequearon en otros pasos.
@@ -322,7 +322,7 @@ $('#sgcinsc_form').validate(
     },
     fono_apoderado: {
       minlength: 6,
-      required: true
+      required: false
     },
     celu_apoderado: {
       minlength: 8,
@@ -475,10 +475,10 @@ $('#sgcinsc_form').validate(
     //Requerimientos de cursos mínimos y máximos
     if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
       minacle = 1;      
-      maxacle = 3;          
+      maxacle = 1;          
     } else {
       minacle = 2;            
-      maxacle = 3;
+      maxacle = 2;
       }; 
       //Máximo igual para todos
       

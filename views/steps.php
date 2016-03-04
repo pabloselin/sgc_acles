@@ -222,7 +222,8 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 									<label class="control-label" for="fono_apoderado">Teléfono fijo apoderado(a):</label>
 								
 									<div class="controls">									
-										
+										<div class="input-prepend">
+										<span class="add-on">+56 2</span>
 										<?php if($modcond):?>
 
 											<input class="input-xlarge" type="text" name="fono_apoderado" value="<?php echo $data[0]->redfija_apoderado;?>"></input>
@@ -232,6 +233,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 											<input class="input-xlarge" type="text" name="fono_apoderado"></input>
 
 										<?php endif;?>
+										</div>
 
 										<span class="help-block">Ejemplo: 27279199</span>
 									</div>
