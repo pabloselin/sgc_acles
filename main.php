@@ -31,8 +31,8 @@ define( 'SGCINSC_STAGE', 1);
 
 //Modo debug para no enviar chorradas
 define('SGCINSC_DEBUG', false);
-define('SGCINSC_INSCID', 26400);
-//define('SGCINSC_INSCID', 36129);
+//define('SGCINSC_INSCID', 26400);
+define('SGCINSC_INSCID', 36129);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/acles', 0755);

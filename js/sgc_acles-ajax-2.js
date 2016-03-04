@@ -386,7 +386,7 @@ $('#sgcinsc_form').validate(
     $(element).closest('.control-group').removeClass('success').addClass('error');
   },
   success: function(element) {
-    if(element.is('label[for="rut_alumno"]')) {
+    if(element.is('label[for="rut_alumno"]') || element.is('label[for="rut_apoderado"]')) {
       var curinput = $('input[name="' + element.attr('for') + '"]');
       console.log(curinput.val());
       var elval = $.Rut.formatear(curinput.val(), true);
