@@ -384,9 +384,10 @@ function sgcinsc_insctemplate($idinsc) {
 		'mod' => 1
 		);
 	$modlink = add_query_arg( $args, get_permalink(SGCINSC_INSCID) );
-	var_dump($modlink);	
+	//var_dump($modlink);	
 
-		$output .= '<p></p><div class="alert alert-info">Información de la inscripción</div>';
+
+		$output .= '<h1>Información de la inscripción</h1>';
 
 		//Plantilla
 		$output .= '<div class="datos-alumno well">';
