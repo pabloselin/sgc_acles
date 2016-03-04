@@ -31,7 +31,7 @@ function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado,
 	$message .= '</td></tr></table>';
 	$subject = "Inscripción de A.C.L.E. en Saint Gaspar College";
 
-	$header = array(
+	$headers = array(
 		'From: Saint Gaspar College <info@saintgasparcollege.cl>',
 		'Reply-To: Ayuda Acle Saint Gaspar College <' .  SGCINSC_MAILINSC . '>',
 		'MIME-Version: 1.0',
