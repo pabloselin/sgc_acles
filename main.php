@@ -23,7 +23,7 @@ define( 'SGCINSC_CSVPATH', WP_CONTENT_DIR . '/acles/');
 define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 
 //Variables a configurar en página aparte
-define( 'SGCINSC_MAILINSC', 'inscripcionacle@gmail.com');
+define( 'SGCINSC_MAILINSC', 'ayudaacle@gmail.com');
 define( 'SGCINSC_ENDINSC', '20-04-2016');
 
 //Etapa de inscripción
