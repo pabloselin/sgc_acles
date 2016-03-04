@@ -29,11 +29,14 @@ function sgcinsc_confirmail($email_apoderado, $nombre_alumno, $nombre_apoderado,
 	$message .= '<p>Para consultas escriba a ' . SGCINSC_MAILINSC .'</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
 	$message .= '</td></tr></table>';
-	$subject = 'Inscripción de A.C.L.E. en Saint Gaspar College';
-	$headers = "From:info@saintgasparcollege.cl" . "\r\n";
-	$headers = 'Reply-To: Ayuda Acle Saint Gaspar College <' .  SGCINSC_MAILINSC . '>';
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+	$subject = "Inscripción de A.C.L.E. en Saint Gaspar College";
+
+	$header = array(
+		'From: Saint Gaspar College <info@saintgasparcollege.cl>',
+		'Reply-To: Ayuda Acle Saint Gaspar College <' .  SGCINSC_MAILINSC . '>',
+		'MIME-Version: 1.0',
+		'Content-Type: text/html; charset=UTF-8'
+		);
 
 	$debug = SGCINSC_DEBUG;
 	//Email al alumno
