@@ -321,7 +321,7 @@ $('#sgcinsc_form').validate(
       email:true
     },
     fono_apoderado: {
-      minlength: 6,
+      minlength: 8,
       required: false
     },
     celu_apoderado: {

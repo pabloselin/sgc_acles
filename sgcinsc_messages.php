@@ -31,3 +31,16 @@ define('SGCINSC_ACLERESP', 'Una vez inscrita la/s ACLE adicional/es, el/la alumn
  */
 
 define('SGCINSC_PDFACLES', 'http://www.saintgasparcollege.cl/wp-content/uploads/2013/10/LISTA-ACLE-2015.pdf');
+
+
+/**
+ * Mensajes en la plantilla
+ */
+
+define('SGCINSC_SUCCESSINSC', '¡Hemos recibido su inscripción!');
+define('SGCINSC_MAILUP', 'En unos minutos recibirá un aviso informativo en el email del apoderado(a)');
+define('SGCINSC_IFNOTRECEIVE', 'Si no lo recibiera, revise su casilla spam, de todos modos la inscripción ya ha sido registrada y se encuentra en nuestra base de datos.');
+define('SGCINSC_YOURID', 'El número identificador de su inscripción es el ');
+define('SGCINSC_DOUBTINSC', 'Dudas y consultas sobre acles y su proceso de inscripción:');
+
+
