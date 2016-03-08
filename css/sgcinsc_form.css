@@ -495,6 +495,10 @@ div.btncontainer {
 	box-shadow:0 2px 4px #333;
 }
 
+#inscboton.btn.disabled:hover {
+	box-shadow:0;
+}
+
 
 .datos-alumno.well,
 .datos-apoderado.well,
