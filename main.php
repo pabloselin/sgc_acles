@@ -49,6 +49,8 @@ include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminpage.php');
 
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminoptions.php');
 
+include( plugin_dir_path( __FILE__ ) . 'admin/refoptions2.php');
+
 //Contenidos especiales
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-content.php');
 

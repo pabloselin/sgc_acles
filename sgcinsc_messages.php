@@ -22,7 +22,7 @@ define('SGCINSC_MODLINKTXT', 'Modificar Inscripción');
 
 define('SGCINSC_STAGEMODWARN', 'Usted en la Primera etapa de inscripción ha inscrito los siguientes A.C.L.E.s para el alumno/a ');
 
-define('SGCINSC_MODWARN', 'Usted ha inscrito previamente los siguientes A.C.L.E.s para el alumno/a');
+define('SGCINSC_MODWARN_2', 'Usted ha inscrito previamente los siguientes A.C.L.E.s para el alumno/a');
 
 define('SGCINSC_ACLERESP', 'Una vez inscrita la/s ACLE adicional/es, el/la alumno/a tiene el deber de asistir y  responder a las exigencias planteadas en la/s ACLE, según señala el Reglamento de Actividades Curriculares de Libre Elección. En el caso de no asistir, el/la alumno/a obtendrá la nota mínima (2.0) por asistencia, la que será registrada en el sector de aprendizaje afín a la ACLE elegida.');
 
