@@ -608,6 +608,7 @@ $('#sgcinsc_form').validate(
     $('div.acleitem').removeClass('filtered').show();
     countemptyacles('.publicacles .dia', 'No hay A.C.L.E. para el día');
     countemptyacles('.publicacles .dia .horario', 'No hay A.C.L.E. para el horario');
+    $('.dia.noacles').removeClass('noacles');
     $('.tipcurso', alertbox).html(defaultcurso);
     $('.tiparea', alertbox).html(defaultarea);
     $('.tiphorario', alertbox).html(defaulthorario);
