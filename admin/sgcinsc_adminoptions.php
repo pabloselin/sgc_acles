@@ -107,10 +107,11 @@ function sgcinsc_selectpage_callback($args) {
     $options = get_option('sgcinsc_config_options');
 
     $selected = $options['sgcinsc_pagina_insc'];
-    
+
     $args = array(
         'post_type' => 'page',
-        'numberposts' => -1
+        'numberposts' => -1,
+        'post_status' => array('publish', 'private')
         );
 
     $pages = get_posts( $args );
