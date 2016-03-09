@@ -118,18 +118,13 @@ function sgcinsc_displaycursos() {
 			</div>';
 	//Del primer horario		
 	echo '<div class="bloque1">';
-
-	$diasemana = array(
-		'lunes',
-		'martes',
-		'miercoles',
-		'jueves',
-		'viernes'
-		);
 	
 	
 		echo '<div class="dia">';
 		//lunes
+			if(count($lunes1) > 0 || count($lunes2) > 0) {
+				echo '<div class="mdia">Lunes</div>';	
+			}
 			echo sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1);
 			echo sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2);
 
@@ -138,6 +133,9 @@ function sgcinsc_displaycursos() {
 		echo '<div class="dia">';
 	
 	//martes
+		if(count($martes1) > 0 || count($martes2) > 0) {
+				echo '<div class="mdia">Martes</div>';	
+			}
 		echo sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1);
 		echo sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2);
 
@@ -145,6 +143,9 @@ function sgcinsc_displaycursos() {
 
 		echo '<div class="dia">';
 	//miercoles
+		if(count($miercoles1) > 0 || count($miercoles2) > 0) {
+				echo '<div class="mdia">Miércoles</div>';	
+			}
 		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1);
 		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2);
 
@@ -152,6 +153,9 @@ function sgcinsc_displaycursos() {
 
 		echo '<div class="dia">';
 	//jueves
+		if(count($jueves1) > 0 || count($jueves2) > 0) {
+				echo '<div class="mdia">Jueves</div>';	
+			}
 		echo sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1);
 		echo sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2);
 
@@ -159,6 +163,9 @@ function sgcinsc_displaycursos() {
 
 		echo '<div class="dia">';
 	//viernes
+		if(count($viernes1) > 0 || count($viernes2) > 0) {
+				echo '<div class="mdia">Viernes</div>';	
+			}
 		echo sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1);
 		echo sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2);
 
@@ -186,7 +193,6 @@ add_action('wp_ajax_nopriv_sgcinsc_displaycursos', 'sgcinsc_displaycursos');
 function sgcinsc_displaydiacursos($dia, $ndia, $bloquehorario) {
 	if($dia) {
 			$output = '<div class="curso">';
-			$output .= '<div class="mdia">' . $ndia . '</div>';
 			$output .= '<h4>' . $bloquehorario .'</h4>';
 		foreach($dia as $curdia) {
 			$output .= sgcinsc_acleitem($curdia->ID);

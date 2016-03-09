@@ -422,6 +422,19 @@
 	margin:24px 24px 0;
 }
 
+.publicacles .dia h1 {
+	margin-top:24px;
+	margin-bottom:0;
+}
+
+.publicacles .horario {
+	margin-top:12px;	
+}
+
+.publicacles .horario h2 {
+	margin-top:0;
+}
+
 .publicacles .acleitem {
 	padding:6px;
 	background-color:#B0CF89;
