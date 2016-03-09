@@ -350,6 +350,12 @@ function sgcinsc_getinsc($idinsc) {
 }
 
 function sgcinsc_inscbotonshortcode($atts) {
+	/**
+	 * Muestra el botón de ACLE linkeando a la inscripción
+	 */
+
+	global $openinsc;
+
 	$a = shortcode_atts(array(
 		'texto' => 'Texto Botón',
 		'id' => 0,
@@ -361,10 +367,11 @@ function sgcinsc_inscbotonshortcode($atts) {
 	$output = '<div class="btncontainer">';
 	$output .= '<p style="text-align:center;">';
 	$endtext = 'Inscripciones Cerradas';
-	if($off == 'true') {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
-	} else {
+
+	if($openinsc == 1) {
 		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
+	} else {
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
 	}
 	
 	$output .= '</p>';
@@ -375,13 +382,15 @@ function sgcinsc_inscbotonshortcode($atts) {
 add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');
 
 function sgcinsc_insctemplate($idinsc) {
+	global $inscid;
+
 	$data = sgcinsc_getinsc($idinsc);
 	$args = array(
 		'ih' => $_GET['ih'],
 		'id' => $idinsc,
 		'mod' => 1
 		);
-	$modlink = add_query_arg( $args, get_permalink(SGCINSC_INSCID) );
+	$modlink = add_query_arg( $args, get_permalink($inscid) );
 	//var_dump($modlink);	
 
 
@@ -473,9 +482,9 @@ function sgcinsc_url($idinsc) {
 	/**
 	 * Devuelve la URL de la inscripción basado en ID
 	 */
-	global $wpdb, $table_name;
+	global $wpdb, $table_name, $inscid;
 	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
-	$acleurl = get_permalink(SGCINSC_INSCID);
+	$acleurl = get_permalink($inscid);
 	$args = array(
 		'ih' => $inschash,
 		'id' => $idinsc

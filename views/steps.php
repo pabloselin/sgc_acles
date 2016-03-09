@@ -4,6 +4,14 @@
 //Variable de modificación de inscripción
 $modcond = false;
 
+//Ver si inscripciones están abiertas
+$options = get_option('sgcinsc_config_options');
+$openinsc = $options['sgcinsc_open_insc'];
+
+
+if($openinsc == 1):
+
+
 if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET['ih']) ) {
 	
 	if(sgcinsc_validatehash($_GET['id'], $_GET['ih']) ) {
@@ -325,3 +333,17 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 
 						</form>									
 			</div>
+
+	<?php else:
+	?>
+
+	<div class="alert alert-warning">
+		
+		<h2>Inscripciones Cerradas</h2>
+
+	</div>
+
+	<?php
+		endif;
+		//Fin comprobador de inscripciones si están abiertas o cerradas
+	?>

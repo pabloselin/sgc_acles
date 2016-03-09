@@ -24,7 +24,6 @@ define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 
 //Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'ayudaacle@gmail.com');
-define( 'SGCINSC_ENDINSC', '20-04-2016');
 
 //Etapa de inscripción
 define( 'SGCINSC_STAGE', 1);
@@ -38,6 +37,15 @@ if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/acles', 0755);
 }
 
+//Ver si están las inscripciones abiertas
+$options = get_option('sgcinsc_config_options');
+
+$openinsc = $options['sgcinsc_open_insc'];
+
+//El ID de la página que regula las inscripciones
+
+$inscid = $options['sgcinsc_pagina_insc'];
+
 //Clases requeridas
 
 // 1.Meta Box
@@ -48,8 +56,6 @@ if(!is_dir(SGCINSC_CSVPATH)){
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminpage.php');
 
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminoptions.php');
-
-//include( plugin_dir_path( __FILE__ ) . 'admin/refoptions2.php');
 
 //Contenidos especiales
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-content.php');
