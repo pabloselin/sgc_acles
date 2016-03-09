@@ -106,6 +106,8 @@ function sgcinsc_open_insc_callback($args) {
 function sgcinsc_selectpage_callback($args) {
     $options = get_option('sgcinsc_config_options');
 
+    $selected = $options['sgcinsc_pagina_insc'];
+    
     $args = array(
         'post_type' => 'page',
         'numberposts' => -1
@@ -114,12 +116,12 @@ function sgcinsc_selectpage_callback($args) {
     $pages = get_posts( $args );
 
     $html = '<select name="sgcinsc_config_options[sgcinsc_pagina_insc]">';
+
+    
+
+    $html .= '<option value="0">Escoge una página</option>';
     
     foreach($pages as $page) {
-        
-        $selected = $options['sgcinsc_pagina_insc'];
-
-        $html .= '<option value="0">Escoge una página</option>';
 
         if($selected == $page->ID) {
 
