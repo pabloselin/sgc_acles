@@ -9,7 +9,7 @@ $options = get_option('sgcinsc_config_options');
 $openinsc = $options['sgcinsc_open_insc'];
 
 
-if($openinsc == 1):
+if($openinsc == 1 || is_user_logged_in() ):
 
 
 if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET['ih']) ) {
