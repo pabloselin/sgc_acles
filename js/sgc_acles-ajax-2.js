@@ -257,6 +257,14 @@ jQuery.validator.addMethod("rut2", function(value, element) {
         return this.optional(element) || $.Rut.validar(value); 
 }, "Revise el RUT, puede que esté mal escrito");
 
+//Validator para emails
+$.validator.addMethod("customemail", 
+    function(value, element) {
+        return /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i.test(value);
+    }, 
+    "Su email no parece ser válido"
+);
+
 $(document).ready(function() {
 	//$('#article-acleinscstep1 .step').hide();
   //$('#article-acleinscstep1 #sgcinsc_submit').hide();
@@ -317,8 +325,13 @@ $('#sgcinsc_form').validate(
     },
     email_apoderado: {
       minlength: 10,
-      required: true,
-      email:true
+      required: {
+        depends:function(){
+                    $(this).val($.trim($(this).val()));
+                        return true;
+                      }
+                  },
+      customemail:true
     },
     fono_apoderado: {
       minlength: 8,
