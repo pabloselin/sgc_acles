@@ -20,20 +20,6 @@ function sgcinsc_aclesporcurso($curso) {
 	return $cursos;	
 }
 
-function sgcinsc_displaydiacursos($dia, $ndia) {
-	if($dia) {
-			$output = '<div class="curso">';
-			$output .= '<div class="mdia">' . $ndia . '</div>';
-		foreach($dia as $curdia) {
-			$output .= sgcinsc_acleitem($curdia->ID);
-		}
-			$output .= '</div>';
-	} else {
-			$output = '<div class="curso"><em class="sincursos">Sin cursos para este tramo horario</em></div>';
-		}
-	return $output;
-}
-
 function sgcinsc_publicacle($id) {
 	$acleunit = '<div class="acleunit" data-area="{idarea}" data-curso="{idcurso}" data-horario="{idhorario}">
 					<h2>{title}</h2>

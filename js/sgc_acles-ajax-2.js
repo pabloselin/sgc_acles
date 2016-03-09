@@ -95,9 +95,9 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
       });
       $('#sgcinsc_form span.cursel').empty().append(nicecurso);
       if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo ' + minacle + ' A.C.L.E.s.</strong>');  
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.L.E.s.</strong>');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>mínimo ' + minacle + ' A.C.LE.s.</strong>');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.LE.s.</strong>');
       }
       
       //Chequeo las que se chequearon en otros pasos.

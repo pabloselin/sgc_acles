@@ -12,6 +12,9 @@ function sgcinsc_displaycursos() {
 	$modcond = $_POST['mod'];
 	$id = $_POST['idinsc'];
 
+	$bloquehorario_1 = '15:20 a 16:50';
+	$bloquehorario_2 = '17:00 a 18:30';
+
 	$inscripcion = sgcinsc_getinsc($id);
 	$cursos_preinscritos = unserialize($inscripcion[0]->acles_inscritos);
 	
@@ -52,6 +55,8 @@ function sgcinsc_displaycursos() {
 	endif;
 
 	$acleitems = sgcinsc_aclesporcurso($curso);	
+
+
 	foreach($acleitems as $key=>$acleitem):
 		//Distribuir cursos en columnas según día y hora	
 		
@@ -104,34 +109,72 @@ function sgcinsc_displaycursos() {
 	//dias de la semana
 	echo '<div class="acleheading">
 			
-			<div class="fcol">Horario</div><div class="curso">Lunes</div><div class="curso">Martes</div><div class="curso">Miércoles</div><div class="curso">Jueves</div><div class="curso">Viernes</div>
+			<div class="curso">Lunes</div>
+			<div class="curso">Martes</div>
+			<div class="curso">Miércoles</div>
+			<div class="curso">Jueves</div>
+			<div class="curso">Viernes</div>
+
 			</div>';
 	//Del primer horario		
 	echo '<div class="bloque1">';
-	echo '<div class="horario fcol">15:20 a 16:50</div>';
-		echo sgcinsc_displaydiacursos($lunes1, 'Lunes');
+
+	$diasemana = array(
+		'lunes',
+		'martes',
+		'miercoles',
+		'jueves',
+		'viernes'
+		);
+	
+	
+		echo '<div class="dia">';
+		//lunes
+			echo sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1);
+			echo sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2);
+
+		echo '</div>';	
+
+		echo '<div class="dia">';
+	
 	//martes
-		echo sgcinsc_displaydiacursos($martes1, 'Martes');
+		echo sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1);
+		echo sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2);
+
+		echo '</div>';
+
+		echo '<div class="dia">';
 	//miercoles
-		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles');
+		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1);
+		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2);
+
+		echo '</div>';
+
+		echo '<div class="dia">';
 	//jueves
-		echo sgcinsc_displaydiacursos($jueves1, 'Jueves');
+		echo sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1);
+		echo sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2);
+
+		echo '</div>';
+
+		echo '<div class="dia">';
 	//viernes
-		echo sgcinsc_displaydiacursos($viernes1, 'Viernes');
-	echo '</div>';
-	//Del segundo horario		
-	echo '<div class="bloque2">';
-	echo '<div class="horario fcol">17:00 a 18:30</div>';
-		echo sgcinsc_displaydiacursos($lunes2, 'Lunes');
+		echo sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1);
+		echo sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2);
+
+		echo '</div>';
+
+	echo '</div><!--bloque 1-->';
+	
+		
 	//martes
-		echo sgcinsc_displaydiacursos($martes2, 'Martes');
+		
 	//miercoles
-		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles');
+		
 	//jueves
-		echo sgcinsc_displaydiacursos($jueves2, 'Jueves');
+		
 	//viernes
-		echo sgcinsc_displaydiacursos($viernes2, 'Viernes');
-	echo '</div>';
+		
 	echo '</div>';
 	exit();
 }
@@ -139,6 +182,21 @@ function sgcinsc_displaycursos() {
 add_action('wp_ajax_sgcinsc_displaycursos', 'sgcinsc_displaycursos');
 add_action('wp_ajax_nopriv_sgcinsc_displaycursos', 'sgcinsc_displaycursos');
 
+
+function sgcinsc_displaydiacursos($dia, $ndia, $bloquehorario) {
+	if($dia) {
+			$output = '<div class="curso">';
+			$output .= '<div class="mdia">' . $ndia . '</div>';
+			$output .= '<h4>' . $bloquehorario .'</h4>';
+		foreach($dia as $curdia) {
+			$output .= sgcinsc_acleitem($curdia->ID);
+		}
+			$output .= '</div>';
+	} else {
+			$output = '<div class="curso"><em class="sincursos">Sin cursos para este tramo horario</em></div>';
+		}
+	return $output;
+}
 
 function sgcinsc_acleitem($acleid) {
 	

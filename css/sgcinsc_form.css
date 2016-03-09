@@ -221,7 +221,7 @@
 /* Nueva Tabla con Divs para móviles */
 
 #sgcinsc_form .acleheading div,
-#sgcinsc_form div.curso
+#sgcinsc_form div.dia
  {
 	float:left;
 	width:17%;
@@ -358,7 +358,7 @@
 		margin:6px 0;
 	}
 
-	#sgcinsc_form div.curso
+	#sgcinsc_form div.dia
 	 {
 	 	width:100%;
 	 	float:none;
