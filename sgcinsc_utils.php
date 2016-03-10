@@ -12,18 +12,20 @@ function sgcinsc_displaycursos() {
 	$modcond = $_POST['mod'];
 	$id = $_POST['idinsc'];
 
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
+
 	$bloquehorario_1 = '15:20 a 16:50';
 	$bloquehorario_2 = '17:00 a 18:30';
 
-	$inscripcion = sgcinsc_getinsc($id);
-	$cursos_preinscritos = unserialize($inscripcion[0]->acles_inscritos);
-	
-	if($cursos_preinscritos && SGCINSC_STAGE > 1):
+	$inscripcion = sgcinsc_aclesporalumno($rutalumno);
+
+	if($inscripcion && $stage > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 		echo '<div class="preinsc well">';
 		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_STAGEMODWARN .'<strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
 
-		foreach($cursos_preinscritos as $acle) {
+		foreach($inscripcion as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
 			
@@ -39,6 +41,10 @@ function sgcinsc_displaycursos() {
 	endif;
 
 	if($modcond == 1):
+		
+		$inscripcion = sgcinsc_getinsc($id);
+		$cursos_preinscritos = unserialize($inscripcion[0]->acles_inscritos);
+
 		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
 		echo '<div class="preinsc mod well">';
@@ -592,7 +598,9 @@ add_shortcode('sgcinsc_acles', 'sgcinsc_viewaclesshortcode');
 
 
 function sgcinsc_checkrep($rut, $columna) {
-	$stage = SGCINSC_STAGE;
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
+
 	if($stage > 1):
 		return sgcinsc_checksecondreprut($rut, $columna);
 	else:
@@ -619,14 +627,20 @@ function sgcinsc_checkreprut($rut, $columna) {
 function sgcinsc_checksecondreprut($rut, $columna) {
 	//chequea que el rut no se haya usado para una tercera inscripción
 	global $wpdb, $table_name, $table2_name;
+
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
+
 	$puede = true;
 	$consulta = $wpdb->get_results("SELECT * FROM $table_name WHERE $columna = $rut");
+
+	
 	//chequea los múltiples insc donde hay un sgcinsc second
 	foreach($consulta as $consult) {
 		//Ya hay un rut inscrito
 		if($consult->rut_alumno == $rut) {
 			$secondsult = $wpdb->get_var("SELECT etapa_insc FROM $table2_name WHERE id_inscripcion = $consult->id");
-			if($secondsult == SGCINSC_STAGE) {
+			if($secondsult == $stage) {
 				//Ya hay una segunda inscripción
 				$puede = false;
 			}

@@ -25,13 +25,8 @@ define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 //Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'ayudaacle@gmail.com');
 
-//Etapa de inscripción
-define( 'SGCINSC_STAGE', 1);
-
 //Modo debug para no enviar chorradas
 define('SGCINSC_DEBUG', false);
-//define('SGCINSC_INSCID', 26400);
-define('SGCINSC_INSCID', 36129);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/acles', 0755);
@@ -45,6 +40,10 @@ $openinsc = $options['sgcinsc_open_insc'];
 //El ID de la página que regula las inscripciones
 
 $inscid = $options['sgcinsc_pagina_insc'];
+
+//La etapa de inscripción
+
+$inscstage = $options['sgcinsc_etapa_insc'];
 
 //Clases requeridas
 

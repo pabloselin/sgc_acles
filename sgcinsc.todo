@@ -1,9 +1,12 @@
 Daily stuff
 
-- Arreglar el problema de datos anteriores por ID en el paso de selección de ACLES
-- Empezar con el admin
 - Mejorar mensajes al modificar inscripción
 - Hacer una comparativa de las modificaciones que se van a realizar
+
+- Impedir que se pueda seleccionar un ACLE en el mismo horario en la segunda etapa
+
+- Impedir las modificaciones una vez que se cierran las inscripciones o se pasa de una etapa a otra de la inscripción.
+
 
 Segunda tanda inscripción
 

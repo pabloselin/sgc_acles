@@ -7,7 +7,7 @@ $modcond = false;
 //Ver si inscripciones están abiertas
 $options = get_option('sgcinsc_config_options');
 $openinsc = $options['sgcinsc_open_insc'];
-
+$stage = $options['sgcinsc_etapa_insc'];
 
 if($openinsc == 1 || is_user_logged_in() ):
 
@@ -33,7 +33,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 						<!--campos escondidos de info-->
 						<input name="modcond" id="modcond" type="text" class="hidden" value="<?php echo $modcond;?>"></input>
 						<input name="inscid" id="inscid" type="text" class="hidden" value="<?php echo $_GET['id'];?>"></input>
-						<input name="stage" id="stage" type="text" class="hidden" value="<?php echo SGCINSC_STAGE;?>"></input>
+						<input name="stage" id="stage" type="text" class="hidden" value="<?php echo $stage;?>"></input>
 
 							<h2 class="stepmark">Datos del alumno(a) <i class="icon-chevron-right"></i></h2>
 							<fieldset>							
@@ -313,7 +313,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 								<div class="datos-acle well">
 								</div>
 
-								<?php if(SGCINSC_STAGE > 1):?>
+								<?php if($stage > 1):?>
 
 								<div class="control-group alert alert-info">
 								

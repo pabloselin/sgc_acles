@@ -2,7 +2,7 @@
  
 function sandbox_example_theme_menu() {
  
-    add_theme_page(
+    add_options_page(
         'Configuración A.C.L.E.',            // The title to be displayed in the browser window for this page.
         'Configuración A.C.L.E.',            // The text to be displayed for this menu item
         'administrator',            // Which type of users can see this menu item
@@ -23,7 +23,7 @@ function sgcinsc_configpage() {
      
         <div id="icon-themes" class="icon32"></div>
         <h2>Activar inscripción A.C.L.E.</h2>
-        <?php settings_errors(); ?>
+        <?php //settings_errors(); ?>
          
         <form method="post" action="options.php">
             <?php settings_fields( 'sgcinsc_config_options' ); ?>
@@ -71,6 +71,17 @@ function sandbox_initialize_theme_options() {
         'general_settings_section',         // The name of the section to which this field belongs
         array(                              // The array of arguments to pass to the callback. In this case, just a description.
             'Escoge en qué página se mostrará el formulario.'
+        )
+    );
+
+    add_settings_field( 
+        'sgcinsc_etapa_insc',                      // ID used to identify the field throughout the theme
+        'Etapa de inscripción de A.C.L.E.',                           // The label to the left of the option interface element
+        'sgcinsc_selectstage_callback',   // The name of the function responsible for rendering the option interface
+        'sgcinsc_config_options',    // The page on which this option will be displayed
+        'general_settings_section',         // The name of the section to which this field belongs
+        array(                              // The array of arguments to pass to the callback. In this case, just a description.
+            'Escoge qué etapa de inscripción está activa.'
         )
     );
      
@@ -144,5 +155,32 @@ function sgcinsc_selectpage_callback($args) {
 
 } //end sgcinsc_selectpage_callback
 
+function sgcinsc_selectstage_callback($args) {
+    $options = get_option('sgcinsc_config_options');
+    $selected = $options['sgcinsc_etapa_insc'];
+
+    $html = '<select name="sgcinsc_config_options[sgcinsc_etapa_insc]" id="sgcinsc_config_options[sgcinsc_etapa_insc]">';
+
+    $html .= '<option value="">Escoge una etapa</option>';
+    $html .= '<option value="1" ';
+    
+    if($selected == 1):
+        $html .= 'selected';
+    endif;
+
+    $html .= '>1º Etapa de inscripción</option>';
+
+    $html .= '<option value="2" ';
+
+    if($selected == 2):
+        $html .= 'selected';
+    endif;
+
+    $html .= '>2º Etapa de inscripción</option>';
+
+    $html .= '</select>';
+
+    echo $html;
+}
 
 ?>

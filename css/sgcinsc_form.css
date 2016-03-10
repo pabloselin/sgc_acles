@@ -251,6 +251,15 @@
 	font-family:'Raleway', sans-serif;
 }
 
+#sgcinsc_form div.curso {
+	overflow:hidden;
+	margin-bottom:24px;
+}
+
+#sgcinsc_form div.curso h4 {
+	margin:6px 0;
+}
+
 #sgcinsc_form .bloque2 {
 	clear:both;
 } 
@@ -330,6 +339,10 @@
 /* Media Queries */
 
 @media screen and (max-width:970px) {
+	#sgcinsc_form input.hidden {
+		display:none;
+	}
+
 	#sgcinsc_form label.error {
 		position: relative;
 		left: 0;
@@ -362,13 +375,15 @@
 	 {
 	 	width:100%;
 	 	float:none;
+	 	clear:both;
+	 	margin-bottom:16px;
 	 }
 
 	 #sgcinsc_form .mdia {
 	 	display:block;
 	 	font-size:18px;
 	 	font-weight:bold;
-	 	margin:12px 0;
+	 	margin:0 0 12px 0;
 	 }
 }
 

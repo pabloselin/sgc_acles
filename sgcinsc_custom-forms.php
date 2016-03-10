@@ -39,8 +39,9 @@ function sgcinsc_inscribe($data) {
 	/**
 	 * Función general para inscripción de A.C.L.E.
 	 */
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
 
-	$stage = SGCINSC_STAGE;
 	$rutal = sgcinsc_processrut($data['rut_alumno']);
 	$mod = $data['modcond'];
 
@@ -69,26 +70,30 @@ function sgcinsc_inscribe($data) {
 
 			//Verificar que no hayan cosas raras
 
-			// 3.Envía correo de confirmación
-			$email_apoderado = $data['email_apoderado'];
-
 			//el ingreso devuelve un ID de regalo
 			$ID_inscripcion = sgcinsc_storeformdata($data);		
-			$acles = sgcinsc_serializeacles($data);		
 			
 			//añado un validador de nonce par ala URL
-
-			$nonce = wp_create_nonce( 'checkinsc' );
+			if($ID_inscripcion) {
+				$nonce = wp_create_nonce( 'checkinsc' );
 			
-			$successarr = array(
-							'excode' => 1,
-							'idinsc' => $ID_inscripcion,
-							'checkinsc' => $nonce
-							);
-			$finalurl = add_query_arg($successarr, get_permalink());
-						
+				$successarr = array(
+								'excode' => 1,
+								'idinsc' => $ID_inscripcion,
+								'checkinsc' => $nonce
+								);
 
-			wp_redirect($finalurl, 303);
+				$finalurl = add_query_arg($successarr, get_permalink());
+				
+				sgcinsc_confirmail($ID_inscripcion);				
+
+				wp_redirect($finalurl, 303);	
+				
+			} else {
+
+				die();
+			}
+			
 
 		else:
 
@@ -111,6 +116,10 @@ function sgcinsc_fixinsc($data) {
 	 * Función para la modificación de una inscripción previa
 	 */
 	global $wpdb, $table_name, $table2_name;
+
+
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
 
 	//Nonce
 	if(!wp_verify_nonce( $_POST['sgcinsc_nonce'], 'submit_stepone' )) {
@@ -176,7 +185,7 @@ function sgcinsc_fixinsc($data) {
 		 			$insdata = array(
 		 				'id_curso' => $newacle,
 		 				'id_inscripcion' => $id,
-		 				'etapa_insc' => SGCINSC_STAGE
+		 				'etapa_insc' => $stage
 		 				);
 		 			$new = $wpdb->insert($table2_name, $insdata);
 
@@ -228,6 +237,9 @@ function sgcinsc_fixinsc($data) {
 
 function sgcinsc_storeformdata($data) {
 	global $wpdb, $table_name, $table2_name;
+
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
 
 	//Preparar info de cursos
 	// $acles = array();
@@ -281,7 +293,7 @@ function sgcinsc_storeformdata($data) {
 			array(				
 				'id_curso' => $acle,
 				'id_inscripcion' => $lastid,
-				'etapa_insc' => SGCINSC_STAGE				
+				'etapa_insc' => $stage				
 				)
 			);
 	}
