@@ -43,7 +43,7 @@ function sgcinsc_confirmail($id) {
 	endif;
 	
 	$message .= '</table>';
-	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($ID_inscripcion) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
+	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($id) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
 	$message .= '<p>Para consultas escriba a ' . SGCINSC_MAILINSC .'</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
 	$message .= '</td></tr></table>';
