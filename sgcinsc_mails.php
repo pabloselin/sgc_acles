@@ -11,6 +11,7 @@ function sgcinsc_confirmail($id) {
 
 	$inscripcion = sgcinsc_getinsc($id);
 	$nombre_apoderado = $inscripcion[0]->nombre_apoderado;
+	$nombre_alumno = $inscripcion[0]->nombre_alumno;
 	$cursoalumno = sgcinsc_nicecurso($inscripcion[0]->curso_alumno) . ' ' .  $inscripcion[0]->letracurso_alumno;
 	$acles = unserialize($inscripcion[0]->acles_inscritos);
 	$email_apoderado = $inscripcion[0]->email_apoderado;
