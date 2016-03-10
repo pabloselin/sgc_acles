@@ -88,7 +88,7 @@ function sgcinsc_inscribe($data) {
 				sgcinsc_confirmail($ID_inscripcion);				
 
 				wp_redirect($finalurl, 303);	
-				
+
 			} else {
 
 				die();
@@ -226,8 +226,6 @@ function sgcinsc_fixinsc($data) {
 							);
 			$modacleurl = add_query_arg($successarr, get_permalink());
 			
-
-
 			wp_redirect($modacleurl, 303);
 
 		 }

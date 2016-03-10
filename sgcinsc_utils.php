@@ -425,21 +425,21 @@ function sgcinsc_inscbotonshortcode($atts) {
 	 */
 
 	global $openinsc;
+	$options = get_option('sgcinsc_config_options');
+	
+	//El ID de la página que regula las inscripciones
+	$inscid = $options['sgcinsc_pagina_insc'];
 
 	$a = shortcode_atts(array(
 		'texto' => 'Texto Botón',
-		'id' => 0,
-		'off' => false
 		), $atts );
 	$text = $atts['texto'];
-	$link = get_permalink($atts['id']);
-	$off = $atts['off'];
+	$link = get_permalink($inscid);
 	$output = '<div class="btncontainer">';
 	$output .= '<p style="text-align:center;">';
-	$endtext = 'Inscripciones Cerradas';
 
 	if($openinsc == 1) {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-warning btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
 	} else {
 		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
 	}
