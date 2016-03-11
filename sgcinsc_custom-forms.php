@@ -215,7 +215,6 @@ function sgcinsc_fixinsc($data) {
 		 		);
 
 		 	$update = $wpdb->update($table_name, $updatedata, $whereupdata);
-		 	$updateotherdata = sgcinsc_modifydata($data);
 
 		 	$nonce = wp_create_nonce( 'checkinsc' );
 			
@@ -358,7 +357,7 @@ function sgcinsc_modifydata($data) {
 
 		//Envío mail de confirmación
 		sgcinsc_modifymail($id, $oldinsc);
-		
+
 		wp_redirect($modurl, 303);
 
 	} else {

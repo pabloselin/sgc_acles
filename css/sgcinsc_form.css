@@ -281,17 +281,20 @@
 #sgcinsc_form .aclecupos--1, #sgcinsc_form .aclecupos--1:hover
  {
 	background-color:#ccc;
-	display:none;
 }
 
-#sgcinsc_form .aclecupos-1 strong.full,
-#sgcinsc_form .aclecupos-0 strong.full {
-	display:block;
-	clear:both;
-	text-transform:uppercase;
+#sgcinsc_form .aclecupos-1 span.full,
+#sgcinsc_form .aclecupos-0 span.full {
+	display:inline-block;
+	font-size:11px;
+	color:white;
+	background-color:#333;
+	padding:3px 24px;
+	line-height:12px;
 	position: absolute;
-	bottom:0;
-	left:6px;
+	right:-22px;
+	top:18px;
+	transform:rotate(45deg);
 }
 
 #sgcinsc_form label.error, #sgcinsc_form label.valid {

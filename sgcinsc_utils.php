@@ -226,7 +226,7 @@ function sgcinsc_acleitem($acleid) {
 				if($cupos > 0):
 					$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 				else:
-					$output .= '<strong class="full">(Curso completo)</strong>';
+					$output .= '<span class="full">SIN CUPOS</span>';
 				endif;		
 		$output .= '</div>';
 		return $output;
@@ -669,5 +669,5 @@ function sgcinsc_compareinsc($oldinsc, $newinsc) {
 	 * Compara inscripciones y devuelve las diferencias en un array
 	 */
 
-	
+
 }
