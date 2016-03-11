@@ -3,8 +3,8 @@
 function sandbox_example_theme_menu() {
  
     add_options_page(
-        'Configuración A.C.L.E.',            // The title to be displayed in the browser window for this page.
-        'Configuración A.C.L.E.',            // The text to be displayed for this menu item
+        'Activar A.C.L.E.',            // The title to be displayed in the browser window for this page.
+        'Activar A.C.L.E.',            // The text to be displayed for this menu item
         'administrator',            // Which type of users can see this menu item
         'sgcinsc_configacle',    // The unique ID - that is, the slug - for this menu item
         'sgcinsc_configpage'     // The name of the function to call when rendering this menu's page

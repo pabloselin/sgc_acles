@@ -135,6 +135,18 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 								
 								<div class="controls">									
 									<select name="seguro_alumno_select">
+
+									<?php 
+									$clinicas = array('alemana', 'santamaria', 'indisa', 'uc', 'davila');
+									$otraclinica = false;
+
+									if(!in_array($data[0]->seguro_escolar, $clinicas)) {
+										$otraclinica = true;
+									}
+
+
+
+									?>
 										
 										<option <?php if(!$modcond):?> selected <?php endif;?> value="">Escoja seguro escolar</option>
 										<option value="alemana" <?php if($modcond && $data[0]->seguro_escolar == 'alemana'):?> selected <?php endif;?> >Clínica Alemana</option>
@@ -142,7 +154,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 										<option value="indisa" <?php if($modcond && $data[0]->seguro_escolar == 'indisa'):?> selected <?php endif;?> >Clínica Indisa</option>
 										<option value="uc" <?php if($modcond && $data[0]->seguro_escolar == 'uc'):?> selected <?php endif;?> >Clínica Universidad Católica</option>
 										<option value="davila" <?php if($modcond && $data[0]->seguro_escolar == 'davila'):?> selected <?php endif;?> >Clínica Dávila</option>
-										<option value="otra" <?php if($modcond && $data[0]->seguro_escolar == 'otra'):?> selected <?php endif;?> >Otro (¿Cuál?)</option>
+										<option value="otra" <?php if($otraclinica == true):?> selected <?php endif;?> >Otro (¿Cuál?)</option>
 
 									</select>									
 								</div>								

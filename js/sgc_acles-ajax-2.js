@@ -487,6 +487,13 @@ $('#sgcinsc_form').validate(
 
   });
 
+  //Mostrar el seguro cuando modcond esté presente
+  if(modcond == true && $('#sgcinsc_form select[name="seguro_alumno_select"] option[value="otra"]').prop('selected') == true ) {
+    console.log('condition');
+    $('#sgcinsc_form select[name="seguro_alumno_select"] option[value="otra"]').prop('selected', true);
+    $('#sgcinsc_form #otroseguro').show(); 
+  }
+
   $('#sgcinsc_form .actions ul li a[href="#next"]').addClass('btn btn-success btn-large');
   $('#sgcinsc_form .actions ul li a[href="#previous"]').addClass('btn btn-success btn-large');
   $('#sgcinsc_form .actions ul li a[href="#finish"]').addClass('btn btn-danger btn-large');

@@ -351,7 +351,7 @@ function sgcinsc_modifydata($data, $mail = true) {
 		$nonce = wp_create_nonce('checkinsc');
 		$successarr = array(
 			'excode' => 4,
-			'idinsc' => $data['id'],
+			'idinsc' => $id,
 			'checkinsc' => $nonce
 			);
 

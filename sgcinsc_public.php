@@ -196,6 +196,9 @@ function sgcinsc_certificado($id, $mod) {
 	$rawacles = $insc->acles_inscritos;
 	$acles = unserialize($rawacles);
 
+
+	//var_dump($insc);
+
 	if($mod == true):
 		$cert_1 = 'Modificación';
 	else:
