@@ -464,7 +464,7 @@ function sgcinsc_insctemplate($idinsc) {
 	//var_dump($modlink);	
 
 
-		$output .= '<h1>Información de la inscripción</h1>';
+		$output .= '<h1>Inscripción actual</h1>';
 
 		//Plantilla
 		$output .= '<div class="datos-alumno well">';
@@ -504,7 +504,7 @@ function sgcinsc_insctemplate($idinsc) {
 			<li>' . SGCINSC_WARNLIST_2 . '</li>
 			<li>' . SGCINSC_WARNLIST_3 . '</li>
 		</ul></div>';
-	$output .= '<a href="' . $modlink .'" class="btn btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
+	$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
 
 	return $output;
 }
@@ -662,4 +662,12 @@ function sgcinsc_processrut($rut) {
 	$rut = substr($rut, 0, -1);
 
 	return $rut;
+}
+
+function sgcinsc_compareinsc($oldinsc, $newinsc) {
+	/**
+	 * Compara inscripciones y devuelve las diferencias en un array
+	 */
+
+	
 }

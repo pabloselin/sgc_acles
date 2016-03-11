@@ -225,7 +225,10 @@ function sgcinsc_fixinsc($data) {
 							'checkinsc' => $nonce
 							);
 			$modacleurl = add_query_arg($successarr, get_permalink());
-			
+
+			//Envío el mail con los nuevos datos y los datos viejos de referencia.
+			sgcinsc_modifymail($id, $oldinsc);
+
 			wp_redirect($modacleurl, 303);
 
 		 }
@@ -308,6 +311,7 @@ function sgcinsc_modifydata($data) {
 	$id = $data['inscid'];
 	$oldrut = $wpdb->get_var("SELECT rut_alumno FROM $table_name WHERE id = $id" );
 	$rutal = sgcinsc_processrut($data['rut_alumno']);
+	$oldinsc = sgcinsc_getinsc($id);
 
 	$reprut = true;
 
@@ -352,6 +356,9 @@ function sgcinsc_modifydata($data) {
 
 		$modurl = add_query_arg($successarr, get_permalink());
 
+		//Envío mail de confirmación
+		sgcinsc_modifymail($id, $oldinsc);
+		
 		wp_redirect($modurl, 303);
 
 	} else {
