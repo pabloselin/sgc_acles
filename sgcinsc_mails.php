@@ -60,9 +60,9 @@ function sgcinsc_confirmail($id) {
 	//Email al alumno
 	if(!$debug) {
 		
-		// if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-		//  	echo '.';
-		//  endif;
+		if (wp_mail( SGCINSC_NOTIFYMAIL, $subject, $message, $headers )):
+		 	echo '.';
+		 endif;
 
 		//Email al apoderado
 		if (wp_mail( $email_apoderado, $subject, $message, $headers )):
@@ -132,9 +132,9 @@ function sgcinsc_modifymail($id, $mod) {
 	//Email al alumno
 	if(!$debug) {
 		
-		// if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-		//  	echo '.';
-		//  endif;
+		if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
+		 	echo '.';
+		 endif;
 
 		//Email al apoderado
 		if (wp_mail( $email_apoderado, $subject, $message, $headers )):
