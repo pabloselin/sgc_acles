@@ -64,7 +64,7 @@ function sgcinsc_niceSeguro(seguro) {
 
 //Muestra los cursos disponibles para cada nivel
 function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
-  console.log(curso);
+  console.log(modcond);
   inscparam = typeof idinsc !== 'undefined' ? idinsc : 0;
   var ajaxPlace = $('#ajaxAclesPlace');
 
@@ -94,6 +94,21 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
 
       });
       $('#sgcinsc_form span.cursel').empty().append(nicecurso);
+
+      if(modcond == true) {
+        //Requerimientos de cursos mínimos y máximos
+        cursel = curso;
+
+        if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
+            minacle = 1;      
+            maxacle = 1;          
+        } else {
+            minacle = 2;            
+            maxacle = 2;
+          }; 
+          //Máximo igual para todos
+      }
+
       if(minacle == 2) {
         $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.L.E.s.</strong>');  
       } else {

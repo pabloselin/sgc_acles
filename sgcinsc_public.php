@@ -173,3 +173,72 @@ function sgcinsc_orderedacles($cupos) {
 	}
 	return $acles;
 }
+
+function sgcinsc_certificado($id, $mod) {
+	/**
+	 * genera un certificado imprimible de la inscripción
+	 */
+	$options = get_option('sgcinsc_config_options');
+	$openinsc = $options['sgcinsc_open_insc'];
+
+	//El ID de la página que regula las inscripciones
+
+	$inscidpage = $options['sgcinsc_pagina_insc'];
+
+	//La etapa de inscripción
+
+	$inscstage = $options['sgcinsc_etapa_insc'];
+
+	//El objeto inscripción
+
+	$rawinsc = sgcinsc_getinsc($id);
+	$insc = $rawinsc[0];
+	$rawacles = $insc->acles_inscritos;
+	$acles = unserialize($rawacles);
+
+	if($mod == true):
+		$cert_1 = 'Modificación';
+	else:
+		$cert_1 = 'Inscripción';
+	endif;
+
+	$html = '<div class="hidden" id="certificado">';
+	$html .= '<style>@media print { body { text-align:center; } button { display:none !important;} }</style>';
+
+	$html .= '<table cellpadding="20" cellspacing="0" width="500" style="font-family:sans-serif;text-align:center;background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;"><tr><td>';
+			    			
+	$html .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2;font-weight:normal;">Saint Gaspar College</h2>';
+
+	$html .= '<h3 style="text-align:center;">' . $cert_1 . ' A.C.L.E. ' . date('Y') . '</h3></p>';
+					        
+	$html .= '<h1>Comprobante de ' . $cert_1 .'</h1>';
+
+	$html .= '<p>El apoderado(a) <strong>'.$insc->nombre_apoderado.'</strong> inscribió los siguientes A.C.L.E. para el alumno(a) <strong>'.$insc->nombre_alumno.' del curso ' . sgcinsc_nicecurso($insc->curso_alumno). ' ' . $insc->letracurso_alumno . '</strong></p>';
+
+	$html .= '</td>';
+	$html .= '</tr>';
+
+		foreach($acles as $acle):
+				$aclepost = get_post($acle);
+				$html .= '<tr style="border-bottom:1px solid #456A7D;"><td style="border-bottom:1px solid #456A7D;">';
+				$html .= '<strong>' . $aclepost->post_title . '</strong>';
+				$html .= '<p>Horario: '. sgcinsc_nicedia(get_post_meta($aclepost->ID, 'sgcinsc_diaacle', true)) . ' ' . sgcinsc_renderhorario(get_post_meta($aclepost->ID, 'sgcinsc_horaacle', true)) . '</p>';
+				$html .= '</td></tr>';	
+		endforeach;				             
+
+	$html .= '<tr><td>';
+	$html .= '<p>Su número de inscripción es el '. $id . '</p>';
+	$html .= '</td></tr>';
+						
+	if($inscstage > 1):
+		$html .= '<tr><td><p><strong>' . SGCINSC_ACLERESP .'</strong></p></td></tr>';
+	endif;
+
+	$html .= '</table>';
+
+	$html .= '<p style="text-align:center;"><button style="font-size:16px;" target="_blank" class="btn btn-info" href="#" onclick="window.print();" id="printcert"><i class="icon icon-printer"></i> Imprimir comprobante</button></p>';
+	$html .= '</div>';	
+
+	return $html;
+
+}
