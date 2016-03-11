@@ -173,7 +173,7 @@ function sgcinsc_aclestable($acleid, $etapa) {
 }
 
 function sgcinsc_putpage() {
-	add_options_page( __( 'Lista de Inscripciones A.C.L.E.', 'sgc' ), __( 'Lista de Inscripciones A.C.L.E.', 'sgc' ), 'manage_options', 'sgc_aclesadmin', 'sgcinsc_doadmin' );
+	add_options_page( __( 'Inscritos A.C.L.E.', 'sgc' ), __( 'Inscritos A.C.L.E.', 'sgc' ), 'manage_options', 'sgc_aclesadmin', 'sgcinsc_doadmin' );
 }
 
 function sgcinsc_doadmin() {
