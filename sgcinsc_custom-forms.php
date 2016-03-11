@@ -215,6 +215,8 @@ function sgcinsc_fixinsc($data) {
 		 		);
 
 		 	$update = $wpdb->update($table_name, $updatedata, $whereupdata);
+		 	//modifica los otros datos
+		 	$updateotherdata = sgcinsc_modifydata($data, false);
 
 		 	$nonce = wp_create_nonce( 'checkinsc' );
 			
@@ -300,7 +302,7 @@ function sgcinsc_storeformdata($data) {
 	return $lastid;
 }
 
-function sgcinsc_modifydata($data) {
+function sgcinsc_modifydata($data, $mail = true) {
 	global $wpdb, $table_name, $table2_name;
 
 	/**
@@ -355,8 +357,10 @@ function sgcinsc_modifydata($data) {
 
 		$modurl = add_query_arg($successarr, get_permalink());
 
-		//Envío mail de confirmación
-		sgcinsc_modifymail($id, $oldinsc);
+		if($mail == true):
+			//Envío mail de confirmación
+			sgcinsc_modifymail($id, $oldinsc);
+		endif;
 
 		wp_redirect($modurl, 303);
 

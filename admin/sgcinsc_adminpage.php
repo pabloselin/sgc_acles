@@ -189,9 +189,9 @@ function sgcinsc_doadmin() {
 			$aclestage = $_GET['etapa'];
 			if($aclestage == 'all'):
 				$stagetitle = 'Inscripciones Totales (incluye ambas etapas)';
-			elseif($aclestage == 1):
+			elseif($aclestage == 2):
 				$stagetitle = 'Segunda Etapa';
-			elseif($aclestage == '0'):
+			elseif($aclestage == '1'):
 				$stagetitle = 'Primera Etapa';
 			endif;
 	?>

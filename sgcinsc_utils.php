@@ -253,7 +253,10 @@ add_action('wp_ajax_nopriv_sgcinsc_getacles', 'sgcinsc_getacles');
 
 function sgcinsc_aclesporalumno($rutalumno) {
 	global $wpdb, $table_name;
-	$consulta = $wpdb->get_var("SELECT acles_inscritos FROM $table_name WHERE rut_alumno = $rutalumno");
+
+	$clean_rutalumno = mysql_escape_string($rutalumno);
+
+	$consulta = $wpdb->get_var("SELECT acles_inscritos FROM $table_name WHERE rut_alumno = $clean_rutalumno");
 	$consulta = unserialize($consulta);
 	return $consulta;
 }
@@ -402,20 +405,29 @@ function sgcinsc_nicerut($nodvrut) {
 function sgcinsc_nombrealumno($rut) {
 	//devuelve el nombre del alumno por el rut
 	global $wpdb, $table_name;
-	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE rut_alumno = $rut");
+
+	$clean_rut = mysql_escape_string($rut);
+
+	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE rut_alumno = $clean_rut");
 	return $nombre;
 }
 
 function sgcinsc_nombrealumnoporid($id) {
 	//devuelve el nombre del alumno por el rut
 	global $wpdb, $table_name;
-	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE id = $id");
+
+	$clean_id = mysql_escape_string($id);
+
+	$nombre = $wpdb->get_var("SELECT nombre_alumno FROM $table_name WHERE id = $clean_id");
 	return $nombre;
 }
 
 function sgcinsc_getinsc($idinsc) {
 	global $wpdb, $table_name, $table2_name;
-	$iteminsc = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $idinsc");
+
+	$clean_idinsc = mysql_escape_string($idinsc);
+
+	$iteminsc = $wpdb->get_results("SELECT * FROM $table_name WHERE id = $clean_idinsc");
 	return $iteminsc;
 }
 
@@ -428,13 +440,13 @@ function sgcinsc_inscbotonshortcode($atts) {
 	$options = get_option('sgcinsc_config_options');
 	
 	//El ID de la página que regula las inscripciones
-	$inscid = $options['sgcinsc_pagina_insc'];
+	$inscidpage = $options['sgcinsc_pagina_insc'];
 
 	$a = shortcode_atts(array(
 		'texto' => 'Texto Botón',
 		), $atts );
 	$text = $atts['texto'];
-	$link = get_permalink($inscid);
+	$link = get_permalink($inscidpage);
 	$output = '<div class="btncontainer">';
 	$output .= '<p style="text-align:center;">';
 
@@ -452,15 +464,15 @@ function sgcinsc_inscbotonshortcode($atts) {
 add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');
 
 function sgcinsc_insctemplate($idinsc) {
-	global $inscid;
+	global $inscidpage;
 
 	$data = sgcinsc_getinsc($idinsc);
 	$args = array(
-		'ih' => $_GET['ih'],
+		'ih' => mysql_escape_string($_GET['ih']),
 		'id' => $idinsc,
 		'mod' => 1
 		);
-	$modlink = add_query_arg( $args, get_permalink($inscid) );
+	$modlink = add_query_arg( $args, get_permalink($inscidpage) );
 	//var_dump($modlink);	
 
 
@@ -552,9 +564,19 @@ function sgcinsc_url($idinsc) {
 	/**
 	 * Devuelve la URL de la inscripción basado en ID
 	 */
-	global $wpdb, $table_name, $inscid;
-	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $idinsc");
-	$acleurl = get_permalink($inscid);
+	global $wpdb, $table_name;
+
+	$options = get_option('sgcinsc_config_options');
+
+	//El ID de la página que regula las inscripciones
+
+	$inscidpage = $options['sgcinsc_pagina_insc'];
+
+
+	$clean_id = mysql_escape_string($idinsc);
+
+	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $clean_id");
+	$acleurl = get_permalink($inscidpage);
 	$args = array(
 		'ih' => $inschash,
 		'id' => $idinsc
@@ -568,8 +590,13 @@ function sgcinsc_validatehash($id, $hash) {
 	 * Valida el hash en relación con el ID
 	 */
 	global $wpdb, $table_name;
-	$checkhash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $id");
-	if($checkhash == $hash) {
+
+	//limpio el hash por si aca
+	$clean_hash = mysql_escape_string($hash);
+	$clean_id = mysql_escape_string($id);
+
+	$checkhash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $clean_id");
+	if($checkhash == $clean_hash) {
 		//Chequeo correcto
 		return true;
 	} else {

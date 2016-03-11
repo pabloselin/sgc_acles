@@ -39,7 +39,7 @@ $openinsc = $options['sgcinsc_open_insc'];
 
 //El ID de la página que regula las inscripciones
 
-$inscid = $options['sgcinsc_pagina_insc'];
+$inscidpage = $options['sgcinsc_pagina_insc'];
 
 //La etapa de inscripción
 
