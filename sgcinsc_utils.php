@@ -572,7 +572,6 @@ function sgcinsc_url($idinsc) {
 
 	$inscidpage = $options['sgcinsc_pagina_insc'];
 
-
 	$clean_id = mysql_escape_string($idinsc);
 
 	$inschash = $wpdb->get_var("SELECT hash_inscripcion FROM $table_name WHERE id = $clean_id");
