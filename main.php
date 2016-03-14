@@ -193,7 +193,7 @@ add_action('wp_enqueue_scripts', 'sgcinsc_scripts');
 
 function sgcinsc_styles() {
 	if(!is_admin()):
-		wp_register_style( 'sgcformscss', plugins_url('css/sgcinsc_form.css', __FILE__ ));
+		wp_register_style( 'sgcformscss', plugins_url('css/sgcinsc_form-2.css', __FILE__ ));
 		wp_enqueue_style( 'sgcformscss' );
 	endif;	
 }
