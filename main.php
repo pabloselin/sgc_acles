@@ -174,7 +174,7 @@ function sgcinsc_scripts() {
 		wp_register_script( 'jquery_rut', plugins_url('js/jquery.Rut.min.js', __FILE__), array('jquery'));
 		wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
 		wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
-		wp_register_script( 'sgc_acles-ajax', plugins_url('js/sgc_acles-ajax-2.js', __FILE__ ), array('jquery_rut', 'jquery_validation', 'jquery_steps', 'jquery'));
+		wp_register_script( 'sgc_acles-ajax', plugins_url('js/sgc_acles-ajax-3.js', __FILE__ ), array('jquery_rut', 'jquery_validation', 'jquery_steps', 'jquery'));
 
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery_validation' );

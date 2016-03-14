@@ -140,7 +140,7 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 									$clinicas = array('alemana', 'santamaria', 'indisa', 'uc', 'davila');
 									$otraclinica = false;
 
-									if(!in_array($data[0]->seguro_escolar, $clinicas)) {
+									if($modcond && !in_array($data[0]->seguro_escolar, $clinicas)) {
 										$otraclinica = true;
 									}
 
