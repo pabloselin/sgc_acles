@@ -324,7 +324,7 @@ function sgcinsc_modifydata($data, $mail = true) {
 		//No se repite RUT, puedo seguir con la inscripción
 
 		$mod_data = array(
-			'fecha_modificacion' => current_time( $mysql )
+			'fecha_modificacion' => current_time( 'mysql' )
 			);
 
 		$mdata = serialize($mod_data);

@@ -471,7 +471,7 @@
 .publicacles .acleitem.open-1 {
 	background-color:#f0f0f0;
 	color:#ccc;
-	display:none;
+	//display:none;
 }
 
 .publicacles .acleitem.open-1 span.nocupos {
