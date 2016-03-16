@@ -431,6 +431,19 @@ function sgcinsc_getinsc($idinsc) {
 	return $iteminsc;
 }
 
+function sgcinsc_getinscstage($idinsc) {
+	/**
+	 * Devuelve el número de etapa en que se realizó la inscripción
+	 */
+	global $wpdb, $table_name, $table2_name;
+
+	$clean_id = mysql_escape_string($idinsc);
+
+	$stage = $wpdb->get_var("SELECT etapa_insc FROM $table2_name WHERE id_inscripcion = $clean_id");
+
+	return $stage;
+}
+
 function sgcinsc_inscbotonshortcode($atts) {
 	/**
 	 * Muestra el botón de ACLE linkeando a la inscripción
@@ -466,6 +479,10 @@ add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');
 function sgcinsc_insctemplate($idinsc) {
 	global $inscidpage;
 
+	$options = get_option('sgcinsc_config_options');
+	$openinsc = $options['sgcinsc_open_insc'];
+	$stage = $options['sgcinsc_etapa_insc'];
+
 	$data = sgcinsc_getinsc($idinsc);
 	$args = array(
 		'ih' => mysql_escape_string($_GET['ih']),
@@ -476,7 +493,7 @@ function sgcinsc_insctemplate($idinsc) {
 	//var_dump($modlink);	
 
 
-		$output .= '<h1>Inscripción actual</h1>';
+		$output .= '<h1>Resumen inscripción ID# ' . $idinsc . '</h1>';
 
 		//Plantilla
 		$output .= '<div class="datos-alumno well">';
@@ -485,6 +502,7 @@ function sgcinsc_insctemplate($idinsc) {
 		$output .= '<li><strong>Nombre:</strong> ' . $data[0]->nombre_alumno .'</li>';
 		$output .= '<li><strong>RUT:</strong> ' . sgcinsc_nicerut($data[0]->rut_alumno) . '</li>';
 		$output .= '<li><strong>Curso:</strong> ' . sgcinsc_nicecurso($data[0]->curso_alumno) .' </li>';
+		$output .= '<li><strong>Seguro Médico:</strong> ' . sgcinsc_niceseguro($data[0]->seguro_escolar) .' </li>';
 		$output .= '</ul>';
 		$output .= '</div>';
 
@@ -501,7 +519,7 @@ function sgcinsc_insctemplate($idinsc) {
 		$acles = unserialize($data[0]->acles_inscritos);
 
 		$output .= '<div class="datos-acle well">';
-		$output .= '<h3>A.C.L.E.s inscritos</h3>';
+		$output .= '<h3>A.C.L.E.s inscritos (' . sgcinsc_getinscstage($idinsc) . 'ª etapa)</h3>';
 		foreach($acles as $acle) {
 			$output .= '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
@@ -516,7 +534,17 @@ function sgcinsc_insctemplate($idinsc) {
 			<li>' . SGCINSC_WARNLIST_2 . '</li>
 			<li>' . SGCINSC_WARNLIST_3 . '</li>
 		</ul></div>';
-	$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
+
+	//Condicionar link a que estén abiertas las inscripciones y que corresponda a la etapa del id
+	if(sgcinsc_getinscstage($idinsc) == $stage && $openinsc == 1 || is_user_logged_in() ):
+
+		$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
+
+	else:
+
+		$output .= '<a href="#" class="btn btn-large btn-disabled populateacles disabled">' .  SGCINSC_NOTMODLINKTXT . '</a>';
+
+	endif;
 
 	return $output;
 }

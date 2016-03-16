@@ -8,21 +8,38 @@ $modcond = false;
 $options = get_option('sgcinsc_config_options');
 $openinsc = $options['sgcinsc_open_insc'];
 $stage = $options['sgcinsc_etapa_insc'];
+//variable que regula si se puede o no uno inscribir
+
+$insc = false;
+
 
 if($openinsc == 1 || is_user_logged_in() ):
 
-
-if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET['ih']) ) {
+	if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET['ih']) ) {
 	
 	if(sgcinsc_validatehash($_GET['id'], $_GET['ih']) ) {
-
-		$modcond = true;
-		$data = sgcinsc_getinsc($_GET['id']);
+		//Hay que ver si el link de modificación es para etapa uno o dos
+		if(sgcinsc_getinscstage($_GET['id']) == $stage) {
+			$modcond = true;
+			$data = sgcinsc_getinsc($_GET['id']);	
+			$insc = true;
+		} else {
+			$modcond = false;
+			$insc = false;
+		}
+		
 		//var_dump($data);	
 	}
 
-}
+	} else {
 
+	$insc = true;
+
+	}
+
+endif;
+
+if($openinsc == 1 && $insc == true || is_user_logged_in()):
 ?>	
 		<div id="sgcinsc-acleinscstep1" class="acleinsc-step1">						
 				<!--Lista de ACLES disponibles con filtros por curso y por horario-->
@@ -351,7 +368,13 @@ if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET
 
 	<div class="alert alert-warning">
 		
-		<h2>Inscripciones Cerradas</h2>
+		<?php if($_GET['mod']):?>
+			<h2>Modificación de Inscripciones para la <?php echo sgcinsc_getinscstage($_GET['id']);?>ª etapa cerradas</h2>
+		<?php else:?>
+			<h2>Inscripciones Cerradas</h2>
+		<?php endif;?>
+
+		<p>Consultas a <a href="mailto:<?php echo SGCINSC_MAILINSC;?>"><?php echo SGCINSC_MAILINSC;?></a></p>
 
 	</div>
 
