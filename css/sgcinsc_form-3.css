@@ -395,6 +395,11 @@
 	 	font-weight:bold;
 	 	margin:0 0 12px 0;
 	 }
+
+	 #sgcinsc_form .final-control-label {
+	 	float:left;
+	 	margin-top:6px;
+	 }
 }
 
 /* Tabla de vista pública */
@@ -551,3 +556,5 @@ p.oldacle {
 	max-width:300px;
 	margin-bottom:12px;
 }
+
+
