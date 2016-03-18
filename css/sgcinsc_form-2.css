@@ -544,3 +544,10 @@ div.btncontainer {
  {
 	background-color:white;
 }
+
+p.oldacle {
+	padding:6px;
+	border:1px solid #3a87ad;
+	max-width:300px;
+	margin-bottom:12px;
+}

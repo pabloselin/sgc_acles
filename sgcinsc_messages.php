@@ -6,9 +6,9 @@
 
 define('SGCINSC_INFOACLES', 'IMPORTANTE: Los datos oficiales de inscripción ACLE de la primera etapa se encuentran disponible para descargar en la página principal de ACLE 2016.');
 
-define('SGCINSC_TXTPDFACLES', 'Resultados inscripción ACLE 2016 Primera Etapa (pdf)');
+define('SGCINSC_TXTPDFACLES', 'Resultados inscripción ACLE 2016 Primera Etapa');
 
-define('SGCINSC_WARNSTAGE', 'No se pueden seleccionar cursos en el mismo horario que los cursos inscritos en la primera etapa.');
+define('SGCINSC_WARNSTAGE', 'Asegúrese de no inscribir a su alumno/a en un curso del mismo horario y día de un curso previamente inscrito.');
 
 define('SGCINSC_MODWARN', 'Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles. Estos son los cursos que usted ya tiene inscritos.');
 

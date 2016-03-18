@@ -61,7 +61,7 @@ function sgcinsc_displaycursos() {
 
 		echo '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
 		<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
-		echo '<p>' . SGCINSC_WARNSTAGE .'</p>';
+		echo '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
 		
 	endif;
 
@@ -264,7 +264,14 @@ function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 
 function sgcinsc_getacles() {
 	$acles = $_POST['acles'];	
-	echo '<h3>Curso(s) seleccionado(s)</h3>';
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
+
+	echo '<h3>ACLE';
+	if($stage > 1):
+		echo ' adicionales ';
+	endif;
+	echo ' seleccionado(s)</h3>';
 	foreach($acles as $acle):		
 		$aclepost = get_post($acle);
 		$prof = get_post_meta($aclepost->ID, 'sgcinsc_profacle', true);

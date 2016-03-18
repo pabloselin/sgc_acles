@@ -25,7 +25,7 @@ define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 //Variables a configurar en página aparte
 define( 'SGCINSC_MAILINSC', 'ayudaacle@gmail.com');
 define( 'SGCINSC_NOTIFYMAIL', 'inscripcionesaclessgc@gmail.com');
-define( 'SGCINSC_MAILDEBUG', 'jorge@apie.cl, pablo@apie.cl');
+define( 'SGCINSC_MAILDEBUG', 'jorge@apie.cl, pablo@apie.cl, web@saintgasparcollege.cl');
 
 //Modo debug para no enviar chorradas
 define('SGCINSC_DEBUG', false);
