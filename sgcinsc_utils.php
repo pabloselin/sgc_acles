@@ -23,7 +23,7 @@ function sgcinsc_displaycursos() {
 
 	echo '<div class="alert alert-info">';
 
-	if($inscripcion && $stage > 1):
+	if($inscripcion && $stage > 1 && $modcond != 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 
 		echo '<p><strong>RECORDATORIO:</strong></p>';
@@ -45,7 +45,11 @@ function sgcinsc_displaycursos() {
 		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
 		echo '<p>ID Inscripción:' . $id .'</p>';
-		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
+		if($stage > 1):
+			echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARNSTAGE . ' </p>';
+		else:
+			echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
+		endif;
 
 		foreach($cursos_preinscritos as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -55,14 +59,18 @@ function sgcinsc_displaycursos() {
 
 	endif;
 
-	echo '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
+	if($modcond != 1):
 
-	if($inscripcion && $stage > 1):	
+		echo '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
 
-		echo '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
-		<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
-		echo '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
-		
+		if($inscripcion && $stage > 1):	
+
+			echo '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
+			<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
+			echo '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
+			
+		endif;
+
 	endif;
 
 	echo '</div>';

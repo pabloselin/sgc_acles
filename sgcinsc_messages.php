@@ -12,6 +12,8 @@ define('SGCINSC_WARNSTAGE', 'Asegúrese de no inscribir a su alumno/a en un curs
 
 define('SGCINSC_MODWARN', 'Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles. Estos son los cursos que usted ya tiene inscritos.');
 
+define('SGCINSC_MODWARNSTAGE', 'Puede modificar sus A.C.L.E.s inscritos, pero solo se pueden seleccionar aquellos que tengan cupos disponibles. Estos son los cursos adicionales que usted ya tiene inscritos.');
+
 define('SGCINSC_WARNLIST_1', 'En caso de modificar los ACLES inscritos se invalidarán los ACLES inscritos previamente y sólo podrá inscribir cursos que cuenten con cupos disponibles hasta ahora.');
 
 define('SGCINSC_WARNLIST_2', 'En caso de que haya ingresado mal el curso, también se invalidarán los ACLES inscritos previamente y se podrán inscribir nuevamente los cursos disponibles para el curso del alumno.');
@@ -40,6 +42,7 @@ define('SGCINSC_PDFACLES', 'http://www.saintgasparcollege.cl/wp-content/uploads/
  */
 
 define('SGCINSC_SUCCESSINSC', '¡Hemos recibido su inscripción!');
+define('SGCINSC_SUCCESINSC_STAGE', '¡Hemos recibido su inscripción adicional!');
 define('SGCINSC_MAILUP', 'En unos minutos recibirá un aviso informativo en el email del apoderado(a)');
 define('SGCINSC_IFNOTRECEIVE', 'Si no lo recibiera, revise su casilla spam, de todos modos la inscripción ya ha sido registrada y se encuentra en nuestra base de datos.');
 define('SGCINSC_YOURID', 'El número identificador de su inscripción es el ');
