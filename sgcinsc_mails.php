@@ -20,7 +20,14 @@ function sgcinsc_confirmail($id) {
 	$message .= '<table cellpadding="20" cellspacing="0" width="600" style="background-color:#D3E3EB;margin:24px;border:1px solid #1470A2;font-family:sans-serif;"><tr><td>';
 	$message .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2">Saint Gaspar College</h2><h3 style="text-align:center;font-size:24px;color:#2C86C7;">Inscripción en A.C.L.E. ' . date('Y') .'</h3></p>';
 	$message .= '<p>Estimado(a) <strong>' . $nombre_apoderado . ':</strong></p>';
-	$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
+
+	if($stage > 1):
+		$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. adicionales para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
+	else:
+		$message .= '<p>Este correo es una confirmación del proceso de inscripción de A.C.L.E. para el alumno(a) <strong>' . $nombre_alumno . ' del curso ' .  $cursoalumno . '</strong> </p>';
+	endif;
+
+
 	$message .= '<p>Su número identificador de inscripción es el <strong>'. $id . '</strong></p>';
 	$message .= '<p>Usted inscribió los siguientes cursos:</p>';	
 	$message .= '<table cellpadding="5" cellspacing="0" style="background-color:#AFD4E4;margin:0 auto;" width="70%">';
@@ -47,7 +54,12 @@ function sgcinsc_confirmail($id) {
 	$message .= '<p>Para consultas escriba a ' . SGCINSC_MAILINSC .'</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
 	$message .= '</td></tr></table>';
-	$subject = "Inscripción de A.C.L.E. en Saint Gaspar College";
+	
+	if($stage > 1):
+		$subject = "Inscripción de A.C.L.E. adicional en Saint Gaspar College";
+	else:
+		$subject = "Inscripción de A.C.L.E. en Saint Gaspar College";
+	endif;
 
 	$headers = array(
 		'From: Saint Gaspar College <info@saintgasparcollege.cl>',
@@ -131,14 +143,19 @@ function sgcinsc_modifymail($id, $mod) {
 	$debug = SGCINSC_DEBUG;
 	//Email al alumno
 	if(!$debug) {
-		
-		if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-		 	echo '.';
-		 endif;
+		if(get_bloginfo('url') == 'http://saintgasparcollege.cl'):
+			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
+			 	echo '.';
+			 endif;
 
-		//Email al apoderado
-		if (wp_mail( $email_apoderado, $subject, $message, $headers )):
-			echo '.';
+			//Email al apoderado
+			if (wp_mail( $email_apoderado, $subject, $message, $headers )):
+				echo '.';
+			endif;
+		else:
+			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
+			 	echo '.';
+			 endif;
 		endif;
 	}	
 }
