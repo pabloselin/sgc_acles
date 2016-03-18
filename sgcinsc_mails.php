@@ -90,7 +90,7 @@ function sgcinsc_confirmail($id) {
 			endif;
 		else:
 			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
-			 	$sent = true
+			 	$sent = true;
 			 endif;
 		endif;
 	}
