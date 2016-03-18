@@ -81,16 +81,16 @@ function sgcinsc_confirmail($id) {
 	if(!$debug) {
 		if(get_bloginfo('url') == 'http://saintgasparcollege.cl'):
 			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-			 	echo '.';
+				$sent = true;			 
 			 endif;
 
 			//Email al apoderado
 			if (wp_mail( $email_apoderado, $subject, $message, $headers )):
-				echo '.';
+				$sent = true;
 			endif;
 		else:
 			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
-			 	echo '.';
+			 	$sent = true
 			 endif;
 		endif;
 	}
@@ -171,16 +171,16 @@ function sgcinsc_modifymail($id, $mod) {
 	if(!$debug) {
 		if(get_bloginfo('url') == 'http://saintgasparcollege.cl'):
 			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
-			 	echo '.';
+			 	$sent = true;
 			 endif;
 
 			//Email al apoderado
 			if (wp_mail( $email_apoderado, $subject, $message, $headers )):
-				echo '.';
+				$sent = true;
 			endif;
 		else:
 			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
-			 	echo '.';
+			 	$sent = true;
 			 endif;
 		endif;
 	}	
