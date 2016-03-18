@@ -21,16 +21,18 @@ function sgcinsc_displaycursos() {
 
 	$inscripcion = sgcinsc_aclesporalumno($rutalumno);
 
-	echo '<div class="alert alert-info">';
+	$html = '';
+
+	$html .= '<div class="alert alert-info">';
 
 	if($inscripcion && $stage > 1 && $modcond != 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 
-		echo '<p><strong>RECORDATORIO:</strong></p>';
-		echo '<p>La semana pasada en la primera etapa de inscripción ACLE obligatoria, Ud. inscribió para el alumno/a <strong>' . $nombrealumno . '</strong></p>';
+		$html .= '<p><strong>RECORDATORIO:</strong></p>';
+		$html .= '<p>La semana pasada en la primera etapa de inscripción ACLE obligatoria, Ud. inscribió para el alumno/a <strong>' . $nombrealumno . '</strong></p>';
 
 		foreach($inscripcion as $acle) {
-			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			$html .= '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
 			
 		}
@@ -44,15 +46,15 @@ function sgcinsc_displaycursos() {
 
 		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
-		echo '<p>ID Inscripción:' . $id .'</p>';
+		$html .= '<p>ID Inscripción:' . $id .'</p>';
 		if($stage > 1):
-			echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARNSTAGE . ' </p>';
+			$html .= '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARNSTAGE . ' </p>';
 		else:
-			echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
+			$html .= '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
 		endif;
 
 		foreach($cursos_preinscritos as $acle) {
-			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
+			$html .= '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
 			
 		}
@@ -61,19 +63,19 @@ function sgcinsc_displaycursos() {
 
 	if($modcond != 1):
 
-		echo '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
+		$html .= '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
 
 		if($inscripcion && $stage > 1):	
 
-			echo '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
+			$html .= '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
 			<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
-			echo '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
+			$html .= '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
 			
 		endif;
 
 	endif;
 
-	echo '</div>';
+	$html .= '</div>';
 
 	$acleitems = sgcinsc_aclesporcurso($curso);	
 
@@ -126,9 +128,9 @@ function sgcinsc_displaycursos() {
 	endforeach;
 
 	//Genero la tabla de horarios
-	echo '<div class="aclecursostabla">';
+	$html .= '<div class="aclecursostabla">';
 	//dias de la semana
-	echo '<div class="acleheading">
+	$html .= '<div class="acleheading">
 			
 			<div class="curso">Lunes</div>
 			<div class="curso">Martes</div>
@@ -138,72 +140,65 @@ function sgcinsc_displaycursos() {
 
 			</div>';
 	//Del primer horario		
-	echo '<div class="bloque1">';
+	$html .= '<div class="bloque1">';
 	
 	
-		echo '<div class="dia">';
+		$html .= '<div class="dia">';
 		//lunes
 			if(count($lunes1) > 0 || count($lunes2) > 0) {
-				echo '<div class="mdia">Lunes</div>';	
+				$html .= '<div class="mdia">Lunes</div>';	
 			}
-			echo sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1, $inscripcion, $modcond, $id);
-			echo sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2, $inscripcion, $modcond, $id);
+			$html .= sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1, $inscripcion, $modcond, $id);
+			$html .= sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
-		echo '</div>';	
+		$html .= '</div>';	
 
-		echo '<div class="dia">';
+		$html .= '<div class="dia">';
 	
 	//martes
 		if(count($martes1) > 0 || count($martes2) > 0) {
-				echo '<div class="mdia">Martes</div>';	
+				$html .= '<div class="mdia">Martes</div>';	
 			}
-		echo sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1, $inscripcion, $modcond, $id);
-		echo sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
-		echo '</div>';
+		$html .= '</div>';
 
-		echo '<div class="dia">';
+		$html .= '<div class="dia">';
 	//miercoles
 		if(count($miercoles1) > 0 || count($miercoles2) > 0) {
-				echo '<div class="mdia">Miércoles</div>';	
+				$html .= '<div class="mdia">Miércoles</div>';	
 			}
-		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1, $inscripcion, $modcond, $id);
-		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2, $inscripcion, $modcond, $id);
 
-		echo '</div>';
+		$html .= '</div>';
 
-		echo '<div class="dia">';
+		$html .= '<div class="dia">';
 	//jueves
 		if(count($jueves1) > 0 || count($jueves2) > 0) {
-				echo '<div class="mdia">Jueves</div>';	
+				$html .= '<div class="mdia">Jueves</div>';	
 			}
-		echo sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1, $inscripcion, $modcond, $id);
-		echo sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2, $inscripcion, $modcond, $id);
 
-		echo '</div>';
+		$html .= '</div>';
 
-		echo '<div class="dia">';
+		$html .= '<div class="dia">';
 	//viernes
 		if(count($viernes1) > 0 || count($viernes2) > 0) {
-				echo '<div class="mdia">Viernes</div>';	
+				$html .= '<div class="mdia">Viernes</div>';	
 			}
-		echo sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1, $inscripcion, $modcond, $id);
-		echo sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1, $inscripcion, $modcond, $id);
+		$html .= sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
-		echo '</div>';
+		$html .= '</div>';
 
-	echo '</div><!--bloque 1-->';
-	
+	$html .= '</div><!--bloque 1-->';
 		
-	//martes
-		
-	//miercoles
-		
-	//jueves
-		
-	//viernes
-		
-	echo '</div>';
+	$html .= '</div>';
+
+	echo $html;
 	exit();
 }
 
