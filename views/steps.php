@@ -299,9 +299,18 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 							<?php wp_nonce_field('submit_stepone', 'sgcinsc_nonce');?>
 							
 
-							<h2 class="stepmark">Selección de A.C.L.E. <i class="icon-chevron-right"></i></h2>
+							<h2 class="stepmark">Selección de A.C.L.E. 
+									<?php if($stage > 1):?>
+										 adicional.
+									<?php endif;?><i class="icon-chevron-right"></i>
+							</h2>
+
 							<fieldset>								
-									<legend>Selección de  A.C.L.E.</legend>
+									<legend>Selección de  A.C.L.E.
+									<?php if($stage > 1):?>
+										 adicional.
+									<?php endif;?>
+									</legend>
 									<!--hacer llamada via ajax que muestre solo los cursos disponibles-->									
 
 											
@@ -326,7 +335,11 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 
 							<h2 class="stepmark">Confirmación</h2>					
 							<fieldset>
-								<legend>Confirmación de Inscripción ACLE</legend>
+								<legend>Confirmación de Inscripción ACLE 
+									<?php if($stage > 1):?>
+										 adicional.
+									<?php endif;?>
+								</legend>
 
 								<i style="font-size:32px" class="icon icon-info-sign"></i>
 								<p>Antes de enviar por favor revise su información. Si escribió mal algún dato puede volver atrás y corregir la información.</p>

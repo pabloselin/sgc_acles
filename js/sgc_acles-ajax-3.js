@@ -115,9 +115,9 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam, stage) {
       }
 
       if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.L.E.s.</strong>');  
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' ACLE adicionales</strong>');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir entre <strong>' + minacle + ' A.C.L.E.</strong> y <strong>' + maxacle + ' A.C.L.E.</strong>');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir entre <strong>' + minacle + ' ACLE adicionales</strong> y <strong>' + maxacle + ' ACLE adicionales</strong>');
       }
       
       //Chequeo las que se chequearon en otros pasos.

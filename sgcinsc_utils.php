@@ -21,18 +21,19 @@ function sgcinsc_displaycursos() {
 
 	$inscripcion = sgcinsc_aclesporalumno($rutalumno);
 
+	echo '<div class="alert alert-info">';
+
 	if($inscripcion && $stage > 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
-		echo '<div class="preinsc well">';
-		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_STAGEMODWARN .'<strong>'.$nombrealumno.'</strong>:<br/<br/></p>';
+
+		echo '<p><strong>RECORDATORIO:</strong></p>';
+		echo '<p>La semana pasada en la primera etapa de inscripción ACLE obligatoria, Ud. inscribió para el alumno/a <strong>' . $nombrealumno . '</strong></p>';
 
 		foreach($inscripcion as $acle) {
 			echo '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
 			
 		}
-	
-		echo '</div>';
 
 	endif;
 
@@ -43,7 +44,6 @@ function sgcinsc_displaycursos() {
 
 		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
-		echo '<div class="preinsc-mod well">';
 		echo '<p>ID Inscripción:' . $id .'</p>';
 		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
 
@@ -53,18 +53,19 @@ function sgcinsc_displaycursos() {
 			
 		}
 
-		echo '</div>';
 	endif;
+
+	echo '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
 
 	if($inscripcion && $stage > 1):	
 
-
-		echo '<div class="alert alert-info">';
-		echo '<p><strong>' . SGCINSC_INFOACLES .'</strong></p>
+		echo '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
 		<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
 		echo '<p>' . SGCINSC_WARNSTAGE .'</p>';
-		echo '</div>';
+		
 	endif;
+
+	echo '</div>';
 
 	$acleitems = sgcinsc_aclesporcurso($curso);	
 
@@ -238,7 +239,7 @@ function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 			$output .= '<span class="yainsc">Ya inscrito en etapa 1</span>';
 		} else {
 			if($cupos > 0):
-			$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
+				$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 			else:
 				if($cupos <= 0 && !in_array($acleid, $inscripcion)):
 					$output .= '<span class="full">SIN CUPOS</span>';
