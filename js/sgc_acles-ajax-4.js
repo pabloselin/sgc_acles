@@ -149,7 +149,7 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam, stage) {
       }
     },
     error: function(XMLHttpRequest, textStatus, errorThrown) {
-      ajaxPlace.empty().append('<h1 class="error">' + errorThrown + '</h1>');
+      ajaxPlace.empty().append('<h1 class="error">ERROR: ' + errorThrown + '</h1><p>Pruebe a volver al paso 1 y luego a éste.</p>');
     }
   });
 }
