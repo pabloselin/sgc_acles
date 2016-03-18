@@ -14,6 +14,7 @@ function sgcinsc_displaycursos() {
 
 	$options = get_option('sgcinsc_config_options');
 	$stage = $options['sgcinsc_etapa_insc'];
+	$pdfacles = $options['sgcinsc_results_url'];
 
 	$bloquehorario_1 = '15:20 a 16:50';
 	$bloquehorario_2 = '17:00 a 18:30';
@@ -30,14 +31,9 @@ function sgcinsc_displaycursos() {
 			sgcinsc_nicehorario(get_post_meta($acle, 'sgcinsc_horaacle', true)). ' ' . sgcinsc_nicedia(get_post_meta($acle, 'sgcinsc_diaacle', true)) . '</p>';
 			
 		}
-		
+	
 		echo '</div>';
 
-		echo '<div class="alert alert-info">';
-		echo '<p><strong>' . SGCINSC_INFOACLES .'</strong></p>
-		<p><a class="btn btn-danger" href="' . SGCINSC_PDFACLES .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
-		echo '<p>' . SGCINSC_WARNSTAGE .'</p>';
-		echo '</div>';
 	endif;
 
 	if($modcond == 1):
@@ -47,7 +43,7 @@ function sgcinsc_displaycursos() {
 
 		$nombrealumno = sgcinsc_nombrealumnoporid($id);
 
-		echo '<div class="preinsc mod well">';
+		echo '<div class="preinsc-mod well">';
 		echo '<p>ID Inscripción:' . $id .'</p>';
 		echo '<p><strong>RECORDATORIO:</strong> ' . SGCINSC_MODWARN . ' </p>';
 
@@ -57,6 +53,16 @@ function sgcinsc_displaycursos() {
 			
 		}
 
+		echo '</div>';
+	endif;
+
+	if($inscripcion && $stage > 1):	
+
+
+		echo '<div class="alert alert-info">';
+		echo '<p><strong>' . SGCINSC_INFOACLES .'</strong></p>
+		<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
+		echo '<p>' . SGCINSC_WARNSTAGE .'</p>';
 		echo '</div>';
 	endif;
 
@@ -131,8 +137,8 @@ function sgcinsc_displaycursos() {
 			if(count($lunes1) > 0 || count($lunes2) > 0) {
 				echo '<div class="mdia">Lunes</div>';	
 			}
-			echo sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1);
-			echo sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2);
+			echo sgcinsc_displaydiacursos($lunes1, 'Lunes', $bloquehorario_1, $inscripcion, $modcond, $id);
+			echo sgcinsc_displaydiacursos($lunes2, 'Lunes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
 		echo '</div>';	
 
@@ -142,8 +148,8 @@ function sgcinsc_displaycursos() {
 		if(count($martes1) > 0 || count($martes2) > 0) {
 				echo '<div class="mdia">Martes</div>';	
 			}
-		echo sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1);
-		echo sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2);
+		echo sgcinsc_displaydiacursos($martes1, 'Martes', $bloquehorario_1, $inscripcion, $modcond, $id);
+		echo sgcinsc_displaydiacursos($martes2, 'Martes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
 		echo '</div>';
 
@@ -152,8 +158,8 @@ function sgcinsc_displaycursos() {
 		if(count($miercoles1) > 0 || count($miercoles2) > 0) {
 				echo '<div class="mdia">Miércoles</div>';	
 			}
-		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1);
-		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2);
+		echo sgcinsc_displaydiacursos($miercoles1, 'Miércoles', $bloquehorario_1, $inscripcion, $modcond, $id);
+		echo sgcinsc_displaydiacursos($miercoles2, 'Miércoles', $bloquehorario_2, $inscripcion, $modcond, $id);
 
 		echo '</div>';
 
@@ -162,8 +168,8 @@ function sgcinsc_displaycursos() {
 		if(count($jueves1) > 0 || count($jueves2) > 0) {
 				echo '<div class="mdia">Jueves</div>';	
 			}
-		echo sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1);
-		echo sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2);
+		echo sgcinsc_displaydiacursos($jueves1, 'Jueves', $bloquehorario_1, $inscripcion, $modcond, $id);
+		echo sgcinsc_displaydiacursos($jueves2, 'Jueves', $bloquehorario_2, $inscripcion, $modcond, $id);
 
 		echo '</div>';
 
@@ -172,8 +178,8 @@ function sgcinsc_displaycursos() {
 		if(count($viernes1) > 0 || count($viernes2) > 0) {
 				echo '<div class="mdia">Viernes</div>';	
 			}
-		echo sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1);
-		echo sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2);
+		echo sgcinsc_displaydiacursos($viernes1, 'Viernes', $bloquehorario_1, $inscripcion, $modcond, $id);
+		echo sgcinsc_displaydiacursos($viernes2, 'Viernes', $bloquehorario_2, $inscripcion, $modcond, $id);
 
 		echo '</div>';
 
@@ -196,12 +202,12 @@ add_action('wp_ajax_sgcinsc_displaycursos', 'sgcinsc_displaycursos');
 add_action('wp_ajax_nopriv_sgcinsc_displaycursos', 'sgcinsc_displaycursos');
 
 
-function sgcinsc_displaydiacursos($dia, $ndia, $bloquehorario) {
+function sgcinsc_displaydiacursos($dia, $ndia, $bloquehorario, $inscripcion, $modcond, $id) {
 	if($dia) {
 			$output = '<div class="curso">';
 			$output .= '<h4>' . $bloquehorario .'</h4>';
 		foreach($dia as $curdia) {
-			$output .= sgcinsc_acleitem($curdia->ID);
+			$output .= sgcinsc_acleitem($curdia->ID, $inscripcion, $modcond, $id);
 		}
 			$output .= '</div>';
 	} else {
@@ -210,24 +216,47 @@ function sgcinsc_displaydiacursos($dia, $ndia, $bloquehorario) {
 	return $output;
 }
 
-function sgcinsc_acleitem($acleid) {
+function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 	
 	$cupos = sgcinsc_cupos($acleid);
 	$prof = get_post_meta($acleid, 'sgcinsc_profacle', true);
 
+	//Necesito diferenciar entre cursos seleccionados en primera etapa y en segunda etapa, los de segunda etapa se pueden modificar, los de primera no.
+
+	//La variable inscripción es distinta
+	if($modcond == 1):
+		$oldinsc = sgcinsc_aclesporalumno($inscripcion[0]->rut_alumno);
+		$inscripcion = unserialize($inscripcion[0]->acles_inscritos);
+	endif;
+
 	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '" data-id="' . $acleid . '">';
 		$output .= '<label class="control-label" for="aclecurso-'.$acleid.'"><span class="aclename">'.get_the_title($acleid) . '</span>';	
-		
-		if($cupos < 0):					
-		$output .= '<span class="aclecupos">Cerrado</span>';
-		endif;
 		$output .= '</label>';
 		
-				if($cupos > 0):
-					$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
-				else:
+	if($modcond == 1){
+		if(in_array($acleid, $oldinsc)) {
+			$output .= '<span class="yainsc">Ya inscrito en etapa 1</span>';
+		} else {
+			if($cupos > 0):
+			$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
+			else:
+				if($cupos <= 0 && !in_array($acleid, $inscripcion)):
 					$output .= '<span class="full">SIN CUPOS</span>';
-				endif;		
+				endif;
+			endif;	
+		} 
+		
+	} else {
+		if($cupos > 0 && !in_array($acleid, $inscripcion)):
+			$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
+		else:
+			if($cupos <= 0 && !in_array($acleid, $inscripcion)):
+				$output .= '<span class="full">SIN CUPOS</span>';
+			endif;
+		endif;	
+
+	}
+					
 		$output .= '</div>';
 		return $output;
 }
@@ -255,7 +284,7 @@ function sgcinsc_aclesporalumno($rutalumno) {
 	global $wpdb, $table_name;
 
 	$clean_rutalumno = mysql_escape_string($rutalumno);
-
+	//me devuelve solo la primera vez que se usó ese RUT...
 	$consulta = $wpdb->get_var("SELECT acles_inscritos FROM $table_name WHERE rut_alumno = $clean_rutalumno");
 	$consulta = unserialize($consulta);
 	return $consulta;

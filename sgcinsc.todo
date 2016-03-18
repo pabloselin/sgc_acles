@@ -68,3 +68,24 @@ x- Dar formato automático al RUT
 	- Revisar inscripciones probando contenidos reales
 	+- Añadir pistas visuales para cambio de filtros
 	- Mejorar oportunismo de mensajes de error 
+
+
+
+- Minimo 1 max 3 segunda etapa.
+
+
+Lista de modificaciones para segunda etapa
+
+- Requerimientos mínimo 1 y máximo 3 explícitos en selección de ACLE
+- Ajustes de bugs en caso que una persona modificara una segunda inscripción
+	- Aparecen modificables solo los cursos inscritos en segunda etapa
+	- Aparece marcado como inscrito en primera etapa el curso inscrito la primera vez
+- Añadida opción para una URL con documento de resultados ACLE en primera etapa
+- Ajustado código para que no se pueda marcar un curso inscrito en primera etapa
+
+FALTA
+
+- Hacer que no se pueda seleccionar un curso en el mismo horario de un curso ya marcado.
+- Modificar nombres JS y CSS para evitar cacheo.
+- Revisar los mails enviados
+

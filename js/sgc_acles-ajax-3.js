@@ -63,8 +63,8 @@ function sgcinsc_niceSeguro(seguro) {
 }
 
 //Muestra los cursos disponibles para cada nivel
-function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
-  console.log(modcond);
+function sgcinsc_renderAcles(curso, rut, modcond, inscparam, stage) {
+  console.log('Stage:' + stage);
   inscparam = typeof idinsc !== 'undefined' ? idinsc : 0;
   var ajaxPlace = $('#ajaxAclesPlace');
 
@@ -95,24 +95,29 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam) {
       });
       $('#sgcinsc_form span.cursel').empty().append(nicecurso);
 
-      if(modcond == true) {
+       if(modcond == true) {
         //Requerimientos de cursos mínimos y máximos
         cursel = curso;
-
-        if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
-            minacle = 1;      
-            maxacle = 1;          
+        if(stage == 1) {
+             if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
+                    minacle = 1;      
+                    maxacle = 1;          
+            } else {
+                    minacle = 2;            
+                    maxacle = 2;
+            }; 
+          //Máximo igual para todos   
         } else {
-            minacle = 2;            
-            maxacle = 2;
-          }; 
-          //Máximo igual para todos
+          minacle = 1;
+          maxacle = 3;
+        }
+       
       }
 
       if(minacle == 2) {
         $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.L.E.s.</strong>');  
       } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' A.C.LE.s.</strong>');
+        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir entre <strong>' + minacle + ' A.C.L.E.</strong> y <strong>' + maxacle + ' A.C.L.E.</strong>');
       }
       
       //Chequeo las que se chequearon en otros pasos.
@@ -286,6 +291,7 @@ $(document).ready(function() {
   checkedarray = new Array();
   modcond = $('form#sgcinsc_form').data('mod');
   idinsc = $('form#sgcinsc_form').data('id');
+  stage = $('form#sgcinsc_form').data('stage');
 
   $('#otroseguro, #emailalumno').hide();
 
@@ -446,7 +452,7 @@ $('#sgcinsc_form').validate(
                       console.log(parseInt(alumrut));
                     }                    
                     else if(currentIndex == 2){
-                      sgcinsc_renderAcles(cursel, alumrut, modcond, idinsc);                     
+                      sgcinsc_renderAcles(cursel, alumrut, modcond, idinsc, stage);                     
                     } else if(currentIndex == 3) {
                       formdata = $("#sgcinsc_form").serializeArray();                      
                       sgcinsc_renderFinalInfo(formdata);
@@ -489,9 +495,8 @@ $('#sgcinsc_form').validate(
 
   //Mostrar el seguro cuando modcond esté presente
   if(modcond == true && $('#sgcinsc_form select[name="seguro_alumno_select"] option[value="otra"]').prop('selected') == true ) {
-    console.log('condition');
-    $('#sgcinsc_form select[name="seguro_alumno_select"] option[value="otra"]').prop('selected', true);
-    $('#sgcinsc_form #otroseguro').show(); 
+      $('#sgcinsc_form select[name="seguro_alumno_select"] option[value="otra"]').prop('selected', true);
+      $('#sgcinsc_form #otroseguro').show(); 
   }
 
   $('#sgcinsc_form .actions ul li a[href="#next"]').addClass('btn btn-success btn-large');
@@ -509,14 +514,20 @@ $('#sgcinsc_form').validate(
     checkedarray = [];
 
     //Requerimientos de cursos mínimos y máximos
-    if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
-      minacle = 1;      
-      maxacle = 1;          
+   if(stage == 1) {
+      //Requerimientos de cursos mínimos y máximos
+      if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
+        minacle = 1;      
+        maxacle = 1;          
+      } else {
+        minacle = 2;            
+        maxacle = 2;
+        }; 
+        //Máximo igual para todos
     } else {
-      minacle = 2;            
-      maxacle = 2;
-      }; 
-      //Máximo igual para todos
+        minacle = 1;
+        maxacle = 3;
+    }
       
   });
 
@@ -642,7 +653,7 @@ $('#sgcinsc_form').validate(
   $('a.populateacles').on('click', function() {
       var curso = $('reinfo').data('curso');
       var rut = $('reinfo').data('rut');
-      sgcinsc_renderAcles(curso, rut, modcond);
+      sgcinsc_renderAcles(curso, rut, modcond, stage);
   });
 
     });
