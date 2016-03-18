@@ -175,7 +175,7 @@ function sgcinsc_scripts() {
 		wp_register_script( 'jquery_rut', plugins_url('js/jquery.Rut.min.js', __FILE__), array('jquery'));
 		wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
 		wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
-		wp_register_script( 'sgc_acles-ajax', plugins_url('js/sgc_acles-ajax-3.js', __FILE__ ), array('jquery_rut', 'jquery_validation', 'jquery_steps', 'jquery'));
+		wp_register_script( 'sgc_acles-ajax', plugins_url('js/sgc_acles-ajax-4.js', __FILE__ ), array('jquery_rut', 'jquery_validation', 'jquery_steps', 'jquery'));
 
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'jquery_validation' );
@@ -194,7 +194,7 @@ add_action('wp_enqueue_scripts', 'sgcinsc_scripts');
 
 function sgcinsc_styles() {
 	if(!is_admin()):
-		wp_register_style( 'sgcformscss', plugins_url('css/sgcinsc_form-2.css', __FILE__ ));
+		wp_register_style( 'sgcformscss', plugins_url('css/sgcinsc_form-3.css', __FILE__ ));
 		wp_enqueue_style( 'sgcformscss' );
 	endif;	
 }
