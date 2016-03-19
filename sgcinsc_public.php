@@ -205,6 +205,12 @@ function sgcinsc_certificado($id, $mod) {
 		$cert_1 = 'Inscripción';
 	endif;
 
+	if($inscstage > 1):
+		$adicional = 'adicional';
+	else:
+		$adicional = '';
+	endif;
+
 	$html = '<div class="hidden" id="certificado">';
 	$html .= '<style>@media print { body { text-align:center; } button { display:none !important;} }</style>';
 
@@ -212,11 +218,11 @@ function sgcinsc_certificado($id, $mod) {
 			    			
 	$html .= '<p style="text-align:center"><img style="margin:0 auto;" src="http://www.saintgasparcollege.cl/wp-content/themes/sangaspar/i/logosgc2013.png"><h2 style="text-align:center;color:#1470A2;font-weight:normal;">Saint Gaspar College</h2>';
 
-	$html .= '<h3 style="text-align:center;">' . $cert_1 . ' A.C.L.E. ' . date('Y') . '</h3></p>';
+	$html .= '<h3 style="text-align:center;">' . $cert_1 . ' A.C.L.E. ' . $adicional . ' ' . date('Y') . '</h3></p>';
 					        
-	$html .= '<h1>Comprobante de ' . $cert_1 .'</h1>';
+	$html .= '<h1>Comprobante de ' . $cert_1 .' ' . $adicional . '</h1>';
 
-	$html .= '<p>El apoderado(a) <strong>'.$insc->nombre_apoderado.'</strong> inscribió los siguientes A.C.L.E. para el alumno(a) <strong>'.$insc->nombre_alumno.' del curso ' . sgcinsc_nicecurso($insc->curso_alumno). ' ' . $insc->letracurso_alumno . '</strong></p>';
+	$html .= '<p>El apoderado(a) <strong>'.$insc->nombre_apoderado.'</strong> inscribió los siguientes A.C.L.E. ' . $adicional . ' para el alumno(a) <strong>'.$insc->nombre_alumno.' del curso ' . sgcinsc_nicecurso($insc->curso_alumno). ' ' . $insc->letracurso_alumno . '</strong></p>';
 
 	$html .= '</td>';
 	$html .= '</tr>';

@@ -334,6 +334,8 @@
 	color:#567E22;
 }
 
+
+
 #sgcinsc_form .help-block {
 	font-size:12px;
 	margin-top:5px;
@@ -400,6 +402,14 @@
 	 	float:left;
 	 	margin-top:6px;
 	 }
+
+	 #sgcinsc_form label#acepta_terminos-error.error {
+			position: relative;
+			left:0;
+			display: block;
+			max-width:105px;
+			min-width:105px;
+		}
 }
 
 /* Tabla de vista pública */

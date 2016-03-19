@@ -63,7 +63,11 @@ function sgcinsc_displaycursos() {
 
 	if($modcond != 1):
 
-		$html .= '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
+		if($inscripcion):
+
+			$html .= '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
+
+		endif;
 
 		if($inscripcion && $stage > 1):	
 
