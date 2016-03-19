@@ -230,7 +230,19 @@ function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 	//La variable inscripción es distinta
 	if($modcond == 1):
 		$oldinsc = sgcinsc_aclesporalumno($inscripcion[0]->rut_alumno);
+		$oldrut = $inscripcion[0]->rut_alumno;
 		$inscripcion = unserialize($inscripcion[0]->acles_inscritos);
+		if(is_array($oldinsc)):
+			$checkold = in_array($acleid, $oldinsc);
+		else:
+			$checkold = false;
+		endif;
+		//tengo que chequear que el ACLE se haya inscrito en la etapa 1 o 2
+		
+		//si está el RUT más de una vez la persona está en una modificación de segunda etapa.
+
+		$checkrep = sgcinsc_inscripcionesporalumno($oldrut);
+
 	endif;
 
 	$output = '<div class="control-group acleitemcurso aclecupos-' . $cupos . '" id="curso-' . $acleid . '" data-id="' . $acleid . '">';
@@ -238,8 +250,8 @@ function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 		$output .= '</label>';
 		
 	if($modcond == 1){
-		if(in_array($acleid, $oldinsc)) {
-			$output .= '<span class="yainsc">Ya inscrito en etapa 1</span>';
+		if($checkold && $checkrep > 1) {
+			$output .= '<span class="yainsc in">insc. 1º etapa</span>';
 		} else {
 			if($cupos > 0):
 				$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
@@ -251,10 +263,17 @@ function sgcinsc_acleitem($acleid, $inscripcion, $modcond, $id) {
 		} 
 		
 	} else {
-		if($cupos > 0 && !in_array($acleid, $inscripcion)):
+		
+		if(is_array($inscripcion)):
+			$previnsc = in_array($acleid, $inscripcion);
+		else:
+			$previnsc = false;
+		endif;
+
+		if($cupos > 0 && $previnsc != true):
 			$output .= '<div class="controls"><input class="input-xlarge aclecheckbox" id="aclecurso-'.$acleid.'" name="aclecurso[]" type="checkbox" value="'.$acleid.'"></input></div>';					
 		else:
-			if($cupos <= 0 && !in_array($acleid, $inscripcion)):
+			if($cupos <= 0 && $previnsc != true):
 				$output .= '<span class="full">SIN CUPOS</span>';
 			endif;
 		endif;	
@@ -299,6 +318,15 @@ function sgcinsc_aclesporalumno($rutalumno) {
 	$consulta = $wpdb->get_var("SELECT acles_inscritos FROM $table_name WHERE rut_alumno = $clean_rutalumno");
 	$consulta = unserialize($consulta);
 	return $consulta;
+}
+
+function sgcinsc_inscripcionesporalumno($rutalumno) {
+	global $wpdb, $table_name;
+
+	$clean_rutalumno = mysql_escape_string($rutalumno);
+	//me devuelve el número de veces que se encuentra el rut de un alumno
+	$inscripciones = $wpdb->get_var("SELECT COUNT(*) FROM $table_name WHERE rut_alumno = $clean_rutalumno");
+	return $inscripciones;
 }
 
 function sgcinsc_aclesporapoderado($rutapoderado) {
