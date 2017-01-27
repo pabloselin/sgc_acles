@@ -85,7 +85,7 @@ Lista de modificaciones para segunda etapa
 
 FALTA
 
-- Hacer que no se pueda seleccionar un curso en el mismo horario de un curso ya marcado.
-- Modificar nombres JS y CSS para evitar cacheo.
-- Revisar los mails enviados
-
++- Hacer que no se pueda seleccionar un curso en el mismo horario de un curso ya marcado.
++- Modificar nombres JS y CSS para evitar cacheo.
++- Revisar los mails enviados
+- Hacer que se pueda modificar un curso una vez que se hayan llenado los cupos.
