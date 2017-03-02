@@ -3,13 +3,22 @@
  * Plugin Name: ACLES
  * Plugin URI: http://apie.cl
  * Description: Sistema de inscripción de actividades A.C.L.E. para colegios
- * Version: 0.98
+ * Version: 0.99
  * Author: A Pie
  * Author URI: http://apie.cl
  * License: MIT
  */
 
 /*
+TODO 2017
+
+- Implementar flujo en GULP con cambio de nombre de archivo
+- Implementar distintas etapas de inscripción por curso
+- Revisar que escogerá el apoderado (curso 2016 o 2017)
+- Revisar BUGs
+	- No llega correo al apoderado
+	- Error en los límites de cursos
+
 to-do
 
 1. Definir etapa de inscripción y hacer que se inscriban o no.
@@ -171,22 +180,20 @@ function sgcinsc_scripts() {
 	if(!is_admin()):			
 		wp_deregister_script('jquery' );
 		wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js');
-		wp_register_script( 'jquery_validation', plugins_url('js/jquery.validate.min.js', __FILE__ ), array('jquery_rut', 'jquery'));
-		wp_register_script( 'jquery_rut', plugins_url('js/jquery.Rut.min.js', __FILE__), array('jquery'));
-		wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
-		wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
-		wp_register_script( 'sgc_acles-ajax', plugins_url('js/sgc_acles-ajax-5.js', __FILE__ ), array('jquery_rut', 'jquery_validation', 'jquery_steps', 'jquery'));
+		
+		// wp_register_script( 'jquery_validation', plugins_url('js/jquery.validate.min.js', __FILE__ ), array('jquery_rut', 'jquery'));
+		// wp_register_script( 'jquery_rut', plugins_url('js/jquery.Rut.min.js', __FILE__), array('jquery'));
+		// wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
+		// wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
 
+		wp_register_script( 'acles-ajax', plugins_url('assets/js/main-acles-build-c6f4bc9bfc.js', __FILE__ ), array('jquery'));
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery_validation' );
-		wp_enqueue_script( 'sgc_acles-ajax' );	
-		wp_enqueue_script( 'jquery_rut');
-		wp_enqueue_script( 'jquery_cookie');
-		wp_enqueue_script( 'jquery_steps');
+		wp_enqueue_script( 'acles-ajax');
 
-		wp_localize_script('sgc_acles-ajax', 'sgcajax', array(
+		wp_localize_script('acles-ajax', 'sgcajax', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' )
 			) );
+
 	endif;
 }
 
@@ -194,8 +201,8 @@ add_action('wp_enqueue_scripts', 'sgcinsc_scripts');
 
 function sgcinsc_styles() {
 	if(!is_admin()):
-		wp_register_style( 'sgcformscss', plugins_url('css/sgcinsc_form-4.css', __FILE__ ));
-		wp_enqueue_style( 'sgcformscss' );
+		wp_register_style( 'acles-css', plugins_url('assets/css/acles-form-aff4eb2e21.css', __FILE__ ));
+		wp_enqueue_style( 'acles-css' );
 	endif;	
 }
 

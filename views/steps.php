@@ -26,8 +26,7 @@ if($openinsc == 1 || is_user_logged_in() ):
 			$modcond = false;
 			$insc = false;
 		}
-		
-		//var_dump($data);	
+			
 	}
 
 	} else {
