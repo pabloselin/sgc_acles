@@ -8,11 +8,18 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
+var del = require('del');
 
-var manifest = gulp.src("./rev-manifest.json");
 
 gulp.task('default',['replace'], function() {
   // place code for your default task here
+});
+
+gulp.task('clean', function() {
+  return del([
+    'assets/css/*.css',
+    'assets/js/*.js'
+  ])
 });
 
 gulp.task('sass', function() {
@@ -34,7 +41,9 @@ gulp.task('concatjs', function() {
             'assets/js/vendor/jquery.Rut.min.js',
             'assets/js/vendor/jquery.steps.min.js',
             'assets/js/vendor/jquery.validate.min.js',
-            'assets/js/src/main-acles.js'
+            'assets/js/src/utils-acles.js',
+            'assets/js/src/ajax-acles.js',
+            'assets/js/src/document-ready-acles.js'
           ])
           .pipe(concat('main-acles-build.js'))
           .pipe(rev())
@@ -46,11 +55,23 @@ gulp.task('concatjs', function() {
           .pipe(gulp.dest('assets/js'));
 });
 
-gulp.task('replace', ['concatjs', 'sass'], function() {
-  return gulp.src('main.php')
+gulp.task('replace', ['clean', 'concatjs', 'sass'], function() {
+  var manifest = gulp.src("./rev-manifest.json");
+  return gulp.src('scripts.php')
               .pipe(revReplace({
                   manifest:manifest,
-                  replaceInExtensions:['.php', '.js', '.css']
+                  replaceInExtensions:['.php']
                 }))
               .pipe(gulp.dest(''))
+});
+
+gulp.task('watch', function() {
+  gulp.watch([
+    'assets/css/src/*.scss',
+    'assets/js/src/*.js'
+  ],
+  [
+    'clean',
+    'replace'
+  ])
 });

@@ -12,12 +12,14 @@
 /*
 TODO 2017
 
-- Implementar flujo en GULP con cambio de nombre de archivo
++ Implementar flujo en GULP con cambio de nombre de archivo
 - Implementar distintas etapas de inscripción por curso
 - Revisar que escogerá el apoderado (curso 2016 o 2017)
 - Revisar BUGs
-	- No llega correo al apoderado
-	- Error en los límites de cursos
+	+ No llega correo al apoderado
+	+ Error en los límites de cursos
+	+ A veces no se muestra la casilla para marcar un curso
+	+ No se muestra correctamente la info de los cursos mínimos y máximos para inscribirse
 
 to-do
 
@@ -35,9 +37,6 @@ define( 'SGCINSC_CSVURL', WP_CONTENT_URL . '/acles/');
 define( 'SGCINSC_MAILINSC', 'ayudaacle@gmail.com');
 define( 'SGCINSC_NOTIFYMAIL', 'inscripcionesaclessgc@gmail.com');
 define( 'SGCINSC_MAILDEBUG', 'jorge@apie.cl, pablo@apie.cl, web@saintgasparcollege.cl');
-
-//Modo debug para no enviar chorradas
-define('SGCINSC_DEBUG', false);
 
 if(!is_dir(SGCINSC_CSVPATH)){
 	mkdir(WP_CONTENT_DIR . '/acles', 0755);
@@ -67,6 +66,8 @@ include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminpage.php');
 
 include( plugin_dir_path( __FILE__ ) . 'admin/sgcinsc_adminoptions.php');
 
+include( plugin_dir_path( __FILE__ ) . 'scripts.php');
+
 //Contenidos especiales
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_custom-content.php');
 
@@ -83,10 +84,6 @@ include( plugin_dir_path( __FILE__ ) . 'sgcinsc_public.php');
 
 //Mensajes
 include( plugin_dir_path( __FILE__ ) . 'sgcinsc_messages.php');
-
-
-
-
 
 /* Inicialización: Crear tablas de base de datos */
 
@@ -113,6 +110,26 @@ $obcursos = array(
 
 //año actual
 $year = date('Y');
+
+//Tramos de inscripción
+$tramos = array(
+	'tramo1' => array(
+		1,
+		2
+	),
+	'tramo2' => array(
+		3,
+		4
+	),
+	'tramo3' => array(
+		5,
+		6,
+		7,
+		8,
+		9,
+		10
+	)
+);
 
 function sgcinsc_createinsctables() {		
 	global $sgcinsc_dbversion, $table_name, $table2_name;
@@ -174,39 +191,6 @@ function sgcinsc_checkupdate() {
 }
 
 add_action( 'plugins_loaded', 'sgcinsc_checkupdate');
-
-//Meter scripts de JS
-function sgcinsc_scripts() {
-	if(!is_admin()):			
-		wp_deregister_script('jquery' );
-		wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js');
-		
-		// wp_register_script( 'jquery_validation', plugins_url('js/jquery.validate.min.js', __FILE__ ), array('jquery_rut', 'jquery'));
-		// wp_register_script( 'jquery_rut', plugins_url('js/jquery.Rut.min.js', __FILE__), array('jquery'));
-		// wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
-		// wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
-
-		wp_register_script( 'acles-ajax', plugins_url('assets/js/main-acles-build-c6f4bc9bfc.js', __FILE__ ), array('jquery'));
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'acles-ajax');
-
-		wp_localize_script('acles-ajax', 'sgcajax', array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' )
-			) );
-
-	endif;
-}
-
-add_action('wp_enqueue_scripts', 'sgcinsc_scripts');
-
-function sgcinsc_styles() {
-	if(!is_admin()):
-		wp_register_style( 'acles-css', plugins_url('assets/css/acles-form-aff4eb2e21.css', __FILE__ ));
-		wp_enqueue_style( 'acles-css' );
-	endif;	
-}
-
-add_action('wp_enqueue_scripts', 'sgcinsc_styles');
 
 /*Registrar campos personalizados privados (para consulta de cupos)
  	1. Asignación total de cupos

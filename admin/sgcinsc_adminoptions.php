@@ -86,6 +86,17 @@ function sandbox_initialize_theme_options() {
     );
 
      add_settings_field( 
+        'sgcinsc_rango_insc',                      // ID used to identify the field throughout the theme
+        'Cursos que pueden inscribir A.C.L.E.',                           // The label to the left of the option interface element
+        'sgcinsc_checkcourse_callback',   // The name of the function responsible for rendering the option interface
+        'sgcinsc_config_options',    // The page on which this option will be displayed
+        'general_settings_section',         // The name of the section to which this field belongs
+        array(                              // The array of arguments to pass to the callback. In this case, just a description.
+            'Escoge qué cursos pueden inscribir A.C.L.E'
+        )
+    );
+
+     add_settings_field( 
         'sgcinsc_results_url',                      // ID used to identify the field throughout the theme
         'Resultados Inscripciones 1ºEtapa',                           // The label to the left of the option interface element
         'sgcinsc_results_url_callback',   // The name of the function responsible for rendering the option interface
@@ -124,6 +135,29 @@ function sgcinsc_open_insc_callback($args) {
     echo $html;
      
 } // end sgcinsc_open_insc_callback
+
+function sgcinsc_checkcourse_callback($args) {
+    global $obcursos;
+    
+    $options = get_option('sgcinsc_config_options');
+    $cursos_abiertos = $options['insc-curso'];
+
+    $html .= '';
+
+    for($i = 1; $i <= 10; $i++) {
+        
+        $checked = (in_array($i, $cursos_abiertos)) ? 'checked="checked"' : '';
+
+        $html .= '<p>';
+        $html .= '<input type="checkbox" name="sgcinsc_config_options[insc-curso][]" value="' . $i . '" ' . $checked . '/>';
+        $html .= '<label for="sgcinsc_config_options[insc-curso]">' . sgcinsc_nicecurso($i) . '</label>';
+        $html .= '</p>';
+    }
+
+    //xdebug_break();
+
+    echo $html;
+}
  
 function sgcinsc_selectpage_callback($args) {
     $options = get_option('sgcinsc_config_options');

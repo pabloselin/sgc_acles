@@ -5,7 +5,6 @@
 function sgcinsc_verifydata($data) {
 	global $wpdb, $post;
 	// 1.Verificar que el nonce funcione
-	
 
 	if(!wp_verify_nonce( $_POST['sgcinsc_nonce'], 'submit_stepone' )) {
 		echo 'El nonce es inválido';

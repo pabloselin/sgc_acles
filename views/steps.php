@@ -11,6 +11,15 @@ $stage = $options['sgcinsc_etapa_insc'];
 //variable que regula si se puede o no uno inscribir
 
 $insc = false;
+$cursos_abiertos = $options['insc-curso'];
+
+foreach($cursos_abiertos as $curso_abierto): 
+
+	$fcursosabiertos[] = sgcinsc_nicecurso($curso_abierto); 
+
+endforeach;
+
+$format_cursos_abiertos = implode(', ', $fcursosabiertos);
 
 if($openinsc == 1 || is_user_logged_in() ):
 
@@ -43,6 +52,12 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 				<!--Lista de ACLES disponibles con filtros por curso y por horario-->
 				<!--Lista de ACLES en formato Calendario-->
 				<!--Lista de ACLES por áreas-->			
+
+						<div class="alert alert-warning">
+									<p>Actualmente se encuentran abiertas las inscripciones para los siguientes cursos:</p>
+									<p><strong><?php echo $format_cursos_abiertos;?></strong></p>
+									<p>Por favor consulte la página oficial de información de ACLE 2017 para saber sobre las fechas correspondientes de inscripción</p>
+								</div>
 									
 						<form id="sgcinsc_form" method="POST" action="" class="form-horizontal" data-mod="<?php echo $modcond;?>" data-id="<?php echo $_GET['id'];?>" data-stage="<?php echo $stage;?>">
 						<!--campos escondidos de info-->
@@ -91,14 +106,33 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 							</div>
 
 							<div class="control-group">								
-								<label class="control-label" for="curso_alumno">Curso Alumno(a) <strong>2016</strong>:</label>
+
+								<label class="control-label" for="curso_alumno">Curso Alumno(a) <strong><?php echo date('Y');?></strong>:</label>
 								
 								<div class="controls">									
 									<select name="curso_alumno">
-
+										
 
 										<option disabled <?php if(!$modcond):?> selected <?php endif;?> >Escoja curso</option>
-										<option value="1" <?php if($modcond && $data[0]->curso_alumno == 1):?> selected  <?php endif;?> >1° Básico</option>
+
+										<?php 
+											
+											
+											for($i = 1; $i <= 10; $i++) {
+
+												if(in_array($i, $cursos_abiertos)):
+
+													?>
+
+													<option value="<?php echo $i;?>" <?php if($modcond && $data[0]->curso_alumno == $i):?> selected  <?php endif;?> ><?php echo sgcinsc_nicecurso($i);?></option>
+
+													<?php			
+
+												endif;
+
+											}
+										?>
+										<!--<option value="1" <?php if($modcond && $data[0]->curso_alumno == 1):?> selected  <?php endif;?> >1° Básico</option>
 										<option value="2" <?php if($modcond && $data[0]->curso_alumno == 2):?> selected <?php endif;?> >2° Básico</option>
 										<option value="3" <?php if($modcond && $data[0]->curso_alumno == 3):?> selected <?php endif;?> >3° Básico</option>
 										<option value="4" <?php if($modcond && $data[0]->curso_alumno == 4):?> selected <?php endif;?> >4° Básico</option>
@@ -107,7 +141,7 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 										<option value="7" <?php if($modcond && $data[0]->curso_alumno == 7):?> selected <?php endif;?> >7° Básico</option>
 										<option value="8" <?php if($modcond && $data[0]->curso_alumno == 8):?> selected <?php endif;?> >8° Básico</option>
 										<option value="9" <?php if($modcond && $data[0]->curso_alumno == 9):?> selected <?php endif;?> >I° Medio</option>
-										<option value="10" <?php if($modcond && $data[0]->curso_alumno == 10):?> selected <?php endif;?> >II° Medio</option>
+										<option value="10" <?php if($modcond && $data[0]->curso_alumno == 10):?> selected <?php endif;?> >II° Medio</option>-->
 
 										<?php if($modcond):?>
 

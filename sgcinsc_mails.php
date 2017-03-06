@@ -76,10 +76,10 @@ function sgcinsc_confirmail($id) {
 		);
 
 	$debug = SGCINSC_DEBUG;
-	
-	//Email al alumno
+	xdebug_break();
+	//Si es debug no manda nada, si no calza la dirección oficial del sitio manda solo a los mails de debug
 	if(!$debug) {
-		if(get_bloginfo('url') == 'http://saintgasparcollege.cl'):
+		if(get_bloginfo('url') == 'https://saintgasparcollege.cl'):
 			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
 				$sent = true;			 
 			 endif;
@@ -89,6 +89,7 @@ function sgcinsc_confirmail($id) {
 				$sent = true;
 			endif;
 		else:
+			xdebug_break();
 			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
 			 	$sent = true;
 			 endif;
@@ -167,10 +168,10 @@ function sgcinsc_modifymail($id, $mod) {
 		);
 
 	$debug = SGCINSC_DEBUG;
-	//Email al alumno
+	//Email al apoderado
 	if(!$debug) {
-		if(get_bloginfo('url') == 'http://saintgasparcollege.cl'):
-			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
+
+			 if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
 			 	$sent = true;
 			 endif;
 
@@ -178,10 +179,12 @@ function sgcinsc_modifymail($id, $mod) {
 			if (wp_mail( $email_apoderado, $subject, $message, $headers )):
 				$sent = true;
 			endif;
-		else:
-			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
+
+	} else {
+		
+		if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
 			 	$sent = true;
-			 endif;
 		endif;
+
 	}	
 }
