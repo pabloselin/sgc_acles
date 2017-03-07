@@ -13,13 +13,14 @@
 TODO 2017
 
 + Implementar flujo en GULP con cambio de nombre de archivo
-- Implementar distintas etapas de inscripción por curso
++ Implementar distintas etapas de inscripción por curso
 - Revisar que escogerá el apoderado (curso 2016 o 2017)
 - Revisar BUGs
 	+ No llega correo al apoderado
 	+ Error en los límites de cursos
 	+ A veces no se muestra la casilla para marcar un curso
 	+ No se muestra correctamente la info de los cursos mínimos y máximos para inscribirse
+	- Al modificar una inscripción, el sistema permite añadir otro curso adicional a la inscripción
 
 to-do
 

@@ -140,7 +140,7 @@ function sgcinsc_checkcourse_callback($args) {
     global $obcursos;
     
     $options = get_option('sgcinsc_config_options');
-    $cursos_abiertos = $options['insc-curso'];
+    $cursos_abiertos = (isset($options['insc-curso']))? $options['insc-curso'] : false;
 
     $html .= '';
 
