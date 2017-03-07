@@ -162,7 +162,10 @@ $('#sgcinsc_form').validate(
     onStepChanged: function(event, currentIndex, priorIndex) {
                     if(currentIndex == 1) {
                       alumrut = $('#sgcinsc_form input[name="rut_alumno"]').val();
-                      console.log(parseInt(alumrut));
+                      curso = $('#sgcinsc_form select[name="curso_alumno"]').val();
+                      cursosMinMax = sgcinsc_returnminmax(stage);
+                      minacle = cursosMinMax[curso][0];
+                      maxacle = cursosMinMax[curso][1];
                     }                    
                     else if(currentIndex == 2){
                       sgcinsc_renderAcles(cursel, alumrut, modcond, idinsc, stage);                     
@@ -225,22 +228,6 @@ $('#sgcinsc_form').validate(
 
     //Vacío los cursos seleccionados si es que el apoderado cambia de curso.
     checkedarray = [];
-
-    //Requerimientos de cursos mínimos y máximos
-   if(stage == 1) {
-      //Requerimientos de cursos mínimos y máximos
-      if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
-        minacle = 1;      
-        maxacle = 1;          
-      } else {
-        minacle = 2;            
-        maxacle = 2;
-        }; 
-        //Máximo igual para todos
-    } else {
-        minacle = 1;
-        maxacle = 3;
-    }
       
   });
 
@@ -250,7 +237,8 @@ $('#sgcinsc_form').validate(
   $('#sgcinsc_form #ajaxAclesPlace').on('click', 'input.aclecheckbox', function() {
        //Contar los chequeados y guardarlos en variables       
        $('.acleitemcurso').removeClass('selected');
-      checkedarray = [];     
+      
+        checkedarray = [];     
              
 
        //Revisa los chequeados en un mismo td

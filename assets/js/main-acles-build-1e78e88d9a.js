@@ -148,6 +148,32 @@ function sgcinsc_niceCurso(curso) {
   return nicecurso;
 }
 
+function sgcinsc_returnminmax(stage) {
+  
+  //Devuelve los requerimientos mínimos y máximos de ACLE para cada curso
+
+  cursosMinMax = {
+    1: [1,1],
+    2: [1,1],
+    3: [2,2],
+    4: [2,2],
+    5: [2,2],
+    6: [2,2],
+    7: [1,1],
+    8: [1,1],
+    9: [1,1],
+    10: [1,1]
+  }
+
+  if(stage !==1) {
+    for(key in cursosMinMax ) {
+      cursosMinMax[key] = [1,3]
+    }
+  }
+  
+  return cursosMinMax;
+}
+
 
 function sgcinsc_niceSeguro(seguro) {
   switch(seguro) {
@@ -209,32 +235,13 @@ function sgcinsc_renderAcles(curso, rut, modcond, inscparam, stage) {
       });
       $('#sgcinsc_form span.cursel').empty().append(nicecurso);
 
-       if(modcond == true) {
-        //Requerimientos de cursos mínimos y máximos
-        cursel = curso;
-        if(stage == 1) {
-             if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
-                    minacle = 1;      
-                    maxacle = 1;          
-            } else {
-                    minacle = 2;            
-                    maxacle = 2;
-            }; 
-          //Máximo igual para todos   
+        if(minacle == 2) {
+          $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' ACLE</strong>');  
+        } else if(minacle !== maxacle) {
+          $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir entre <strong>' + minacle + ' ACLE</strong> y <strong>' + maxacle + ' ACLE</strong>');
         } else {
-          minacle = 1;
-          maxacle = 3;
+          $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' ACLE</strong>');
         }
-       
-      }
-
-      if(minacle == 2) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' ACLE</strong>');  
-      } else if(minacle !== maxacle) {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir entre <strong>' + minacle + ' ACLE</strong> y <strong>' + maxacle + ' ACLE</strong>');
-      } else {
-        $('#sgcinsc_form p.maxcursos').empty().append('Usted debe inscribir <strong>' + minacle + ' ACLE</strong>');
-      }
       
       //Chequeo las que se chequearon en otros pasos.
       if(checkedarray.length > 0) {
@@ -564,7 +571,10 @@ $('#sgcinsc_form').validate(
     onStepChanged: function(event, currentIndex, priorIndex) {
                     if(currentIndex == 1) {
                       alumrut = $('#sgcinsc_form input[name="rut_alumno"]').val();
-                      console.log(parseInt(alumrut));
+                      curso = $('#sgcinsc_form select[name="curso_alumno"]').val();
+                      cursosMinMax = sgcinsc_returnminmax(stage);
+                      minacle = cursosMinMax[curso][0];
+                      maxacle = cursosMinMax[curso][1];
                     }                    
                     else if(currentIndex == 2){
                       sgcinsc_renderAcles(cursel, alumrut, modcond, idinsc, stage);                     
@@ -627,22 +637,6 @@ $('#sgcinsc_form').validate(
 
     //Vacío los cursos seleccionados si es que el apoderado cambia de curso.
     checkedarray = [];
-
-    //Requerimientos de cursos mínimos y máximos
-   if(stage == 1) {
-      //Requerimientos de cursos mínimos y máximos
-      if((cursel == 1) || (cursel == 2) || (cursel == 7) || (cursel == 8) || (cursel == 9) || (cursel == 10)) {
-        minacle = 1;      
-        maxacle = 1;          
-      } else {
-        minacle = 2;            
-        maxacle = 2;
-        }; 
-        //Máximo igual para todos
-    } else {
-        minacle = 1;
-        maxacle = 3;
-    }
       
   });
 
@@ -652,7 +646,8 @@ $('#sgcinsc_form').validate(
   $('#sgcinsc_form #ajaxAclesPlace').on('click', 'input.aclecheckbox', function() {
        //Contar los chequeados y guardarlos en variables       
        $('.acleitemcurso').removeClass('selected');
-      checkedarray = [];     
+      
+        checkedarray = [];     
              
 
        //Revisa los chequeados en un mismo td

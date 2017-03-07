@@ -35,6 +35,32 @@ function sgcinsc_niceCurso(curso) {
   return nicecurso;
 }
 
+function sgcinsc_returnminmax(stage) {
+  
+  //Devuelve los requerimientos mínimos y máximos de ACLE para cada curso
+
+  cursosMinMax = {
+    1: [1,1],
+    2: [1,1],
+    3: [2,2],
+    4: [2,2],
+    5: [2,2],
+    6: [2,2],
+    7: [1,1],
+    8: [1,1],
+    9: [1,1],
+    10: [1,1]
+  }
+
+  if(stage !==1) {
+    for(key in cursosMinMax ) {
+      cursosMinMax[key] = [1,3]
+    }
+  }
+  
+  return cursosMinMax;
+}
+
 
 function sgcinsc_niceSeguro(seguro) {
   switch(seguro) {

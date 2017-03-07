@@ -21,6 +21,7 @@ TODO 2017
 	+ A veces no se muestra la casilla para marcar un curso
 	+ No se muestra correctamente la info de los cursos mínimos y máximos para inscribirse
 	- Al modificar una inscripción, el sistema permite añadir otro curso adicional a la inscripción
+		- Modificar el validador de cursos mínimos y máximos para que sean transversales independiente de la etapa del formulario o inscripción
 
 to-do
 
