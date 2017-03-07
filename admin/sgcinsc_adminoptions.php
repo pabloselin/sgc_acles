@@ -146,7 +146,7 @@ function sgcinsc_checkcourse_callback($args) {
 
     for($i = 1; $i <= 10; $i++) {
         
-        $checked = (in_array($i, $cursos_abiertos)) ? 'checked="checked"' : '';
+        $checked = (is_array($cursos_abiertos) && in_array($i, $cursos_abiertos)) ? 'checked="checked"' : '';
 
         $html .= '<p>';
         $html .= '<input type="checkbox" name="sgcinsc_config_options[insc-curso][]" value="' . $i . '" ' . $checked . '/>';
