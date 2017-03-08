@@ -15,7 +15,7 @@ function sgcinsc_scripts() {
 		// wp_register_script( 'jquery_cookie', plugins_url('js/jquery.cookie.js', __FILE__), array('jquery'));
 		// wp_register_script( 'jquery_steps', plugins_url('js/jquery.steps.min.js', __FILE__), array('jquery_cookie', 'jquery'));
 
-		wp_register_script( 'acles-ajax', plugins_url('assets/js/main-acles-build-1e78e88d9a.js', __FILE__ ), array('jquery'));
+		wp_register_script( 'acles-ajax', plugins_url('assets/js/main-acles-build-bca3337ea1.js', __FILE__ ), array('jquery'));
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'acles-ajax');
 

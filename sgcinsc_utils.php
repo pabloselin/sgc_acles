@@ -876,3 +876,7 @@ function sgcinsc_minmaxacles( $stage ) {
 
 	return $minmaxacles;
 }
+
+function sgcinsc_getmodurl($idinsc) {
+	
+}
