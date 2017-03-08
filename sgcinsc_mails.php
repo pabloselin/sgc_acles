@@ -78,7 +78,6 @@ function sgcinsc_confirmail($id) {
 	$debug = SGCINSC_DEBUG;
 	//Si es debug no manda nada, si no calza la dirección oficial del sitio manda solo a los mails de debug
 	if(!$debug) {
-		if(get_bloginfo('url') == 'https://saintgasparcollege.cl'):
 			if (wp_mail( SGCINSC_MAILINSC, $subject, $message, $headers )):
 				$sent = true;			 
 			 endif;
@@ -87,11 +86,10 @@ function sgcinsc_confirmail($id) {
 			if (wp_mail( $email_apoderado, $subject, $message, $headers )):
 				$sent = true;
 			endif;
-		else:
+	} else {
 			if (wp_mail( SGCINSC_MAILDEBUG, $subject, $message, $headers )):
 			 	$sent = true;
 			 endif;
-		endif;
 	}
 }
 
