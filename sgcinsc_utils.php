@@ -839,7 +839,7 @@ function sgcinsc_compareinsc($oldinsc, $newinsc) {
 
 }
 
-function sgcinsc_minmaxacles( $stage ) {
+function sgcinsc_minmaxacles( ) {
 	$options = get_option('sgcinsc_config_options');
 	$stage = $options['sgcinsc_etapa_insc'];
 
@@ -878,5 +878,5 @@ function sgcinsc_minmaxacles( $stage ) {
 }
 
 function sgcinsc_getmodurl($idinsc) {
-	
+
 }
