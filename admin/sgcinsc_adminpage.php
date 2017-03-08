@@ -88,6 +88,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 					echo '<td>'.$inscrito->email_apoderado.'</td>';
 					echo '<td>'.sgcinsc_niceseguro($inscrito->seguro_escolar).'</td>';
 					echo '<td>'.$inscrito->rut_apoderado. '-' . dv($inscrito->rut_apoderado) .'</td>';			
+					echo '<td>Modificar Inscripción - Eliminar Inscripción</td>';
 				endforeach;
 			echo '</tr>';	
 	}	
@@ -161,8 +162,11 @@ function sgcinsc_aclestable($acleid, $etapa) {
 			echo '<th>Red Fija</th>';
 			echo '<th>E-Mail Apoderado</th>';
 			echo '<th>Seguro escolar</th>';
-			echo '<th>RUT Apoderado</th></thead>';
-			sgcinsc_inscporacle($acle->ID, $etapa);			
+			echo '<th>RUT Apoderado</th>';
+			echo '<th>Acciones</th></thead>';
+			
+				sgcinsc_inscporacle($acle->ID, $etapa);			
+
 		echo '</table>';
 
 		$csv = sgcinsc_putcsv($acle->ID, $etapa);

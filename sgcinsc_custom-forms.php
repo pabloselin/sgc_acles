@@ -393,3 +393,26 @@ function sgcinsc_changeinsc($id, $hash) {
 		return 'Hash inválido';
 	}
 }
+
+function sgcinsc_deleteinsc($id) {
+	global $table_name, $table2_name, $wpdb;
+
+	$deleteinsc = $wpdb->delete($table_name, 
+		array(
+			'id'=> $id
+		)
+	);
+
+	$deletecupos = $wpdb->delete($table2_name,
+		array(
+			'id_inscripcion' => $id
+		)
+	);
+
+	if($deleteinsc && $deletecupos) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
