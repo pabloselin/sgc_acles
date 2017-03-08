@@ -98,6 +98,7 @@ function sgcinsc_inscribe($data) {
 
 			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
 			wp_redirect($errorurl, 303);
+			die();
 
 		endif;
 
@@ -230,6 +231,7 @@ function sgcinsc_fixinsc($data) {
 			sgcinsc_modifymail($id, $oldinsc);
 
 			wp_redirect($modacleurl, 303);
+			die();
 
 		 }
 	}
@@ -312,63 +314,74 @@ function sgcinsc_modifydata($data, $mail = true) {
 	$oldrut = $wpdb->get_var("SELECT rut_alumno FROM $table_name WHERE id = $id" );
 	$rutal = sgcinsc_processrut($data['rut_alumno']);
 	$oldinsc = sgcinsc_getinsc($id);
-
+	$allowed_date = sgcinsc_modrange(sgcinsc_getinscdate($id));
 	$reprut = true;
 
-	if($oldrut != $rutal) {
-		$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
-	}
+	if($allowed_date == 1): 
+		if($oldrut != $rutal) {
+			$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
+		}
 
-	if($reprut) {
-		//No se repite RUT, puedo seguir con la inscripción
+		if($reprut) {
+			//No se repite RUT, puedo seguir con la inscripción
 
-		$mod_data = array(
-			'fecha_modificacion' => current_time( 'mysql' )
-			);
+			$mod_data = array(
+				'fecha_modificacion' => current_time( 'mysql' )
+				);
 
-		$mdata = serialize($mod_data);
+			$mdata = serialize($mod_data);
 
-		$newdata = array(
-						'rut_alumno' => sgcinsc_processrut($data['rut_alumno']),
-						'rut_apoderado' => sgcinsc_processrut($data['rut_apoderado']),
-						'nombre_alumno' => $data['nombre_alumno'],
-						'nombre_apoderado' => $data['nombre_apoderado'],
-						'curso_alumno' => $data['curso_alumno'],
-						'letracurso_alumno' => $data['letracurso'],
-						'email_apoderado' => $data['email_apoderado'],
-						'redfija_apoderado' => $data['fono_apoderado'],
-						'celu_apoderado' => $data['celu_apoderado'],
-						'seguro_escolar' => $data['seguro_alumno'],
-						'mod_data' => $mdata
-			);
+			$newdata = array(
+							'rut_alumno' => sgcinsc_processrut($data['rut_alumno']),
+							'rut_apoderado' => sgcinsc_processrut($data['rut_apoderado']),
+							'nombre_alumno' => $data['nombre_alumno'],
+							'nombre_apoderado' => $data['nombre_apoderado'],
+							'curso_alumno' => $data['curso_alumno'],
+							'letracurso_alumno' => $data['letracurso'],
+							'email_apoderado' => $data['email_apoderado'],
+							'redfija_apoderado' => $data['fono_apoderado'],
+							'celu_apoderado' => $data['celu_apoderado'],
+							'seguro_escolar' => $data['seguro_alumno'],
+							'mod_data' => $mdata
+				);
 
-		$whereupdate = array( 'id'=> $id );
+			$whereupdate = array( 'id'=> $id );
 
-		$updateinsc = $wpdb->update($table_name, $newdata, $whereupdate );
+			$updateinsc = $wpdb->update($table_name, $newdata, $whereupdate );
 
-		//Un nonce pa la url
-		$nonce = wp_create_nonce('checkinsc');
-		$successarr = array(
-			'excode' => 4,
-			'idinsc' => $id,
-			'checkinsc' => $nonce
-			);
+			//Un nonce pa la url
+			$nonce = wp_create_nonce('checkinsc');
+			$successarr = array(
+				'excode' => 4,
+				'idinsc' => $id,
+				'checkinsc' => $nonce
+				);
 
-		$modurl = add_query_arg($successarr, get_permalink());
+			$modurl = add_query_arg($successarr, get_permalink());
 
-		if($mail == true):
-			//Envío mail de confirmación
-			sgcinsc_modifymail($id, $oldinsc);
-		endif;
+			if($mail == true):
+				//Envío mail de confirmación
+				sgcinsc_modifymail($id, $oldinsc);
+			endif;
 
-		wp_redirect($modurl, 303);
+			wp_redirect($modurl, 303);
+			die();
 
-	} else {
+		} else {
+			
+			$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
+			wp_redirect($errorurl, 303);
+			die();
+
+		}
+
+	else:
+		$errorurl_6 = esc_url_raw( add_query_arg('excode', 6, get_permalink()) );
+		wp_redirect($errorurl_6, 303);
+		xdebug_break();
+		die();
 		
-		$errorurl = esc_url_raw( add_query_arg('excode', 2, get_permalink()) );
-		wp_redirect($errorurl, 303);
-
-	}
+	endif;
 
 }
 

@@ -503,6 +503,33 @@ function sgcinsc_getinsc($idinsc) {
 	return $iteminsc;
 }
 
+function sgcinsc_getinscdate($idinsc) {
+	global $wpdb, $table_name, $table2_name;
+
+	$insc = sgcinsc_getinsc($idinsc);
+	$time = $insc[0]->time;
+	return $time;
+
+}
+
+function sgcinsc_modrange($dateinsc) {
+	global $modexptime;
+
+	$time = new DateTime($dateinsc);
+	$curtime = new DateTime(current_time('mysql'));
+	$exptime = new DateTime($modexptime);
+	$testime = $time->format('H:i');
+	if($time->format('Y-m-d') == $curtime->format('Y-m-d') && $curtime->format('H:i') < $exptime->format('H:i')) {
+		//mismo día
+		//límite de hora
+		return true;
+
+	} else {
+		return false;
+	}
+	
+}
+
 function sgcinsc_getinscstage($idinsc) {
 	/**
 	 * Devuelve el número de etapa en que se realizó la inscripción
@@ -550,6 +577,7 @@ add_shortcode('sgcinsc_aclesboton', 'sgcinsc_inscbotonshortcode');
 
 function sgcinsc_insctemplate($idinsc) {
 	global $inscidpage;
+	global $modexptime;
 
 	$options = get_option('sgcinsc_config_options');
 	$openinsc = $options['sgcinsc_open_insc'];
@@ -610,7 +638,20 @@ function sgcinsc_insctemplate($idinsc) {
 	//Condicionar link a que estén abiertas las inscripciones y que corresponda a la etapa del id
 	if(sgcinsc_getinscstage($idinsc) == $stage && $openinsc == 1 || is_user_logged_in() ):
 
-		$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
+		$allowed_date = sgcinsc_modrange(sgcinsc_getinscdate($idinsc));
+
+		$output .= '<p>La modificación de esta inscripción estará abierta hasta <strong>hoy (' . current_time('d-m-Y'). ') a las ' . $modexptime . ' horas.</strong></p>';
+
+		if($allowed_date == true) {
+			
+			$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
+
+		} else {
+
+			$output .= '<button class="btn btn-large btn-disabled populateacles">' .  SGCINSC_MODLINKTXT_EXPIRED . '</a>';
+
+		}
+		
 
 	else:
 
@@ -796,4 +837,42 @@ function sgcinsc_compareinsc($oldinsc, $newinsc) {
 	 */
 
 
+}
+
+function sgcinsc_minmaxacles( $stage ) {
+	$options = get_option('sgcinsc_config_options');
+	$stage = $options['sgcinsc_etapa_insc'];
+
+	if($stage == 1) {
+		$minmaxacles = array(
+			1 => array(1,1),
+			2 => array(1,1),
+			3 => array(1,2),
+			4 => array(1,2),
+			5 => array(1,2),
+			6 => array(1,2),
+			7 => array(1,1),
+			8 => array(1,1),
+			9 => array(1,1),
+			10 => array(1,1)
+		);
+
+	} else {
+
+		$minmaxacles = array(
+			1 => array(1,3),
+			2 => array(1,3),
+			3 => array(1,3),
+			4 => array(1,3),
+			5 => array(1,3),
+			6 => array(1,3),
+			7 => array(1,3),
+			8 => array(1,3),
+			9 => array(1,3),
+			10 => array(1,3)
+		);
+
+	}
+
+	return $minmaxacles;
 }

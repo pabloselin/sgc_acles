@@ -21,13 +21,15 @@ endforeach;
 
 $format_cursos_abiertos = implode(', ', $fcursosabiertos);
 
+$allowed_date = sgcinsc_modrange(sgcinsc_getinscdate($_GET['id']));
+
 if($openinsc == 1 || is_user_logged_in() ):
 
 	if(isset($_GET['mod']) && $_GET['mod'] == 1 && isset($_GET['id']) && isset($_GET['ih']) ) {
 	
 	if(sgcinsc_validatehash($_GET['id'], $_GET['ih']) ) {
 		//Hay que ver si el link de modificación es para etapa uno o dos
-		if(sgcinsc_getinscstage($_GET['id']) == $stage) {
+		if(sgcinsc_getinscstage($_GET['id']) == $stage && $allowed_date == true) {
 			$modcond = true;
 			$data = sgcinsc_getinsc($_GET['id']);	
 			$insc = true;
@@ -132,16 +134,7 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 
 											}
 										?>
-										<!--<option value="1" <?php if($modcond && $data[0]->curso_alumno == 1):?> selected  <?php endif;?> >1° Básico</option>
-										<option value="2" <?php if($modcond && $data[0]->curso_alumno == 2):?> selected <?php endif;?> >2° Básico</option>
-										<option value="3" <?php if($modcond && $data[0]->curso_alumno == 3):?> selected <?php endif;?> >3° Básico</option>
-										<option value="4" <?php if($modcond && $data[0]->curso_alumno == 4):?> selected <?php endif;?> >4° Básico</option>
-										<option value="5" <?php if($modcond && $data[0]->curso_alumno == 5):?> selected <?php endif;?> >5° Básico</option>
-										<option value="6" <?php if($modcond && $data[0]->curso_alumno == 6):?> selected <?php endif;?> >6° Básico</option>
-										<option value="7" <?php if($modcond && $data[0]->curso_alumno == 7):?> selected <?php endif;?> >7° Básico</option>
-										<option value="8" <?php if($modcond && $data[0]->curso_alumno == 8):?> selected <?php endif;?> >8° Básico</option>
-										<option value="9" <?php if($modcond && $data[0]->curso_alumno == 9):?> selected <?php endif;?> >I° Medio</option>
-										<option value="10" <?php if($modcond && $data[0]->curso_alumno == 10):?> selected <?php endif;?> >II° Medio</option>-->
+
 
 										<?php if($modcond):?>
 

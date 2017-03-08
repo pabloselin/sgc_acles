@@ -22,6 +22,8 @@ define('SGCINSC_WARNLIST_3', 'En caso de modificar únicamente información de c
 
 define('SGCINSC_MODLINKTXT', 'Modificar Inscripción');
 
+define('SGCINSC_MODLINKTXT_EXPIRED', 'Plazo de modificación cerrado');
+
 define('SGCINSC_NOTMODLINKTXT', 'Modificaciones cerradas');
 
 define('SGCINSC_STAGEMODWARN', 'Usted en la Primera etapa de inscripción ha inscrito los siguientes A.C.L.E.s para el alumno/a ');

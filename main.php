@@ -57,6 +57,9 @@ $inscidpage = $options['sgcinsc_pagina_insc'];
 
 $inscstage = $options['sgcinsc_etapa_insc'];
 
+//$modexptime = '12:57';
+$modexptime = $options['sgcinsc_exptime'];
+
 //Clases requeridas
 
 // 1.Meta Box
@@ -96,42 +99,8 @@ $table_name = $wpdb->prefix . 'inscacles';
 $table2_name = $wpdb->prefix . 'cuposacles';
 $sgcinsc_dbversion = 1.65;
 
-//Cursos obligatorios por nivel
-$obcursos = array(
-	1 => 1,
-	2 => 1,
-	3 => 2,
-	4 => 2,
-	5 => 2,
-	6 => 2,
-	7 => 1,
-	8 => 1,
-	9 => 1,
-	10 => 1
-	);
-
 //año actual
 $year = date('Y');
-
-//Tramos de inscripción
-$tramos = array(
-	'tramo1' => array(
-		1,
-		2
-	),
-	'tramo2' => array(
-		3,
-		4
-	),
-	'tramo3' => array(
-		5,
-		6,
-		7,
-		8,
-		9,
-		10
-	)
-);
 
 function sgcinsc_createinsctables() {		
 	global $sgcinsc_dbversion, $table_name, $table2_name;

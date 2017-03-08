@@ -96,6 +96,17 @@ function sandbox_initialize_theme_options() {
         )
     );
 
+    add_settings_field( 
+        'sgcinsc_exptime',                      // ID used to identify the field throughout the theme
+        'Hora hasta que se pueden modificar las inscripciones',                           // The label to the left of the option interface element
+        'sgcinsc_exptime_callback',   // The name of the function responsible for rendering the option interface
+        'sgcinsc_config_options',    // The page on which this option will be displayed
+        'general_settings_section',         // The name of the section to which this field belongs
+        array(                              // The array of arguments to pass to the callback. In this case, just a description.
+            'Ponga la hora (en formato 24 horas) hasta la que se puede modificar una inscripción el mismo día (ej: 18:00)'
+        )
+    );
+
      add_settings_field( 
         'sgcinsc_results_url',                      // ID used to identify the field throughout the theme
         'Resultados Inscripciones 1ºEtapa',                           // The label to the left of the option interface element
@@ -137,7 +148,6 @@ function sgcinsc_open_insc_callback($args) {
 } // end sgcinsc_open_insc_callback
 
 function sgcinsc_checkcourse_callback($args) {
-    global $obcursos;
     
     $options = get_option('sgcinsc_config_options');
     $cursos_abiertos = (isset($options['insc-curso']))? $options['insc-curso'] : false;
@@ -239,6 +249,21 @@ function sgcinsc_results_url_callback($args) {
 
     $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_results_url]" id="sgcinsc_config_options[sgcisnc_results_url]" value="' . $value . '" placeholder="">';
     $html .= '<p>Pon aquí la URL del documento o la página donde se publican los resultados A.C.L.E. de primera etapa.</p>';
+
+    echo $html;
+}
+
+function sgcinsc_exptime_callback($args) {
+    $options = get_option('sgcinsc_config_options');
+    if(isset($options['sgcinsc_exptime'])) {
+        $value = $options['sgcinsc_exptime'];    
+    } else {
+        $value = '';
+    }
+    
+
+    $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_exptime]" id="sgcinsc_config_options[sgcisnc_exptime]" value="' . $value . '" placeholder="">';
+    $html .= '<p>Ej: 18:00 </p>';
 
     echo $html;
 }

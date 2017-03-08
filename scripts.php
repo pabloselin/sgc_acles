@@ -1,6 +1,11 @@
 <?php 
 //Meter scripts de JS
 function sgcinsc_scripts() {
+	$minmaxacles = sgcinsc_minmaxacles();
+	$options = get_option('sgcinsc_config_options');
+	$openinsc = $options['sgcinsc_open_insc'];
+	$stage = $options['sgcinsc_etapa_insc'];
+
 	if(!is_admin()):			
 		wp_deregister_script('jquery' );
 		wp_register_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js');
@@ -15,7 +20,9 @@ function sgcinsc_scripts() {
 		wp_enqueue_script( 'acles-ajax');
 
 		wp_localize_script('acles-ajax', 'sgcajax', array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' )
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			'minmaxacles'=> $minmaxacles,
+			'stage' => $stage
 			) );
 
 	endif;

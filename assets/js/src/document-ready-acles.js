@@ -4,7 +4,7 @@ $(document).ready(function() {
   checkedarray = new Array();
   modcond = $('form#sgcinsc_form').data('mod');
   idinsc = $('form#sgcinsc_form').data('id');
-  stage = $('form#sgcinsc_form').data('stage');
+  stage = sgcajax.stage;
 
   $('#otroseguro, #emailalumno').hide();
 
@@ -163,7 +163,7 @@ $('#sgcinsc_form').validate(
                     if(currentIndex == 1) {
                       alumrut = $('#sgcinsc_form input[name="rut_alumno"]').val();
                       curso = $('#sgcinsc_form select[name="curso_alumno"]').val();
-                      cursosMinMax = sgcinsc_returnminmax(stage);
+                      cursosMinMax = sgcajax.minmaxacles;
                       minacle = cursosMinMax[curso][0];
                       maxacle = cursosMinMax[curso][1];
                     }                    
