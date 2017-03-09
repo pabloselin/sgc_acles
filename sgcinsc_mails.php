@@ -6,6 +6,8 @@
 
 function sgcinsc_confirmail($id) {
 
+	global $modexptime;
+
 	$options = get_option('sgcinsc_config_options');
 	$stage = $options['sgcinsc_etapa_insc'];
 
@@ -57,7 +59,7 @@ function sgcinsc_confirmail($id) {
 	endif;
 	
 	$message .= '</table>';
-	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($id) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p>';
+	$message .= '<p>En caso que deba modificar su inscripción, podrá hacerlo en el  <a href="' . sgcinsc_url($id) . '">siguiente link</a> pero solo podrá reasignar con cursos que tengan cupos en ese momento.</p> <p><strong>El plazo máximo para modificar una inscripción es hoy (' . current_time('d-m-Y'). ') a las ' . $modexptime . ' horas.</strong> </p>';
 	$message .= '<p>Para consultas escriba a ' . SGCINSC_MAILINSC .'</p>';
 	$message .= '<p>Muchas gracias por su inscripción!</p>' ;
 	$message .= '</td></tr></table>';

@@ -550,22 +550,21 @@ function sgcinsc_inscbotonshortcode($atts) {
 
 	global $openinsc;
 	$options = get_option('sgcinsc_config_options');
-	
+	$infoaclespage = $options['sgcinsc_pagina_info'];
 	//El ID de la página que regula las inscripciones
 	$inscidpage = $options['sgcinsc_pagina_insc'];
 
-	$a = shortcode_atts(array(
-		'texto' => 'Texto Botón',
-		), $atts );
-	$text = $atts['texto'];
+	$texto_boton_on = get_post_meta($infoaclespage, 'sgc_txtbotonacle_on', true);
+	$texto_boton_off = get_post_meta($infoaclespage, 'sgc_txtbotonacle_off', true);
+	
 	$link = get_permalink($inscidpage);
 	$output = '<div class="btncontainer">';
 	$output .= '<p style="text-align:center;">';
 
 	if($openinsc == 1) {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large" title="'.$text.'" href="'.$link.'">'.$text.'</a>';	
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-success btn-large" title="'.$texto_boton_on.'" href="'.$link.'">'.$texto_boton_on.'</a>';	
 	} else {
-		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$text.'" href="#">'.$text.'</a>';
+		$output .= '<a id="inscboton" style="margin:0 auto;" class="btn btn-primary btn-large disabled" title="'.$texto_boton_off.'" href="#">'.$texto_boton_off.'</a>';
 	}
 	
 	$output .= '</p>';

@@ -74,6 +74,18 @@ function sandbox_initialize_theme_options() {
         )
     );
 
+    // Next, we'll introduce the fields for toggling the visibility of content elements.
+    add_settings_field( 
+        'sgcinsc_pagina_info',                      // ID used to identify the field throughout the theme
+        'Página con información proceso ACLE',                           // The label to the left of the option interface element
+        'sgcinsc_selectpageinfo_callback',   // The name of the function responsible for rendering the option interface
+        'sgcinsc_config_options',    // The page on which this option will be displayed
+        'general_settings_section',         // The name of the section to which this field belongs
+        array(                              // The array of arguments to pass to the callback. In this case, just a description.
+            'Escoge que página se usará para la información general de ACLE.'
+        )
+    );
+
     add_settings_field( 
         'sgcinsc_etapa_insc',                      // ID used to identify the field throughout the theme
         'Etapa de inscripción de A.C.L.E.',                           // The label to the left of the option interface element
@@ -104,17 +116,6 @@ function sandbox_initialize_theme_options() {
         'general_settings_section',         // The name of the section to which this field belongs
         array(                              // The array of arguments to pass to the callback. In this case, just a description.
             'Ponga la hora (en formato 24 horas) hasta la que se puede modificar una inscripción el mismo día (ej: 18:00)'
-        )
-    );
-
-     add_settings_field( 
-        'sgcinsc_results_url',                      // ID used to identify the field throughout the theme
-        'Resultados Inscripciones 1ºEtapa',                           // The label to the left of the option interface element
-        'sgcinsc_results_url_callback',   // The name of the function responsible for rendering the option interface
-        'sgcinsc_config_options',    // The page on which this option will be displayed
-        'general_settings_section',         // The name of the section to which this field belongs
-        array(                              // The array of arguments to pass to the callback. In this case, just a description.
-            'Pon aquí la URL del documento o la página donde se publican los resultados A.C.L.E. de primera etapa.'
         )
     );
      
@@ -210,6 +211,47 @@ function sgcinsc_selectpage_callback($args) {
 
 } //end sgcinsc_selectpage_callback
 
+function sgcinsc_selectpageinfo_callback($args) {
+    $options = get_option('sgcinsc_config_options');
+
+    $selected = $options['sgcinsc_pagina_info'];
+
+    $args = array(
+        'post_type' => 'page',
+        'numberposts' => -1,
+        'post_status' => array('publish', 'private')
+        );
+
+    $pages = get_posts( $args );
+
+    $html = '<select name="sgcinsc_config_options[sgcinsc_pagina_info]">';
+
+    
+
+    $html .= '<option value="0">Escoge una página</option>';
+    
+    foreach($pages as $page) {
+
+        if($selected == $page->ID) {
+
+            $html .= '<option value="' . $page->ID .'" selected>' . $page->post_title  
+        . '</option>';    
+
+        } else {
+
+            $html .= '<option value="' . $page->ID .'">' . $page->post_title  
+        . '</option>';    
+        }
+
+        
+    }
+    
+    $html .= '</select>';
+
+    echo $html;
+
+} //end sgcinsc_selectpage_callback
+
 function sgcinsc_selectstage_callback($args) {
     $options = get_option('sgcinsc_config_options');
     $selected = $options['sgcinsc_etapa_insc'];
@@ -238,21 +280,6 @@ function sgcinsc_selectstage_callback($args) {
     echo $html;
 }
 
-function sgcinsc_results_url_callback($args) {
-    $options = get_option('sgcinsc_config_options');
-    if(isset($options['sgcinsc_results_url'])) {
-        $value = $options['sgcinsc_results_url'];    
-    } else {
-        $value = '';
-    }
-    
-
-    $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_results_url]" id="sgcinsc_config_options[sgcisnc_results_url]" value="' . $value . '" placeholder="">';
-    $html .= '<p>Pon aquí la URL del documento o la página donde se publican los resultados A.C.L.E. de primera etapa.</p>';
-
-    echo $html;
-}
-
 function sgcinsc_exptime_callback($args) {
     $options = get_option('sgcinsc_config_options');
     if(isset($options['sgcinsc_exptime'])) {
@@ -260,7 +287,6 @@ function sgcinsc_exptime_callback($args) {
     } else {
         $value = '';
     }
-    
 
     $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_exptime]" id="sgcinsc_config_options[sgcisnc_exptime]" value="' . $value . '" placeholder="">';
     $html .= '<p>Ej: 18:00 </p>';

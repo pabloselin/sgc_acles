@@ -45,13 +45,22 @@ define('SGCINSC_PDFACLES', 'http://www.saintgasparcollege.cl/wp-content/uploads/
 
 define('SGCINSC_SUCCESSINSC', '¡Hemos recibido su inscripción!');
 define('SGCINSC_SUCCESINSC_STAGE', '¡Hemos recibido su inscripción adicional!');
-define('SGCINSC_MAILUP', 'En unos minutos recibirá un aviso informativo en el email del apoderado(a)');
-define('SGCINSC_IFNOTRECEIVE', 'Si no lo recibiera, revise su casilla spam, de todos modos la inscripción ya ha sido registrada y se encuentra en nuestra base de datos.');
-define('SGCINSC_YOURID', 'El número identificador de su inscripción es el ');
+define('SGCINSC_YOURID', 'El número oficial de su inscripción es el ');
+define('SGCINSC_MAILUP', 'Además, hemos enviado una copia del certificado al email del apoderado(a): ');
+define('SGCINSC_IFNOTRECEIVE', 'Si no lo recibiera, revise su casilla spam, de todos modos la inscripción ya ha sido registrada oficialmente y se encuentra en nuestra base de datos.');
+
 define('SGCINSC_DOUBTINSC', 'Dudas y consultas sobre acles y su proceso de inscripción:');
 
+define('SGCINSC_SEECERTPOPUP', 'Ver certificado de Inscripción (en una ventana emergente)');
+
+define('SGCINSC_THANKS', '¡Gracias!');
 /**
  * Mensajes de Error
  */
 
 
+define('SGCINSC_ERRORINSC', 'Error en la inscripción');
+define('SGCINSC_RUTEXISTS', 'Ya existe una inscripción asociada al RUT del alumno.');
+define('SGCINSC_INERRORCASE', 'Si cree que se trata de un error, por favor comuníquese con');
+define('SGCINSC_TRYAGAIN', 'Intentar inscripción nuevamente.');
+define('SGCINSC_NOVACANT', 'Uno de sus cursos seleccionados ya no tiene vacantes, probablemente alguien completó el proceso de postulación antes de que usted lo enviara.');
