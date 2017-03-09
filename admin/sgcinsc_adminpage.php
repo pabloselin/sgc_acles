@@ -59,6 +59,10 @@ function sgcinsc_aclesinsc() {
 	endforeach;
 	echo '</table>';
 	//sgcinsc_aclestable($acles);
+
+	$apoderados_url = esc_url( add_query_arg(array('vista'=> 'apoderados'), admin_url('options-general.php?page=sgc_aclesadmin')) );
+
+	//echo '<a href="' . $apoderados_url . '">(Ver lista de apoderados)</a>';
 }
 
 function sgcinsc_inscporacle($acleid, $etapa) {
@@ -243,4 +247,14 @@ function sgcinsc_deletednotice() {
 	?>
 	<div class="notice success">Inscripción borrada</div>
 	<?php
+}
+
+function sgcinsc_inscporapoderado() {
+	global $wpdb, $table_name;
+
+	$apoderados = $wpdb->get_results(
+		"SELECT * FROM $table_name"
+	);
+
+	xdebug_break();
 }

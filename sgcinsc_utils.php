@@ -641,6 +641,12 @@ function sgcinsc_insctemplate($idinsc) {
 
 		$output .= '<p>La modificación de esta inscripción estará abierta hasta <strong>hoy (' . current_time('d-m-Y'). ') a las ' . $modexptime . ' horas.</strong></p>';
 
+		if(is_user_logged_in()):
+
+			$output .= 	'<p>Como administrador es posible modificar la inscripción fuera de plazo</p>';
+
+		endif;
+
 		if($allowed_date == true || is_user_logged_in() ) {
 			
 			$output .= '<a href="' . $modlink .'" class="btn btn-large btn-success populateacles">' .  SGCINSC_MODLINKTXT . '</a>';
