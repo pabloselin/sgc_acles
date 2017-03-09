@@ -62,7 +62,7 @@ function sgcinsc_aclesinsc() {
 
 	$apoderados_url = esc_url( add_query_arg(array('vista'=> 'apoderados'), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
-	//echo '<a href="' . $apoderados_url . '">(Ver lista de apoderados)</a>';
+	echo '<p><a href="' . $apoderados_url . '">(Ver lista de apoderados)</a></p>';
 }
 
 function sgcinsc_inscporacle($acleid, $etapa) {
@@ -209,7 +209,8 @@ function sgcinsc_doadmin() {
 			$acleesc = $_GET['acle'];
 			$delacle = $_GET['delid'];			
 			$aclestage = $_GET['etapa'];
-			
+			$vista = $_GET['vista'];
+
 			if($delacle) {
 				$deleted = sgcinsc_deleteinsc($delacle, $acleesc);
 				if($deleted) {
@@ -234,6 +235,8 @@ function sgcinsc_doadmin() {
 			
 			if($acleesc):
 				sgcinsc_aclestable($acleesc, $aclestage);
+			elseif($vista == 'apoderados'):
+				sgcinsc_inscporapoderado();
 			else:
 				sgcinsc_aclesinsc();
 			endif;
@@ -255,6 +258,44 @@ function sgcinsc_inscporapoderado() {
 	$apoderados = $wpdb->get_results(
 		"SELECT * FROM $table_name"
 	);
+	
+	echo '<h2>Inscripciones ACLE por Apoderado</h2>';
+
+	echo '<table class="widefat wp-list-table aclelist">';
+	echo '<thead>';
+	echo '<th>ID inscripción</th>';
+	echo '<th>RUT Apoderado</th>';
+	echo '<th>Nombre Apoderado</th>';
+	echo '<th>RUT Alumno</th>';
+	echo '<th>Nombre Alumno</th>';
+	echo '<th>ACLES inscritos</th>';
+	echo '<th>Acciones</th>';
+	echo '</thead>';
 
 	xdebug_break();
+
+	foreach($apoderados as $apoderado) {
+
+		$acles = unserialize($apoderado->acles_inscritos);
+		foreach($acles as $acle) {
+			$aclestring[] = get_the_title( $acle ) . ' [ID:' . $acle . ']';
+		}
+
+		$aclestring = implode(', ', $aclestring);
+
+		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
+
+		echo '<tr>';
+		echo '<td>' . $apoderado->id .'</td>';
+		echo '<td>' . $apoderado->rut_apoderado .'</td>';
+		echo '<td>' . $apoderado->nombre_apoderado .'</td>';
+		echo '<td>' . $apoderado->rut_alumno .'</td>';
+		echo '<td>' . $apoderado->nombre_alumno .'</td>';
+		echo '<td>' . $aclestring .'</td>';
+		echo '<td> <a class="button primary" href="' . $delurl . '" id="delinsc">Borrar inscripción</a></td>';
+		echo '</tr>';
+
+	}
+
+	echo '</table>';
 }

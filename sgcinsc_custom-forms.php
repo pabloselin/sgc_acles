@@ -396,20 +396,15 @@ function sgcinsc_changeinsc($id, $hash) {
 function sgcinsc_deleteinsc($id, $curso) {
 	global $table_name, $table2_name, $wpdb;
 
-	$curinsc = $wpdb->get_row($table_name, 
+	$curinsc = $wpdb->delete($table_name, 
 		array(
 			'id'=> $id
 		)
 	);
 
-	$inscritos = unserialize($curinsc['acles_inscritos']);
-
-	$deletecupos = $wpdb->get_row($table2_name,
+	$deletecupos = $wpdb->delete($table2_name,
 		array(
 			'id_inscripcion' => $id
-		),
-		array(
-			'id_curso' => $curso
 		)
 	);
 
