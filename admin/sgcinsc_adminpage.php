@@ -76,7 +76,12 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 		else:
 			echo '<tr>';
 		endif;
-				foreach($inscritos as $inscrito):							
+				foreach($inscritos as $inscrito):	
+
+					$aclevar = $_GET['acle'];
+					$stagevar = $_GET['etapa'];
+					$delurl = esc_url( add_query_arg(array('acle'=> $aclevar, 'etapa' => $stagevar, 'delid' => $inscrito->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
+
 					echo '<td>'.$inscrito->id.'</td>';
 					echo '<td>'.$inscrito->time.'</td>';
 					echo '<td>'.sgcinsc_nicecurso($inscrito->curso_alumno).' ' . $inscrito->letracurso_alumno. '</td>';
@@ -88,7 +93,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 					echo '<td>'.$inscrito->email_apoderado.'</td>';
 					echo '<td>'.sgcinsc_niceseguro($inscrito->seguro_escolar).'</td>';
 					echo '<td>'.$inscrito->rut_apoderado. '-' . dv($inscrito->rut_apoderado) .'</td>';			
-					echo '<td>Modificar Inscripción - Eliminar Inscripción</td>';
+					echo '<td><a class="button-primary" id="delinsc" href="' . $delurl . '">Eliminar inscripción</a></td>';
 				endforeach;
 			echo '</tr>';	
 	}	
@@ -187,10 +192,29 @@ function sgcinsc_doadmin() {
 	global $wpdb;
 	?>
 
+	<script>
+		jQuery(document).ready(function($) {
+			$('#delinsc').on('click', function() {
+				return confirm('¿Está seguro de querer borrar esta inscripción?');
+			})
+		});
+	</script>
+
 	<div class="wrap">
 	<?php 
-			$acleesc = $_GET['acle'];			
+			$acleesc = $_GET['acle'];
+			$delacle = $_GET['delid'];			
 			$aclestage = $_GET['etapa'];
+			
+			if($delacle) {
+				$deleted = sgcinsc_deleteinsc($delacle);
+				if($deleted) {
+
+					echo '<div class="notice updated">Inscripción Nº ' . $delacle . ' borrada</div>';
+
+				}
+ 			}
+
 			if($aclestage == 'all'):
 				$stagetitle = 'Inscripciones Totales (incluye ambas etapas)';
 			elseif($aclestage == 2):
@@ -212,5 +236,11 @@ function sgcinsc_doadmin() {
 		?>		
 	</div>
 
+	<?php
+}
+
+function sgcinsc_deletednotice() {
+	?>
+	<div class="notice success">Inscripción borrada</div>
 	<?php
 }
