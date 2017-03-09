@@ -317,7 +317,7 @@ function sgcinsc_modifydata($data, $mail = true) {
 	$allowed_date = sgcinsc_modrange(sgcinsc_getinscdate($id));
 	$reprut = true;
 
-	if($allowed_date == 1): 
+	if( $allowed_date == 1 || is_user_logged_in() ): 
 		if($oldrut != $rutal) {
 			$reprut = sgcinsc_checkrep($rutal, 'rut_alumno');
 		}
@@ -378,7 +378,6 @@ function sgcinsc_modifydata($data, $mail = true) {
 	else:
 		$errorurl_6 = esc_url_raw( add_query_arg('excode', 6, get_permalink()) );
 		wp_redirect($errorurl_6, 303);
-		xdebug_break();
 		die();
 		
 	endif;
@@ -394,20 +393,27 @@ function sgcinsc_changeinsc($id, $hash) {
 	}
 }
 
-function sgcinsc_deleteinsc($id) {
+function sgcinsc_deleteinsc($id, $curso) {
 	global $table_name, $table2_name, $wpdb;
 
-	$deleteinsc = $wpdb->delete($table_name, 
+	$curinsc = $wpdb->get_row($table_name, 
 		array(
 			'id'=> $id
 		)
 	);
 
-	$deletecupos = $wpdb->delete($table2_name,
+	$inscritos = unserialize($curinsc['acles_inscritos']);
+
+	$deletecupos = $wpdb->get_row($table2_name,
 		array(
 			'id_inscripcion' => $id
+		),
+		array(
+			'id_curso' => $curso
 		)
 	);
+
+	
 
 	if($deleteinsc && $deletecupos) {
 		return true;

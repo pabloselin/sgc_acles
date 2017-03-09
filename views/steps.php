@@ -29,7 +29,7 @@ if($openinsc == 1 || is_user_logged_in() ):
 	
 	if(sgcinsc_validatehash($_GET['id'], $_GET['ih']) ) {
 		//Hay que ver si el link de modificación es para etapa uno o dos
-		if(sgcinsc_getinscstage($_GET['id']) == $stage && $allowed_date == true) {
+		if(sgcinsc_getinscstage($_GET['id']) == $stage && $allowed_date == true || is_user_logged_in() ) {
 			$modcond = true;
 			$data = sgcinsc_getinsc($_GET['id']);	
 			$insc = true;

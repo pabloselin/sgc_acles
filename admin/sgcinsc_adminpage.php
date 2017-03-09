@@ -80,7 +80,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 
 					$aclevar = $_GET['acle'];
 					$stagevar = $_GET['etapa'];
-					$delurl = esc_url( add_query_arg(array('acle'=> $aclevar, 'etapa' => $stagevar, 'delid' => $inscrito->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
+					$modurl = esc_url( sgcinsc_url($inscrito->id) );
 
 					echo '<td>'.$inscrito->id.'</td>';
 					echo '<td>'.$inscrito->time.'</td>';
@@ -93,7 +93,7 @@ function sgcinsc_inscporacle($acleid, $etapa) {
 					echo '<td>'.$inscrito->email_apoderado.'</td>';
 					echo '<td>'.sgcinsc_niceseguro($inscrito->seguro_escolar).'</td>';
 					echo '<td>'.$inscrito->rut_apoderado. '-' . dv($inscrito->rut_apoderado) .'</td>';			
-					echo '<td><a class="button-primary" id="delinsc" href="' . $delurl . '">Eliminar inscripción</a></td>';
+					echo '<td><a class="button-primary" id="modinsc" target="_blank" href="' . $modurl . '">Modificar inscripción</a></td>';
 				endforeach;
 			echo '</tr>';	
 	}	
@@ -207,7 +207,7 @@ function sgcinsc_doadmin() {
 			$aclestage = $_GET['etapa'];
 			
 			if($delacle) {
-				$deleted = sgcinsc_deleteinsc($delacle);
+				$deleted = sgcinsc_deleteinsc($delacle, $acleesc);
 				if($deleted) {
 
 					echo '<div class="notice updated">Inscripción Nº ' . $delacle . ' borrada</div>';
