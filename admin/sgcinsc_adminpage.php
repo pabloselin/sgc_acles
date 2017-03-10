@@ -278,12 +278,12 @@ function sgcinsc_inscporapoderado($stage) {
 		$apoderado = sgcinsc_getinsc($inscripcion->id_inscripcion);
 		$aclestring = array();
 
-		$acles = unserialize($apoderado->acles_inscritos);
+		$acles = unserialize($apoderado[0]->acles_inscritos);
 		foreach($acles as $acle) {
 			$aclestring[] = get_the_title( $acle ) . ' [ID:' . $acle . ']';
 		}
 
-		$aclestring_titles = implode(', ', $aclestring);
+		$aclestring_titles = implode('<br>', $aclestring);
 
 		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado[0]->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
