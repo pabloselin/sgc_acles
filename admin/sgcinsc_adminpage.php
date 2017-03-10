@@ -272,8 +272,6 @@ function sgcinsc_inscporapoderado() {
 	echo '<th>Acciones</th>';
 	echo '</thead>';
 
-	xdebug_break();
-
 	foreach($apoderados as $apoderado) {
 
 		$acles = unserialize($apoderado->acles_inscritos);
