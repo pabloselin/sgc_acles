@@ -69,7 +69,7 @@ function sgcinsc_inscribe($data) {
 
 			//Verificar que no hayan cosas raras
 
-			//el ingreso devuelve un ID de regalo
+			//el ingreso devuelve un ID
 			$ID_inscripcion = sgcinsc_storeformdata($data);		
 			
 			//añado un validador de nonce par ala URL

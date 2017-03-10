@@ -60,9 +60,10 @@ function sgcinsc_aclesinsc() {
 	echo '</table>';
 	//sgcinsc_aclestable($acles);
 
-	$apoderados_url = esc_url( add_query_arg(array('vista'=> 'apoderados'), admin_url('options-general.php?page=sgc_aclesadmin')) );
+	$apoderados_url_1 = esc_url( add_query_arg(array('vista'=> 'apoderados', 'etapa' => 1), admin_url('options-general.php?page=sgc_aclesadmin')) );
+	$apoderados_url_2 = esc_url( add_query_arg(array('vista'=> 'apoderados', 'etapa' => 2), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
-	echo '<p><a href="' . $apoderados_url . '">(Ver lista de apoderados)</a></p>';
+	echo '<p>Ver lista de apoderados: <a href="' . $apoderados_url_1 . '">Etapa 1</a> - <a href="' . $apoderados_url_2 . '">Etapa 2</a></p>';
 }
 
 function sgcinsc_inscporacle($acleid, $etapa) {
@@ -235,8 +236,8 @@ function sgcinsc_doadmin() {
 			
 			if($acleesc):
 				sgcinsc_aclestable($acleesc, $aclestage);
-			elseif($vista == 'apoderados'):
-				sgcinsc_inscporapoderado();
+			elseif($vista == 'apoderados' && isset($_GET['etapa']) ):
+				sgcinsc_inscporapoderado($_GET['etapa']);
 			else:
 				sgcinsc_aclesinsc();
 			endif;
@@ -252,11 +253,11 @@ function sgcinsc_deletednotice() {
 	<?php
 }
 
-function sgcinsc_inscporapoderado() {
-	global $wpdb, $table_name;
+function sgcinsc_inscporapoderado($stage) {
+	global $wpdb, $table_name, $table2_name;
 
-	$apoderados = $wpdb->get_results(
-		"SELECT * FROM $table_name"
+	$inscripciones = $wpdb->get_results(
+		"SELECT DISTINCT(id_inscripcion) FROM $table2_name WHERE etapa_insc = $stage"
 	);
 	
 	echo '<h2>Inscripciones ACLE por Apoderado</h2>';
@@ -272,8 +273,9 @@ function sgcinsc_inscporapoderado() {
 	echo '<th>Acciones</th>';
 	echo '</thead>';
 
-	foreach($apoderados as $apoderado) {
+	foreach($inscripciones as $inscripcion) {
 		
+		$apoderado = sgcinsc_getinsc($inscripcion->id_inscripcion);
 		$aclestring = array();
 
 		$acles = unserialize($apoderado->acles_inscritos);
@@ -283,14 +285,14 @@ function sgcinsc_inscporapoderado() {
 
 		$aclestring_titles = implode(', ', $aclestring);
 
-		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
+		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado[0]->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
 		echo '<tr>';
-		echo '<td>' . $apoderado->id .'</td>';
-		echo '<td>' . $apoderado->rut_apoderado .'</td>';
-		echo '<td>' . $apoderado->nombre_apoderado .'</td>';
-		echo '<td>' . $apoderado->rut_alumno .'</td>';
-		echo '<td>' . $apoderado->nombre_alumno .'</td>';
+		echo '<td>' . $apoderado[0]->id .'</td>';
+		echo '<td>' . $apoderado[0]->rut_apoderado .'</td>';
+		echo '<td>' . $apoderado[0]->nombre_apoderado .'</td>';
+		echo '<td>' . $apoderado[0]->rut_alumno .'</td>';
+		echo '<td>' . $apoderado[0]->nombre_alumno .'</td>';
 		echo '<td>' . $aclestring_titles .'</td>';
 		echo '<td> <a class="button primary" href="' . $delurl . '" id="delinsc">Borrar inscripción</a></td>';
 		echo '</tr>';

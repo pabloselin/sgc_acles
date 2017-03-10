@@ -64,3 +64,13 @@ define('SGCINSC_RUTEXISTS', 'Ya existe una inscripción asociada al RUT del alum
 define('SGCINSC_INERRORCASE', 'Si cree que se trata de un error, por favor comuníquese con');
 define('SGCINSC_TRYAGAIN', 'Intentar inscripción nuevamente.');
 define('SGCINSC_NOVACANT', 'Uno de sus cursos seleccionados ya no tiene vacantes, probablemente alguien completó el proceso de postulación antes de que usted lo enviara.');
+
+/*
+* Recordatorio 2º Etapa
+*/
+
+define('SGCINSC_RECORDATORIO', 'RECORDATORIO:');
+define('SGCINSC_RECPRIMERAETAPA', 'En la primera etapa de inscripción ACLE obligatoria, Ud. inscribió para el alumno/a: ');
+define('SGCINSC_APODERADOREC', 'Si Ud como apoderado/a acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info de la primera etapa ACLE obligatoria.
+Asegúrese de no inscribir a su alumno/a en un curso del mismo horario y día de un curso previamente inscrito.');
+define('SGCINSC_OFICIALREC', 'Recuerde que la única información oficial de ACLE se encuentra publicada en:');

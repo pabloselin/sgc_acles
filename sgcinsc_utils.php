@@ -28,8 +28,8 @@ function sgcinsc_displaycursos() {
 	if($inscripcion && $stage > 1 && $modcond != 1):
 		$nombrealumno = sgcinsc_nombrealumno($rutalumno);
 
-		$html .= '<p><strong>RECORDATORIO:</strong></p>';
-		$html .= '<p>La semana pasada en la primera etapa de inscripción ACLE obligatoria, Ud. inscribió para el alumno/a <strong>' . $nombrealumno . '</strong></p>';
+		$html .= '<p><strong>' . SGCINSC_RECORDOTORIO . '</strong></p>';
+		$html .= '<p>' . SGCINSC_RECPRIMERAETAPA . ' <strong>' . $nombrealumno . '</strong></p>';
 
 		foreach($inscripcion as $acle) {
 			$html .= '<p class="oldacle" data-id="'.$acle.'"><strong>'.get_the_title($acle).'</strong> <br> '. 
@@ -65,13 +65,13 @@ function sgcinsc_displaycursos() {
 
 		if($inscripcion):
 
-			$html .= '<p><strong>Si Ud como apoderado acordó una inscripción distinta con el colegio a lo que se visualiza acá, no tome en cuenta esta info, que sólo es un registro referencial de la primera etapa ACLE obligatoria.</strong></p>';
+			$html .= '<p><strong>' . SGCINSC_APODERADOREC . '</strong></p>';
 
 		endif;
 
 		if($inscripcion && $stage > 1):	
 
-			$html .= '<p><strong>Recuerde que los únicos RESULTADOS OFICIALES de ACLE obligatoria (primera etapa) están disponibles en:</strong></p>
+			$html .= '<p><strong>' . SGCINSC_OFICIALREC . '</strong></p>
 			<p><a class="btn btn-danger" href="' . $pdfacles .'" target="_blank"><i class="icon icon-file-text"></i> ' . SGCINSC_TXTPDFACLES . '</a></p>';
 			$html .= '<p><strong>' . SGCINSC_WARNSTAGE .'</strong></p>';
 			

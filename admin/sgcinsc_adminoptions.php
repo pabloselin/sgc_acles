@@ -118,6 +118,17 @@ function sandbox_initialize_theme_options() {
             'Ponga la hora (en formato 24 horas) hasta la que se puede modificar una inscripción el mismo día (ej: 18:00)'
         )
     );
+
+    add_settings_field( 
+        'sgcinsc_results_url',                      // ID used to identify the field throughout the theme
+        'URL donde están los resultados publicados', // The label to the left of the option interface element
+        'sgcinsc_results_url_callback',   // The name of the function responsible for rendering the option interface
+        'sgcinsc_config_options',    // The page on which this option will be displayed
+        'general_settings_section',         // The name of the section to which this field belongs
+        array(                              // The array of arguments to pass to the callback. In this case, just a description.
+            'Ponga la URL de la página donde se muestran los resultados (este link se usa para el recordatorio en la segunda etapa)'
+        )
+    );
      
     // Finally, we register the fields with WordPress
     register_setting(
@@ -290,6 +301,20 @@ function sgcinsc_exptime_callback($args) {
 
     $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_exptime]" id="sgcinsc_config_options[sgcisnc_exptime]" value="' . $value . '" placeholder="">';
     $html .= '<p>Ej: 18:00 </p>';
+
+    echo $html;
+}
+
+function sgcinsc_results_url_callback($args) {
+    $options = get_option('sgcinsc_config_options');
+    if(isset($options['sgcinsc_results_url'])) {
+        $value = $options['sgcinsc_results_url'];    
+    } else {
+        $value = '';
+    }
+
+    $html = '<input type="text" name="sgcinsc_config_options[sgcinsc_results_url]" id="sgcinsc_config_options[sgcisnc_results_url]" value="' . $value . '" placeholder="">';
+    $html .= '<p>Ej: http://saintgasparcollege.cl/acle-2017 </p>';
 
     echo $html;
 }
