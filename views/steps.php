@@ -12,6 +12,7 @@ $stage = $options['sgcinsc_etapa_insc'];
 
 $insc = false;
 $cursos_abiertos = $options['insc-curso'];
+if(isset($cursos_abiertos)):
 
 foreach($cursos_abiertos as $curso_abierto): 
 
@@ -20,6 +21,8 @@ foreach($cursos_abiertos as $curso_abierto):
 endforeach;
 
 $format_cursos_abiertos = implode(', ', $fcursosabiertos);
+
+endif;
 
 $allowed_date = sgcinsc_modrange(sgcinsc_getinscdate($_GET['id']));
 
@@ -55,11 +58,15 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 				<!--Lista de ACLES en formato Calendario-->
 				<!--Lista de ACLES por áreas-->			
 
+						<?php if(isset($cursos_abiertos)):?>
+						
 						<div class="alert alert-warning">
 									<p>Actualmente se encuentran abiertas las inscripciones para los siguientes cursos:</p>
 									<p><strong><?php echo $format_cursos_abiertos;?></strong></p>
 									<p>Por favor consulte la página oficial de información de ACLE 2017 para saber sobre las fechas correspondientes de inscripción</p>
 								</div>
+
+						<?php endif;?>
 									
 						<form id="sgcinsc_form" method="POST" action="" class="form-horizontal" data-mod="<?php echo $modcond;?>" data-id="<?php echo $_GET['id'];?>" data-stage="<?php echo $stage;?>">
 						<!--campos escondidos de info-->
@@ -116,9 +123,11 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 										
 
 										<option disabled <?php if(!$modcond):?> selected <?php endif;?> >Escoja curso</option>
-
+										
+										
 										<?php 
-											
+
+										if(isset($cursos_abiertos)):	
 											
 											for($i = 1; $i <= 10; $i++) {
 
@@ -133,6 +142,8 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 												endif;
 
 											}
+
+										endif;
 										?>
 
 
