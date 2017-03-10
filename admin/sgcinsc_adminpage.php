@@ -273,13 +273,15 @@ function sgcinsc_inscporapoderado() {
 	echo '</thead>';
 
 	foreach($apoderados as $apoderado) {
+		
+		$aclestring = array();
 
 		$acles = unserialize($apoderado->acles_inscritos);
 		foreach($acles as $acle) {
 			$aclestring[] = get_the_title( $acle ) . ' [ID:' . $acle . ']';
 		}
 
-		$aclestring = implode(', ', $aclestring);
+		$aclestring_titles = implode(', ', $aclestring);
 
 		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
@@ -289,7 +291,7 @@ function sgcinsc_inscporapoderado() {
 		echo '<td>' . $apoderado->nombre_apoderado .'</td>';
 		echo '<td>' . $apoderado->rut_alumno .'</td>';
 		echo '<td>' . $apoderado->nombre_alumno .'</td>';
-		echo '<td>' . $aclestring .'</td>';
+		echo '<td>' . $aclestring_titles .'</td>';
 		echo '<td> <a class="button primary" href="' . $delurl . '" id="delinsc">Borrar inscripción</a></td>';
 		echo '</tr>';
 
