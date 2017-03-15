@@ -295,7 +295,7 @@ function sgcinsc_inscporapoderado($stage) {
 		echo '<td>' . $apoderado[0]->rut_alumno .'</td>';
 		echo '<td>' . $apoderado[0]->nombre_alumno .'</td>';
 		echo '<td>' . $aclestring_titles .'</td>';
-		echo '<td> <a class="button button-primary" href="' . $delurl . '" id="delinsc">Borrar inscripción</a> <a class="button primary" href="' . $modurl . '" id="modinsc">Modificar inscripción</a></td>';
+		echo '<td> <a class="button button-primary" href="' . $delurl . '" id="delinsc">Borrar inscripción</a> <br> <a class="button primary" href="' . $modurl . '" id="modinsc">Modificar inscripción</a></td>';
 		echo '</tr>';
 
 	}
