@@ -285,7 +285,7 @@ function sgcinsc_inscporapoderado($stage) {
 
 		$aclestring_titles = implode('<br>', $aclestring);
 
-		$modurl = esc_url( sgcinsc_url($inscrito->id) );
+		$modurl = esc_url( sgcinsc_url($apoderado[0]->id) );
 		$delurl = esc_url( add_query_arg(array('vista'=> 'apoderados', 'delid' => $apoderado[0]->id), admin_url('options-general.php?page=sgc_aclesadmin')) );
 
 		echo '<tr>';
