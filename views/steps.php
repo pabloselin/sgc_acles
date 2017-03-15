@@ -64,6 +64,9 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 									<p>Actualmente se encuentran abiertas las inscripciones para los siguientes cursos:</p>
 									<p><strong><?php echo $format_cursos_abiertos;?></strong></p>
 									<p>Por favor consulte la página oficial de información de ACLE 2017 para saber sobre las fechas correspondientes de inscripción</p>
+									<?php if(is_user_logged_in()):?>
+											<p><strong>AVISO PARA ADMINISTRADORES: Como administrador del sitio, es posible modificar cualquier curso, fuera de los horarios correspondientes.</strong></p>
+									<?php endif;?>
 								</div>
 
 						<?php endif;?>
@@ -131,7 +134,7 @@ if($openinsc == 1 && $insc == true || is_user_logged_in()):
 											
 											for($i = 1; $i <= 10; $i++) {
 
-												if(in_array($i, $cursos_abiertos)):
+												if(in_array($i, $cursos_abiertos) || is_user_logged_in()):
 
 													?>
 
